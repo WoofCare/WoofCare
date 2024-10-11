@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "506976961145",
+    "project_id": "woofcare-a9fac",
+    "storage_bucket": "woofcare-a9fac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506976961145:android:b19e9a2b082f7b95240aa8",
+        "android_client_info": {
+          "package_name": "com.epics.woofcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHdWdQorxOsL7c_jmxHelaKXCveKnH4d0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
