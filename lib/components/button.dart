@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final Function()? onTap;
+  final Function()? onTapLogIn;
 
-  const CustomButton({super.key, required this.onTap});
+  const CustomButton({super.key, required this.onTapLogIn});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: onTapLogIn,
       child: Container(
           padding: const EdgeInsets.all(25),
           margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -18,9 +18,9 @@ class CustomButton extends StatelessWidget {
           ),
           child: const Center(
             child: Text(
-              "Sign In",
+              "Log In",
               style: TextStyle(
-                color: Color(0xFF3F2917),
+                color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
