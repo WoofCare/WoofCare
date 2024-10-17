@@ -105,6 +105,10 @@ class _SignUpFormState extends State<SignUpForm> {
     });
   }
 
+// TODO: Create function that determines if email is valid.
+  void isEmailValid() {}
+
+// Create User Function
   Future<void> createUserWithEmailAndPassword() async {
     try {
       await Auth().createUserWithEmailAndPassword(
@@ -151,10 +155,15 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Create Your Account',
-                style: Theme.of(context).textTheme.headlineMedium),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Create Your Account',
+              style: TextStyle(
+                  color: Color(0xFF3F2917),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
 
           // First name text entry.
