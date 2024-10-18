@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../auth.dart';
+import 'package:intl/intl.dart';
+import 'package:woofcare/components/button.dart';
+import 'package:woofcare/components/textfield.dart';
 import 'package:flutter/material.dart';
 
-// Install the intl dependency in the pubspec.yamml file prior to importing this.
-import 'package:intl/intl.dart';
-
-void main() => runApp(const SignUpApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const SignUpApp());
+}
 
 class SignUpApp extends StatelessWidget {
   const SignUpApp({super.key});
@@ -23,9 +30,9 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[200],
-      body: const Center(
+    return const Scaffold(
+      backgroundColor: Color(0xFFEEB784),
+      body: Center(
         child: SizedBox(
           width: 400,
           child: Card(
@@ -49,10 +56,20 @@ class _SignUpFormState extends State<SignUpForm> {
   final _lastNameTextController = TextEditingController();
   final _dateOfBirthTextController = TextEditingController();
   final _emailTextController = TextEditingController();
-  final _usernameTextController = TextEditingController();
+  //final _usernameTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final _passwordConfirmTextController = TextEditingController();
   final _passwordsMatchTextController = TextEditingController();
+  var roles = [
+    'Role',
+    'Animal Lover',
+    'NGO Representative',
+    'Looking to Adopt',
+    'Dog Feeder',
+    'Veterinarian',
+  ];
+  String dropdownvalue = 'Role';
+  String? errorMessage = '';
 
   @override
 
@@ -72,9 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
     final controllers = [
       _firstNameTextController,
       _lastNameTextController,
-      _usernameTextController,
       _emailTextController,
-      _dateOfBirthTextController,
       _passwordTextController,
       _passwordConfirmTextController
     ];
@@ -88,6 +103,22 @@ class _SignUpFormState extends State<SignUpForm> {
     setState(() {
       _formProgress = progress;
     });
+  }
+
+// TODO: Create function that determines if email is valid.
+  void isEmailValid() {}
+
+// Create User Function
+  Future<void> createUserWithEmailAndPassword() async {
+    try {
+      await Auth().createUserWithEmailAndPassword(
+          email: _emailTextController.text,
+          password: _passwordTextController.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        errorMessage = e.message;
+      });
+    }
   }
 
   // Returns true if the password fields match, otherise returns false.
@@ -124,9 +155,16 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          LinearProgressIndicator(value: _formProgress),
-          Text('Sign up for WoofCare',
-              style: Theme.of(context).textTheme.headlineMedium),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Create Your Account',
+              style: TextStyle(
+                  color: Color(0xFF3F2917),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
 
           // First name text entry.
           Padding(
@@ -167,12 +205,28 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           ),
 
-          // Username of birth text entry.
+          // Selection of role.
           Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextFormField(
-              controller: _usernameTextController,
-              decoration: const InputDecoration(hintText: 'Username'),
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DropdownButton(
+                  value: dropdownvalue,
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  items: roles.map((String roles) {
+                    return DropdownMenuItem(
+                      value: roles,
+                      child: Text(roles),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownvalue = newValue!;
+                    });
+                  },
+                ),
+              ],
             ),
           ),
 
@@ -216,9 +270,9 @@ class _SignUpFormState extends State<SignUpForm> {
                     : Colors.blue;
               }),
             ),
-            onPressed: (_formProgress == 7) && passwordChecker()
-                ? null
-                : null, // add welcome page
+            onPressed: (_formProgress == 1) && passwordChecker()
+                ? createUserWithEmailAndPassword
+                : null,
             child: const Text('Sign up'),
           ),
         ],
