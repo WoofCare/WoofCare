@@ -6,12 +6,6 @@ import 'package:woofcare/components/button.dart';
 import 'package:woofcare/components/textfield.dart';
 import 'package:flutter/material.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const SignUpApp());
-}
-
 class SignUpApp extends StatelessWidget {
   const SignUpApp({super.key});
 

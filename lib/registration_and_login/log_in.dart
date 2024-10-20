@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/components/button.dart';
 import 'package:woofcare/components/textfield.dart';
+import 'package:woofcare/registration_and_login/sign_up.dart';
 
 class LogIn extends StatelessWidget {
   LogIn({super.key});
@@ -17,7 +18,12 @@ class LogIn extends StatelessWidget {
   void forgotPassword() {}
 
   //TODO: Redirect user to Sign Up page when account is new
-  void newAccount() {}
+  void newAccount(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SignUpApp()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +179,7 @@ class LogIn extends StatelessWidget {
 
                           //Log In Button
                           CustomButton(
-                            onTapLogIn: logInUser,
+                            onTapLogIn: () => logInUser(),
                           ),
 
                           const SizedBox(
@@ -198,7 +204,7 @@ class LogIn extends StatelessWidget {
                                     fontFamily: "ABeeZee",
                                   ),
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = newAccount,
+                                    ..onTap = () => newAccount(context),
                                 ),
                               ],
                             ),

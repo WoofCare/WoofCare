@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/registration_and_login/log_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
