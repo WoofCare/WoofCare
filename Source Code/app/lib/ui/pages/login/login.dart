@@ -1,13 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:woofcare/components/button.dart';
-import 'package:woofcare/components/textfield.dart';
-import 'package:woofcare/registration_and_login/sign_up.dart';
+import 'package:woofcare/config/constants.dart';
+import 'package:woofcare/ui/widgets/custom_button.dart';
+import 'package:woofcare/ui/widgets/custom_textfield.dart';
 
-class LogIn extends StatelessWidget {
-  LogIn({super.key});
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
 
-  // Text Editing Controllers (private)
+  @override
+  State<LogInPage> createState() => _LogInPageState();
+}
+
+class _LogInPageState extends State<LogInPage> {
   final _usernameTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
@@ -19,10 +23,7 @@ class LogIn extends StatelessWidget {
 
   //TODO: Redirect user to Sign Up page when account is new
   void newAccount(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SignUpApp()),
-    );
+    Navigator.pushNamed(context, "/signup");
   }
 
   @override
@@ -38,8 +39,9 @@ class LogIn extends StatelessWidget {
             // Container for the first background image
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image:
-                    AssetImage('images/log_in_and_sing_in/BigPawPattern.png'),
+                image: AssetImage(
+                  "assets/images/patterns/BigPawPattern.png",
+                ),
                 alignment: Alignment.topLeft,
               ),
             ),
@@ -48,8 +50,9 @@ class LogIn extends StatelessWidget {
             // Container for the second background image
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image:
-                    AssetImage('images/log_in_and_sing_in/SmallPawPattern.png'),
+                image: AssetImage(
+                  "assets/images/patterns/SmallPawPattern.png",
+                ),
                 alignment: Alignment.bottomRight,
               ),
             ),
@@ -88,7 +91,7 @@ class LogIn extends StatelessWidget {
 
                           //Welcome Back Message
                           const Text(
-                            'Welcome Back to \n      WoofCare!', // There is probably a better way to do this XD
+                            "Welcome Back to \n      WoofCare!", // There is probably a better way to do this XD
                             style: TextStyle(
                                 color: Color(0xFF3F2917),
                                 fontSize: 30,
@@ -113,7 +116,7 @@ class LogIn extends StatelessWidget {
                           //Username Field
                           CustomTextField(
                             controller: _usernameTextController,
-                            hintText: 'Username',
+                            hintText: "Username",
                             obscureText: false,
                           ),
 
@@ -124,7 +127,7 @@ class LogIn extends StatelessWidget {
                           //Password Field
                           CustomTextField(
                             controller: _passwordTextController,
-                            hintText: 'Password',
+                            hintText: "Password",
                             obscureText: true,
                           ),
 
@@ -142,7 +145,7 @@ class LogIn extends StatelessWidget {
                                 Row(
                                   children: [
                                     const Text(
-                                      'Remember Me',
+                                      "Remember Me",
                                       style: TextStyle(
                                         color: Color(0xFF3F2917),
                                         fontSize: 12,
@@ -159,12 +162,9 @@ class LogIn extends StatelessWidget {
                                 // Forgot Password Button
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Forgot Password?',
-                                    style: const TextStyle(
-                                      color: Color(0xFFA66E38),
-                                      fontSize: 12,
-                                      fontFamily: "ABeeZee",
-                                    ),
+                                    text: "Forgot Password?",
+                                    style: theme.textTheme.bodyMedium!.copyWith(
+                                        color: const Color(0xFFA66E38)),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = forgotPassword,
                                   ),
@@ -179,7 +179,8 @@ class LogIn extends StatelessWidget {
 
                           //Log In Button
                           CustomButton(
-                            onTapLogIn: () => logInUser(),
+                            text: "Log In",
+                            onTap: () => logInUser(),
                           ),
 
                           const SizedBox(
@@ -197,12 +198,9 @@ class LogIn extends StatelessWidget {
                               ),
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: 'Sign Up',
-                                  style: const TextStyle(
-                                    color: Color(0xFFA66E38),
-                                    fontSize: 12,
-                                    fontFamily: "ABeeZee",
-                                  ),
+                                  text: "Sign Up",
+                                  style: theme.textTheme.bodyMedium!
+                                      .copyWith(color: const Color(0xFFA66E38)),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () => newAccount(context),
                                 ),
