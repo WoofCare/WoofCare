@@ -97,6 +97,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+<<<<<<< HEAD:Source Code/app/pubspec.lock
   ffi:
     dependency: transitive
     description:
@@ -113,6 +114,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
+=======
+>>>>>>> origin/log_in:pubspec.lock
   firebase_auth:
     dependency: "direct main"
     description:
@@ -192,6 +195,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.7.0"
+<<<<<<< HEAD:Source Code/app/pubspec.lock
   google_fonts:
     dependency: "direct main"
     description:
@@ -208,6 +212,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.2"
+=======
+>>>>>>> origin/log_in:pubspec.lock
   http_parser:
     dependency: transitive
     description:
