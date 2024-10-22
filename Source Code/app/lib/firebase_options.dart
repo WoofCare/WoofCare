@@ -18,8 +18,8 @@ class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
+        "DefaultFirebaseOptions have not been configured for web - "
+        "you can reconfigure this by running the FlutterFire CLI again.",
       );
     }
     switch (defaultTargetPlatform) {
@@ -27,36 +27,36 @@ class DefaultFirebaseOptions {
         return android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          "DefaultFirebaseOptions have not been configured for ios - "
+          "you can reconfigure this by running the FlutterFire CLI again.",
         );
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          "DefaultFirebaseOptions have not been configured for macos - "
+          "you can reconfigure this by running the FlutterFire CLI again.",
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          "DefaultFirebaseOptions have not been configured for windows - "
+          "you can reconfigure this by running the FlutterFire CLI again.",
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
+          "DefaultFirebaseOptions have not been configured for linux - "
+          "you can reconfigure this by running the FlutterFire CLI again.",
         );
       default:
         throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
+          "DefaultFirebaseOptions are not supported for this platform.",
         );
     }
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDHdWdQorxOsL7c_jmxHelaKXCveKnH4d0',
-    appId: '1:506976961145:android:b19e9a2b082f7b95240aa8',
-    messagingSenderId: '506976961145',
-    projectId: 'woofcare-a9fac',
-    storageBucket: 'woofcare-a9fac.appspot.com',
+    apiKey: "AIzaSyDHdWdQorxOsL7c_jmxHelaKXCveKnH4d0",
+    appId: "1:506976961145:android:b19e9a2b082f7b95240aa8",
+    messagingSenderId: "506976961145",
+    projectId: "woofcare-a9fac",
+    storageBucket: "woofcare-a9fac.appspot.com",
   );
 }
