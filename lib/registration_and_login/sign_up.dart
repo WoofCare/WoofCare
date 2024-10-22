@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../auth.dart';
 import 'package:intl/intl.dart';
-import 'package:woofcare/components/button.dart';
-import 'package:woofcare/components/textfield.dart';
 import 'package:flutter/material.dart';
 
 class SignUpApp extends StatelessWidget {
@@ -104,9 +102,17 @@ class _SignUpFormState extends State<SignUpForm> {
 // Create User Function
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailAndPassword(
-          email: _emailTextController.text,
-          password: _passwordTextController.text);
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailTextController.text,
+              password: _passwordTextController.text);
+
+      String uid = userCredential.user!.uid;
+      FirebaseFirestore.instance.collection('userData').doc(uid).set({
+        'firstName': _firstNameTextController.text,
+        'lastName': _lastNameTextController.text,
+        'role': dropdownvalue,
+      });
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
