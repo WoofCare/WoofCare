@@ -1,44 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:woofcare/config/constants.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
-  const ProfilePage({required this.uid});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() async {
-    super.initState();
-
-    try {
-      //get user document
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection("userData")
-          .doc(widget.uid)
-          .get();
-
-      //initialize fields
-      firstName = userDoc.get('firstName');
-      lastName = userDoc.get('lastName');
-      email = userDoc.get('email');
-      role = userDoc.get('role');
-      bio = "Hi, my name is " + firstName + " " + lastName + "...";
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
-  }
-
-  String firstName = "";
-  String lastName = "";
-  String bio = "";
+  String bio = "Bio: Hi, my name is ${profile.name} ...";
   String password = "******";
-  String userID = "";
-  String email = "";
-  String role = "";
   String profilePictureAsset = "";
 
   DateTime dateofBirth = DateTime(2000);
@@ -51,8 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.green[200],
       body: Center(
-        child: SizedBox(
-          width: 400,
+        child: SizedBox.expand(
           child: Card(
             child: Container(
               decoration: const BoxDecoration(
@@ -68,22 +39,24 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Form(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    //Profile Picture
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    // TODO: Profile Picture
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.center,
-                        child: Image.asset(
-                          "assets/ProfPic.png",
-                          width: 200, // Set the bounding box width
-                          height: 200, // Set the bounding box height
-                          fit: BoxFit.contain,
+                        child: CircleAvatar(
+                          radius: 100,
+                          child: Icon(
+                            Icons.person,
+                            size: 150,
+                          ),
                         ),
                       ),
                     ),
-
+                    const SizedBox(height: 20),
                     //Username
                     Container(
                       width: 300,
@@ -97,10 +70,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "Name: $firstName $lastName",
+                        "Name: ${profile.name}",
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -118,11 +92,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(bio,
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            fontSize: 15,
-                          )),
+                      child: Text(
+                        bio,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                     const Padding(padding: EdgeInsets.all(5)),
 
@@ -139,10 +116,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "Email: $email",
+                        "Email: ${profile.email}",
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -161,10 +139,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "Role: $role",
+                        "Role: ${profile.role}",
                         textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                         ),
                       ),
                     ),

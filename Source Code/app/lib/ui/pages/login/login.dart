@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/config/constants.dart';
+import 'package:woofcare/services/auth.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_textfield.dart';
 
@@ -12,19 +13,14 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-  final _usernameTextController = TextEditingController();
+  final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
 
-  // TODO: Sign User In (Method for Backend)
-  void logInUser() {}
+  String? errorMessage = "";
+  bool remeberMe = false;
 
   // TODO: Forgot Password (Method for Backend)
   void forgotPassword() {}
-
-  //TODO: Redirect user to Sign Up page when account is new
-  void newAccount(BuildContext context) {
-    Navigator.pushNamed(context, "/signup");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,9 +112,9 @@ class _LogInPageState extends State<LogInPage> {
 
                             //Username Field
                             CustomTextField(
-                              controller: _usernameTextController,
-                              hintText: "Username",
-                              obscureText: false,
+                              controller: _emailTextController,
+                              hintText: "Email",
+                              prefix: Icons.email,
                             ),
 
                             const SizedBox(
@@ -130,6 +126,7 @@ class _LogInPageState extends State<LogInPage> {
                               controller: _passwordTextController,
                               hintText: "Password",
                               obscureText: true,
+                              prefix: Icons.password,
                             ),
 
                             const SizedBox(
@@ -154,9 +151,14 @@ class _LogInPageState extends State<LogInPage> {
                                         ),
                                       ),
                                       Checkbox(
-                                        value: false,
-                                        onChanged: (bool?
-                                            value) {}, // TODO: Backend implementation for checkbox
+                                        value: remeberMe,
+                                        side: const BorderSide(),
+                                        focusColor: Colors.green,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            remeberMe = !remeberMe;
+                                          });
+                                        },
                                       ),
                                     ],
                                   ),
@@ -183,7 +185,16 @@ class _LogInPageState extends State<LogInPage> {
                             //Log In Button
                             CustomButton(
                               text: "Log In",
-                              onTap: () => logInUser(),
+                              onTap: () => Auth.login(
+                                context: context,
+                                email: _emailTextController.text,
+                                password: _passwordTextController.text,
+                                error: (e) {
+                                  setState(() {
+                                    errorMessage = e.toString();
+                                  });
+                                },
+                              ),
                             ),
 
                             const SizedBox(
@@ -197,7 +208,6 @@ class _LogInPageState extends State<LogInPage> {
                                 style: const TextStyle(
                                   color: Color(0xFF3F2917),
                                   fontSize: 12,
-                                  fontFamily: "ABeeZee",
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
@@ -205,7 +215,8 @@ class _LogInPageState extends State<LogInPage> {
                                     style: theme.textTheme.bodyMedium!.copyWith(
                                         color: const Color(0xFFA66E38)),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () => newAccount(context),
+                                      ..onTap = () => Navigator.pushNamed(
+                                          context, "/signup"),
                                   ),
                                 ],
                               ),
