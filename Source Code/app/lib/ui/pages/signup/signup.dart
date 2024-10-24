@@ -67,8 +67,13 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-// TODO: Create function that determines if email is valid.
-  void isEmailValid() {}
+  void navigateToProfile(BuildContext context, String uid) {
+    Navigator.pushNamed(
+      context,
+      '/profile',
+      arguments: uid,
+    );
+  }
 
   // Create User Function
   Future<void> createUserWithEmailAndPassword() async {
@@ -84,6 +89,9 @@ class _SignUpPageState extends State<SignUpPage> {
         "lastName": _lastNameTextController.text,
         "role": dropdownvalue,
       });
+
+      //Navigate to the user profile.
+      navigateToProfile(context, uid);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -182,155 +190,158 @@ class _SignUpPageState extends State<SignUpPage> {
                                 const Color.fromARGB(255, 255, 255, 255),
                             body: SafeArea(
                               child: Center(
-                                child: Column(
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Create Your Account",
-                                        style: TextStyle(
-                                            color: Color(0xFF3F2917),
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-
-                                    // First name text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller: _firstNameTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "First Name",
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Create Your Account",
+                                          style: TextStyle(
+                                              color: Color(0xFF3F2917),
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                    ),
 
-                                    // Last name text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller: _lastNameTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "Last Name",
-                                        ),
-                                      ),
-                                    ),
-
-                                    // Date of birth text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller: _dateOfBirthTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "Date of Birth",
-                                          suffixIcon:
-                                              Icon(Icons.calendar_today),
-                                        ),
-                                        onTap: () =>
-                                            onTapFunction(context: context),
-                                      ),
-                                    ),
-
-                                    // Email text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller: _emailTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "Email",
-                                        ),
-                                      ),
-                                    ),
-
-                                    // Selection of role.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          DropdownButton(
-                                            value: dropdownvalue,
-                                            icon: const Icon(
-                                                Icons.keyboard_arrow_down),
-                                            items: roles.map((String roles) {
-                                              return DropdownMenuItem(
-                                                value: roles,
-                                                child: Text(roles),
-                                              );
-                                            }).toList(),
-                                            onChanged: (String? newValue) {
-                                              setState(() {
-                                                dropdownvalue = newValue!;
-                                              });
-                                            },
+                                      // First name text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller: _firstNameTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "First Name",
                                           ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    // Passord text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller: _passwordTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "Password",
                                         ),
                                       ),
-                                    ),
 
-                                    // Passord confirm text entry.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: TextFormField(
-                                        controller:
-                                            _passwordConfirmTextController,
-                                        decoration: const InputDecoration(
-                                          hintText: "Confirm Password",
+                                      // Last name text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller: _lastNameTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "Last Name",
+                                          ),
                                         ),
                                       ),
-                                    ),
 
-                                    // Passwords match text.
-                                    Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        _passwordsMatchTextController.text,
-                                        style: const TextStyle(
-                                          fontSize: 20,
+                                      // Date of birth text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller:
+                                              _dateOfBirthTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "Date of Birth",
+                                            suffixIcon:
+                                                Icon(Icons.calendar_today),
+                                          ),
+                                          onTap: () =>
+                                              onTapFunction(context: context),
                                         ),
                                       ),
-                                    ),
 
-                                    TextButton(
-                                      style: ButtonStyle(
-                                        foregroundColor:
-                                            WidgetStateProperty.resolveWith(
-                                                (states) {
-                                          return states.contains(
-                                                  WidgetState.disabled)
-                                              ? null
-                                              : Colors.white;
-                                        }),
-                                        backgroundColor:
-                                            WidgetStateProperty.resolveWith(
-                                          (states) {
+                                      // Email text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller: _emailTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "Email",
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Selection of role.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            DropdownButton(
+                                              value: dropdownvalue,
+                                              icon: const Icon(
+                                                  Icons.keyboard_arrow_down),
+                                              items: roles.map((String roles) {
+                                                return DropdownMenuItem(
+                                                  value: roles,
+                                                  child: Text(roles),
+                                                );
+                                              }).toList(),
+                                              onChanged: (String? newValue) {
+                                                setState(() {
+                                                  dropdownvalue = newValue!;
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      // Passord text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller: _passwordTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "Password",
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Passord confirm text entry.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: TextFormField(
+                                          controller:
+                                              _passwordConfirmTextController,
+                                          decoration: const InputDecoration(
+                                            hintText: "Confirm Password",
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Passwords match text.
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          _passwordsMatchTextController.text,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
+
+                                      TextButton(
+                                        style: ButtonStyle(
+                                          foregroundColor:
+                                              WidgetStateProperty.resolveWith(
+                                                  (states) {
                                             return states.contains(
                                                     WidgetState.disabled)
                                                 ? null
-                                                : Colors.blue;
-                                          },
+                                                : Colors.white;
+                                          }),
+                                          backgroundColor:
+                                              WidgetStateProperty.resolveWith(
+                                            (states) {
+                                              return states.contains(
+                                                      WidgetState.disabled)
+                                                  ? null
+                                                  : Colors.blue;
+                                            },
+                                          ),
                                         ),
+                                        onPressed: (_formProgress == 1) &&
+                                                passwordChecker()
+                                            ? createUserWithEmailAndPassword
+                                            : null,
+                                        child: const Text("Sign up"),
                                       ),
-                                      onPressed: (_formProgress == 1) &&
-                                              passwordChecker()
-                                          ? createUserWithEmailAndPassword
-                                          : null,
-                                      child: const Text("Sign up"),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

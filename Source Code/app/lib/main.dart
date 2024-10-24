@@ -30,7 +30,7 @@ class WoofCare extends StatelessWidget {
       routes: {
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
-        "/profile": (context) => const ProfilePage(),
+        //"/profile": (context) => const ProfilePage(),
       },
     );
   }

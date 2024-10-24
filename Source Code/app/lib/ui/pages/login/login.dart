@@ -83,131 +83,135 @@ class _LogInPageState extends State<LogInPage> {
                   backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                   body: SafeArea(
                     child: Center(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 60,
-                          ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 60,
+                            ),
 
-                          //Welcome Back Message
-                          const Text(
-                            "Welcome Back to \n      WoofCare!", // There is probably a better way to do this XD
-                            style: TextStyle(
-                                color: Color(0xFF3F2917),
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold),
-                          ),
+                            //Welcome Back Message
+                            const Text(
+                              "Welcome Back to \n      WoofCare!", // There is probably a better way to do this XD
+                              style: TextStyle(
+                                  color: Color(0xFF3F2917),
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ),
 
-                          const SizedBox(
-                            height: 5,
-                          ),
+                            const SizedBox(
+                              height: 5,
+                            ),
 
-                          const Divider(
-                            color: Color(0xFF3F2917),
-                            thickness: 3,
-                            indent: 50,
-                            endIndent: 50,
-                          ),
+                            const Divider(
+                              color: Color(0xFF3F2917),
+                              thickness: 3,
+                              indent: 50,
+                              endIndent: 50,
+                            ),
 
-                          const SizedBox(
-                            height: 25,
-                          ),
+                            const SizedBox(
+                              height: 25,
+                            ),
 
-                          //Username Field
-                          CustomTextField(
-                            controller: _usernameTextController,
-                            hintText: "Username",
-                            obscureText: false,
-                          ),
+                            //Username Field
+                            CustomTextField(
+                              controller: _usernameTextController,
+                              hintText: "Username",
+                              obscureText: false,
+                            ),
 
-                          const SizedBox(
-                            height: 15,
-                          ),
+                            const SizedBox(
+                              height: 15,
+                            ),
 
-                          //Password Field
-                          CustomTextField(
-                            controller: _passwordTextController,
-                            hintText: "Password",
-                            obscureText: true,
-                          ),
+                            //Password Field
+                            CustomTextField(
+                              controller: _passwordTextController,
+                              hintText: "Password",
+                              obscureText: true,
+                            ),
 
-                          const SizedBox(
-                            height: 1,
-                          ),
+                            const SizedBox(
+                              height: 1,
+                            ),
 
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 30.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                //Remember Me Text & Checkbox
-                                Row(
-                                  children: [
-                                    const Text(
-                                      "Remember Me",
-                                      style: TextStyle(
-                                        color: Color(0xFF3F2917),
-                                        fontSize: 12,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //Remember Me Text & Checkbox
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Remember Me",
+                                        style: TextStyle(
+                                          color: Color(0xFF3F2917),
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                    ),
-                                    Checkbox(
-                                      value: false,
-                                      onChanged: (bool?
-                                          value) {}, // TODO: Backend implementation for checkbox
-                                    ),
-                                  ],
-                                ),
+                                      Checkbox(
+                                        value: false,
+                                        onChanged: (bool?
+                                            value) {}, // TODO: Backend implementation for checkbox
+                                      ),
+                                    ],
+                                  ),
 
-                                // Forgot Password Button
-                                RichText(
-                                  text: TextSpan(
-                                    text: "Forgot Password?",
+                                  // Forgot Password Button
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Forgot Password?",
+                                      style: theme.textTheme.bodyMedium!
+                                          .copyWith(
+                                              color: const Color(0xFFA66E38)),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = forgotPassword,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 35,
+                            ),
+
+                            //Log In Button
+                            CustomButton(
+                              text: "Log In",
+                              onTap: () => logInUser(),
+                            ),
+
+                            const SizedBox(
+                              height: 55,
+                            ),
+
+                            //First Time User? Sign Up Button
+                            RichText(
+                              text: TextSpan(
+                                text: "Don't have an account? ",
+                                style: const TextStyle(
+                                  color: Color(0xFF3F2917),
+                                  fontSize: 12,
+                                  fontFamily: "ABeeZee",
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "Sign Up",
                                     style: theme.textTheme.bodyMedium!.copyWith(
                                         color: const Color(0xFFA66E38)),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = forgotPassword,
+                                      ..onTap = () => newAccount(context),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const SizedBox(
-                            height: 35,
-                          ),
-
-                          //Log In Button
-                          CustomButton(
-                            text: "Log In",
-                            onTap: () => logInUser(),
-                          ),
-
-                          const SizedBox(
-                            height: 55,
-                          ),
-
-                          //First Time User? Sign Up Button
-                          RichText(
-                            text: TextSpan(
-                              text: "Don't have an account? ",
-                              style: const TextStyle(
-                                color: Color(0xFF3F2917),
-                                fontSize: 12,
-                                fontFamily: "ABeeZee",
+                                ],
                               ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: "Sign Up",
-                                  style: theme.textTheme.bodyMedium!
-                                      .copyWith(color: const Color(0xFFA66E38)),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => newAccount(context),
-                                ),
-                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
