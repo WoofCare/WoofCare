@@ -24,11 +24,9 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFEEB784),
-      ),
-      child: Stack(
+    return Scaffold(
+      backgroundColor: const Color(0xFFEEB784),
+      body: Stack(
         // Stack to allow for multiple background images
         children: [
           Container(
