@@ -6,6 +6,7 @@ class Profile {
   final String name;
   final String email;
   final String role;
+  final String bio;
   final DocumentReference reference;
 
   Profile({
@@ -13,6 +14,7 @@ class Profile {
     required this.name,
     required this.email,
     required this.role,
+    required this.bio,
     required this.reference,
   });
 
@@ -25,6 +27,7 @@ class Profile {
       name: doc.get("name") as String,
       email: doc.get("email") as String,
       role: doc.get("role") as String,
+      bio: doc.get("bio") as String,
       reference: doc.reference,
     );
   }
