@@ -6,8 +6,8 @@ class Profile {
   final String name;
   final String email;
   final String role;
-  final String bio;
   final DocumentReference reference;
+  String bio;
 
   Profile({
     required this.id,

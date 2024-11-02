@@ -53,6 +53,8 @@ class Auth {
       }
     } on FirebaseAuthException catch (e) {
       error(e);
+    } catch (e) {
+      print(e.toString());
     }
   }
 
