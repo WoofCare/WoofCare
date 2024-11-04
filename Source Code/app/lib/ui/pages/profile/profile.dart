@@ -10,12 +10,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _bioTextController = TextEditingController();
-
-  void initstate() {
-    super.initState();
-    _bioTextController.text = profile.bio;
-  }
+  final _bioTextController = TextEditingController(text: profile.bio);
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +132,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       controller: _bioTextController,
                                       hintText: "Enter your bio here...",
                                       onChanged: (text) {
-                                        //profile.updateInfo(
-                                        // _bioTextController.text);
+                                        profile.bio = _bioTextController.text;
+                                        profile.updateProfile();
                                       },
                                     ),
                                   ),

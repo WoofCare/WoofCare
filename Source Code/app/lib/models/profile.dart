@@ -32,6 +32,17 @@ class Profile {
     );
   }
 
+  Future<void> updateProfile() async {
+    try {
+      await reference.update({
+        'bio': bio,
+      });
+      print("Document updated successfully");
+    } catch (e) {
+      print("error updating doc");
+    }
+  }
+
   Map<String, dynamic> toJson() => {
         "name": name,
         "email": email,
