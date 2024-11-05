@@ -13,4 +13,5 @@ class WoofCareColors {
   static const Color buttonColor = Color(0xFF09AF79);
   static const Color focusColor = Color(0xCCFFFFFF);
   static const Color dividerColor = Color(0xAA282828);
+  static const Color primaryTextAndIcons = Color(0xFF3F2917);
 }
