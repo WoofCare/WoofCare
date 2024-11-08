@@ -49,7 +49,7 @@ class Auth {
       profile = await Profile.fromID(uid);
 
       if (context.mounted) {
-        Navigator.pushNamed(context, "/profile");
+        Navigator.pushNamed(context, "/chat");
       }
     } on FirebaseAuthException catch (e) {
       error(e);
