@@ -16,17 +16,17 @@ class WoofCareTheme {
       focusColor: WoofCareColors.focusColor,
       visualDensity: VisualDensity.standard,
       colorScheme: const ColorScheme(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         surface: WoofCareColors.buttonColor,
         onSurface: Colors.white,
-        primary: Colors.white,
-        onPrimary: Colors.black,
+        primary: Colors.black,
+        onPrimary: Colors.white,
         secondary: WoofCareColors.buttonColor,
         onSecondary: Colors.white,
         error: Colors.red,
         onError: Colors.white,
       ),
-      textTheme: ThemeData.dark()
+      textTheme: ThemeData.light()
           .textTheme
           .copyWith(
             bodyMedium: GoogleFonts.aBeeZee(
