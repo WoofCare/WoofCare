@@ -15,6 +15,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final TextEditingController _errorTextController = TextEditingController();
 
   String? errorMessage = "";
   bool remeberMe = false;
@@ -132,6 +133,17 @@ class _LogInPageState extends State<LogInPage> {
                             ),
 
                             Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                _errorTextController.text,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+
+                            Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30.0),
                               child: Row(
@@ -190,6 +202,8 @@ class _LogInPageState extends State<LogInPage> {
                                 error: (e) {
                                   setState(() {
                                     errorMessage = e.toString();
+                                    _errorTextController.text =
+                                        errorMessage ?? '';
                                   });
                                 },
                               ),
