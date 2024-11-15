@@ -47,6 +47,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEEB784),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +58,7 @@ class _ChatPageState extends State<ChatPage> {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: context.theme.colorScheme.secondary,
+                    color: Colors.white,
                     width: 2,
                   ),
                 ),
@@ -204,7 +205,7 @@ class _Message extends StatelessWidget {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10),
                     ),
-                    color: context.theme.colorScheme.secondary,
+                    color: const Color.fromARGB(255, 139, 158, 54),
                   )
                 : BoxDecoration(
                     borderRadius: const BorderRadius.only(
@@ -212,7 +213,7 @@ class _Message extends StatelessWidget {
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10),
                     ),
-                    color: context.theme.colorScheme.tertiary,
+                    color: const Color.fromARGB(255, 139, 158, 54),
                   ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
