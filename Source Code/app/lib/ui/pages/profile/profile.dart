@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEB784),
+      appBar: AppBar(),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus(); // Dismiss keyboard on tap outside

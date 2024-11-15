@@ -23,27 +23,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: currentPosition == null
-            ? const Center(child: CircularProgressIndicator())
-            : GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: currentPosition!,
-                  zoom: 13,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId('currentLocation'),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                    position: currentPosition!,
-                  ),
-                },
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, "/profile"),
+            icon: const Icon(
+              Icons.account_circle,
+              size: 35,
+            ),
+          )
+        ],
+      ),
+      body: currentPosition == null
+          ? const Center(child: CircularProgressIndicator())
+          : GoogleMap(
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target: currentPosition!,
+                zoom: 13,
               ),
-      );
+              markers: {
+                Marker(
+                  markerId: const MarkerId('currentLocation'),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueAzure),
+                  position: currentPosition!,
+                ),
+              },
+            ),
+    );
+  }
 
   Future<void> fetchLocationUpdates() async {
     bool serviceEnabled;
