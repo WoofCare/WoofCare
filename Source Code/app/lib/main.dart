@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/ui/pages/chat/chat.dart';
 
+import 'package:woofcare/ui/pages/chat/chat.dart';
+import 'package:woofcare/ui/pages/conversations/conversations.dart';
 import '/config/theme.dart';
 import '/ui/pages/export.dart';
 
@@ -22,7 +23,7 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/login",
+      initialRoute: "/conversations",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
@@ -32,6 +33,7 @@ class WoofCare extends StatelessWidget {
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
+        "/conversations": (context) => const ConversationsPage(),
         "/chat": (context) => const ChatPage()
       },
     );

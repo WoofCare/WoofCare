@@ -8,6 +8,7 @@ class Profile {
   final String role;
   final DocumentReference reference;
   String bio;
+  var chats = [];
 
   Profile({
     required this.id,
