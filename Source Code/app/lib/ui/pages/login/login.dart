@@ -15,6 +15,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final TextEditingController _errorTextController = TextEditingController();
 
   String? errorMessage = "";
   bool remeberMe = false;
@@ -53,15 +54,16 @@ class _LogInPageState extends State<LogInPage> {
           ),
           Padding(
             // Padding for the container that holds the login form
-            padding:
-                const EdgeInsets.symmetric(horizontal: 25.0, vertical: 125.0),
+            padding: const EdgeInsets.only(
+                left: 25.0, right: 25.0, top: 175.0, bottom: 100.0),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                  color: Colors.black,
-                  width: 2.0,
-                ),
+                // COMMENTED OUT BORDER
+                // border: Border.all(
+                //   //color: Colors.black,
+                //   width: 2.0,
+                // ),
                 boxShadow: [
                   BoxShadow(
                       color: const Color(0xFF000000).withOpacity(0.45),
@@ -72,18 +74,17 @@ class _LogInPageState extends State<LogInPage> {
               ),
               child: ClipRRect(
                 // ClipRRect to allow for rounded corners
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius:
+                    BorderRadius.circular(8.0), // Radius of the corners
                 child: Scaffold(
-                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                  backgroundColor: const Color.fromARGB(
+                      255, 255, 255, 255), // Background color of the container
                   body: SafeArea(
-                    child: Center(
-                      child: SingleChildScrollView(
+                    child: SingleChildScrollView(
+                      child: Center(
+                        // Center the contents
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 60,
-                            ),
-
                             //Welcome Back Message
                             const Text(
                               "Welcome Back to \n      WoofCare!", // There is probably a better way to do this XD
@@ -129,6 +130,17 @@ class _LogInPageState extends State<LogInPage> {
 
                             const SizedBox(
                               height: 1,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                _errorTextController.text,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
 
                             Padding(
@@ -190,13 +202,15 @@ class _LogInPageState extends State<LogInPage> {
                                 error: (e) {
                                   setState(() {
                                     errorMessage = e.toString();
+                                    _errorTextController.text =
+                                        errorMessage ?? '';
                                   });
                                 },
                               ),
                             ),
 
                             const SizedBox(
-                              height: 55,
+                              height: 15,
                             ),
 
                             //First Time User? Sign Up Button

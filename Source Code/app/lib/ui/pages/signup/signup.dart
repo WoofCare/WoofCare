@@ -21,8 +21,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _passwordConfirmTextController =
       TextEditingController();
-  final TextEditingController _passwordsMatchTextController =
-      TextEditingController();
+  final TextEditingController _errorTextController = TextEditingController();
 
   final List<String> roles = [
     "Animal Lover",
@@ -67,6 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailTextController.text,
         password: _passwordTextController.text,
         data: {
+          "bio": "",
           "email": _emailTextController.text,
           "name": _nameTextController.text,
           "role": role,
@@ -74,20 +74,21 @@ class _SignUpPageState extends State<SignUpPage> {
         error: (e) {
           setState(() {
             errorMessage = e.message;
+            _errorTextController.text = errorMessage ?? '';
           });
         },
       );
     } else {
-      _passwordsMatchTextController.text = "Error";
+      _errorTextController.text = "Error";
     }
   }
 
   bool passwordChecker() {
     if (_passwordTextController.text == _passwordConfirmTextController.text) {
-      _passwordsMatchTextController.text = "";
+      _errorTextController.text = "";
       return true;
     } else {
-      _passwordsMatchTextController.text = "Passwords do not match!";
+      _errorTextController.text = "Passwords do not match!";
       return false;
     }
   }
@@ -299,7 +300,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(8),
                                       child: Text(
-                                        _passwordsMatchTextController.text,
+                                        _errorTextController.text,
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 20,

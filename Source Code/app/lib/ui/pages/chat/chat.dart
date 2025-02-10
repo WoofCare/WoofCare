@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/config/constants.dart';
-import 'package:woofcare/config/constants.dart';
-import '/services/auth.dart';
-import '/tools/extensions.dart';
 import 'package:woofcare/ui/widgets/input_field.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final String chatId;
+
+  const ChatPage({super.key, required this.chatId});
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -17,10 +17,12 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late final RxList<Map<String, Object>> fields;
   final TextEditingController _messageController = TextEditingController();
+  late String chatId;
 
   @override
   void initState() {
     super.initState();
+    chatId = widget.chatId;
     fields = [
       {
         "value": "message",
@@ -53,9 +55,11 @@ class _ChatPageState extends State<ChatPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _Messages(),
+            _Messages(
+              chatId: chatId,
+            ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(
                     color: Colors.white,
@@ -106,7 +110,11 @@ class _ChatPageState extends State<ChatPage> {
   void submit(BuildContext context) {
     FocusScope.of(context).unfocus();
 
-    FIRESTORE.collection("messages").add(
+    FIRESTORE
+        .collection("Conversations")
+        .doc(chatId)
+        .collection("messages")
+        .add(
       {
         "text": _messageController.text.trim(),
         "sender": profile.name,
@@ -119,12 +127,16 @@ class _ChatPageState extends State<ChatPage> {
 }
 
 class _Messages extends StatelessWidget {
-  const _Messages();
+  final String chatId;
+
+  const _Messages({super.key, required this.chatId});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FIRESTORE
+          .collection("Conversations")
+          .doc(chatId)
           .collection("messages")
           .orderBy("time", descending: true)
           .snapshots(),
@@ -199,21 +211,21 @@ class _Message extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: isSelf
-                ? BoxDecoration(
-                    borderRadius: const BorderRadius.only(
+                ? const BoxDecoration(
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10),
                     ),
-                    color: const Color.fromARGB(255, 139, 158, 54),
+                    color: Color.fromARGB(255, 139, 158, 54),
                   )
-                : BoxDecoration(
-                    borderRadius: const BorderRadius.only(
+                : const BoxDecoration(
+                    borderRadius: BorderRadius.only(
                       topRight: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10),
                     ),
-                    color: const Color.fromARGB(255, 139, 158, 54),
+                    color: Color.fromARGB(255, 139, 158, 54),
                   ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
