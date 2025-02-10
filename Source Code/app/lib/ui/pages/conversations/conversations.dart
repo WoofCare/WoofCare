@@ -49,7 +49,10 @@ class _ConversationsPageState extends State<ConversationsPage> {
                             child: ListTile(
                               leading: const Icon(Icons.person),
                               dense: true,
-                              title: Text(snap[index].id),
+                              title: Text(
+                                  snap[index]['Participants'][0] == profile.name
+                                      ? snap[index]['Participants'][1]
+                                      : snap[index]['Participants'][0]),
                               onTap: () {
                                 Navigator.pushNamed(context, '/chat',
                                     arguments: snap[index]['Participants']);
