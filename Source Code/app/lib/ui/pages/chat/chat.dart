@@ -6,9 +6,7 @@ import '/config/constants.dart';
 import 'package:woofcare/ui/widgets/input_field.dart';
 
 class ChatPage extends StatefulWidget {
-  final String chatId;
-
-  const ChatPage({super.key, required this.chatId});
+  const ChatPage({super.key});
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -17,12 +15,12 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late final RxList<Map<String, Object>> fields;
   final TextEditingController _messageController = TextEditingController();
-  late String chatId;
+  late String chatID;
 
   @override
   void initState() {
     super.initState();
-    chatId = widget.chatId;
+
     fields = [
       {
         "value": "message",
@@ -48,6 +46,9 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    chatID = arguments['chatID'];
     return Scaffold(
       appBar: AppBar(),
       backgroundColor: const Color(0xFFEEB784),
@@ -57,7 +58,7 @@ class _ChatPageState extends State<ChatPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _Messages(
-              chatId: chatId,
+              chatId: chatID,
             ),
             Container(
               decoration: const BoxDecoration(
@@ -113,7 +114,7 @@ class _ChatPageState extends State<ChatPage> {
 
     FIRESTORE
         .collection("Conversations")
-        .doc(chatId)
+        .doc(chatID)
         .collection("messages")
         .add(
       {
@@ -134,6 +135,7 @@ class _Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("chadID: " + chatId);
     return StreamBuilder<QuerySnapshot>(
       stream: FIRESTORE
           .collection("Conversations")

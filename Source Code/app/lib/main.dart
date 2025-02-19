@@ -34,7 +34,7 @@ class WoofCare extends StatelessWidget {
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
         "/conversations": (context) => const ConversationsPage(),
-        "/chat": (context) => const ChatPage(chatId: "default")
+        "/chat": (context) => const ChatPage()
       },
     );
   }
