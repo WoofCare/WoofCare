@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/ui/pages/chat/chat.dart';
+
 
 class ConversationsPage extends StatefulWidget {
   const ConversationsPage({super.key});
@@ -151,7 +151,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     child: ListTile(
                         title: Text(
                           matchQuery[index],
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                         onTap: () async {
                           QuerySnapshot snapshot = await FirebaseFirestore
