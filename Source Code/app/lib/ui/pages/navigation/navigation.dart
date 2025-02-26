@@ -57,15 +57,15 @@ class _NavPageState extends State<NavPage> {
         },
         items: const <BottomNavigationBarItem> [
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.map,), 
+            icon: FaIcon(FontAwesomeIcons.solidMap,), 
             label: 'Map'
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.comments),
+            icon: FaIcon(FontAwesomeIcons.solidComments),
              label: 'Chats'
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.plus),
+            icon: FaIcon(FontAwesomeIcons.squarePlus),
              label: 'Add Post'
           ),
           BottomNavigationBarItem(
@@ -77,6 +77,7 @@ class _NavPageState extends State<NavPage> {
              label: 'Articles'
           ),
         ],
+        
         backgroundColor: const Color(0xFFE5E5E5),
         unselectedItemColor: const Color(0xFFA66E38) ,
         selectedItemColor: const Color(0xFF3F2917),
@@ -84,3 +85,4 @@ class _NavPageState extends State<NavPage> {
     );
   }
 }
+
