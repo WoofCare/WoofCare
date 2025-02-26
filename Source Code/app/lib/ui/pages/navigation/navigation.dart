@@ -31,7 +31,7 @@ class _NavPageState extends State<NavPage> {
         title: const Text(
           "Welcome to WoofCare",
           style: TextStyle(
-            color: Color(0xFFFF7FFF7),
+            color: Color(0xffff7fff7),
             fontSize: 24,
           ),
         ),

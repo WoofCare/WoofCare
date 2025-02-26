@@ -7,7 +7,7 @@ class PostViewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.red,
-      child: Center(
+      child: const Center(
         child: Text(
           'Post Viewer Page',
           style: TextStyle(
