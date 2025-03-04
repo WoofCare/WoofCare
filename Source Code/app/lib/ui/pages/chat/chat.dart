@@ -50,7 +50,20 @@ class _ChatPageState extends State<ChatPage> {
         <String, dynamic>{}) as Map;
     chatID = arguments['chatID'];
     return Scaffold(
-      appBar: AppBar(),
+
+      // It is in the app bar where the user can see the name of the person they are chatting with
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+
+        title: const Column(
+          children: [
+            CircleAvatar(backgroundColor: Colors.grey, backgroundImage: AssetImage("assets/images/chat_icons/clipart546487 1.png")),
+            Text("John Doe", style: TextStyle(color: Colors.black, fontFamily: "ABeeZee"), ),
+          ],
+        ),
+        centerTitle: true,
+
+      ),
       backgroundColor: const Color(0xFFEEB784),
       body: SafeArea(
         child: Column(
@@ -61,14 +74,14 @@ class _ChatPageState extends State<ChatPage> {
               chatId: chatID,
             ),
             Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.white,
-                    width: 2,
-                  ),
-                ),
-              ),
+              // decoration: const BoxDecoration(
+              //   border: Border(
+              //     top: BorderSide(
+              //       color: Colors.white,
+              //       width: 2,
+              //     ),
+              //   ),
+              // ),
               child: Row(
                 children: [
                   Obx(
