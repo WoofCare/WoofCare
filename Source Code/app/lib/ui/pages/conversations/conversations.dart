@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/config/constants.dart';
 
-
 class ConversationsPage extends StatefulWidget {
   const ConversationsPage({super.key});
 
@@ -66,7 +65,14 @@ class _ConversationsPageState extends State<ConversationsPage> {
                                       : snap[index]['Participants'][0]),
                               onTap: () {
                                 Navigator.pushNamed(context, '/chat',
-                                    arguments: {'chatID': snap[index].id});
+                                    arguments: {
+                                      'chatID': snap[index].id,
+                                      'participant': snap[index]['Participants']
+                                                  [0] ==
+                                              profile.name
+                                          ? snap[index]['Participants'][1]
+                                          : snap[index]['Participants'][0]
+                                    });
                               },
                             ),
                           );
@@ -175,8 +181,10 @@ class CustomSearchDelegate extends SearchDelegate {
                               "Participants": {profile.name, matchQuery[index]}
                             });
                             if (!context.mounted) return;
-                            Navigator.pushNamed(context, '/chat',
-                                arguments: {'chatID': newConvo.id});
+                            Navigator.pushNamed(context, '/chat', arguments: {
+                              'chatID': newConvo.id,
+                              'participant': matchQuery[index]
+                            });
                           } else {
                             if (!context.mounted) return;
                             Navigator.pushNamed(context, '/chat',

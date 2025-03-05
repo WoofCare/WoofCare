@@ -49,20 +49,24 @@ class _ChatPageState extends State<ChatPage> {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     chatID = arguments['chatID'];
+    final String participant = arguments['participant'];
     return Scaffold(
-
       // It is in the app bar where the user can see the name of the person they are chatting with
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
-
-        title: const Column(
+        title: Column(
           children: [
-            CircleAvatar(backgroundColor: Colors.grey, backgroundImage: AssetImage("assets/images/chat_icons/clipart546487 1.png")),
-            Text("John Doe", style: TextStyle(color: Colors.black, fontFamily: "ABeeZee"), ),
+            CircleAvatar(
+                backgroundColor: Colors.grey,
+                backgroundImage:
+                    AssetImage("assets/images/chat_icons/clipart546487 1.png")),
+            Text(
+              participant,
+              style: TextStyle(color: Colors.black, fontFamily: "ABeeZee"),
+            ),
           ],
         ),
         centerTitle: true,
-
       ),
       backgroundColor: const Color(0xFFEEB784),
       body: SafeArea(
