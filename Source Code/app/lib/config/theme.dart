@@ -53,10 +53,17 @@ class WoofCareTheme {
             displayColor: Colors.white,
             bodyColor: Colors.white,
           ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: WoofCareColors.primaryBackground,
         elevation: 0,
+        titleTextStyle: TextStyle(
+          color: WoofCareColors.primaryTextAndIcons,
+          fontSize: 30,
+          fontWeight: FontWeight.w600,
+          fontFamily: GoogleFonts.aBeeZee().fontFamily,
+          decoration: TextDecoration.underline
+        ),
       ),
       scrollbarTheme: ScrollbarThemeData(
         radius: const Radius.circular(10),

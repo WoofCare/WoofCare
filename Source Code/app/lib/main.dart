@@ -21,7 +21,7 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/login",
+      initialRoute: "/report",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
@@ -32,6 +32,7 @@ class WoofCare extends StatelessWidget {
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
+        "/report": (context) => const ReportingPage(),
       },
     );
   }
