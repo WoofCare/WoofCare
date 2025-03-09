@@ -59,14 +59,17 @@ class _ProfilePageState extends State<ProfilePage> {
               top: 155, // Position from the top
               left: MediaQuery.of(context).size.width / 2 -
                   100, // Center horizontally
-              child: const CircleAvatar(
-                // CircleAvatar for the profile picture
-                radius: 100,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  color: WoofCareColors.primaryTextAndIcons,
-                  Icons.person,
-                  size: 150,
+              child: GestureDetector(
+                onTap: () {}, //TODO: Add photo function
+                child: const CircleAvatar(
+                  // CircleAvatar for the profile picture
+                  radius: 100,
+                  backgroundColor: Colors.white,
+                  child: Icon(
+                    color: WoofCareColors.primaryTextAndIcons,
+                    Icons.person,
+                    size: 150,
+                  ),
                 ),
               ),
             ),
