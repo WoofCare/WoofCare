@@ -49,7 +49,11 @@ class InputField extends StatelessWidget {
                 alignment: AlignmentDirectional.centerEnd,
                 children: [
                   TextField(
-                    maxLength: maxLength,
+                    style: TextStyle(
+                      color: Color(0xFF3F2917),
+                      fontFamily: "ABeeZee",
+                      fontSize: 16,
+                    ),
                     enabled: enabled,
                     minLines: 1,
                     textCapitalization: hideText

@@ -19,7 +19,6 @@ class _ConversationsPageState extends State<ConversationsPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         floatingActionButton: FloatingActionButton.small(
           backgroundColor: const Color(0xFFF7FFF7),
-          child: const Icon(Icons.add, color: Color(0xFFFF926C), size: 25),
           shape: CircleBorder(),
           onPressed: () {
             showModalBottomSheet(
@@ -45,6 +44,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
               },
             );
           },
+          child: const Icon(Icons.add, color: Color(0xFFFF926C), size: 25),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(8),
@@ -108,6 +108,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
 }
 
 class SearchBottomSheet extends StatefulWidget {
+  const SearchBottomSheet({super.key});
+
   @override
   _SearchBottomSheetState createState() => _SearchBottomSheetState();
 }

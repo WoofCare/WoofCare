@@ -36,11 +36,11 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void dispose() {
-    fields.forEach((field) {
+    for (var field in fields) {
       if (field["controller"] != null) {
         (field["controller"]! as TextEditingController).dispose();
       }
-    });
+    }
     super.dispose();
   }
 
@@ -53,16 +53,25 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       // It is in the app bar where the user can see the name of the person they are chatting with
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        toolbarHeight: 80,
+        iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+        actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.phone),
+            onPressed: () {},
+          ),
+        ],
         title: Column(
           children: [
             CircleAvatar(
                 backgroundColor: Colors.grey,
+                radius: 25,
                 backgroundImage:
                     AssetImage("assets/images/chat_icons/clipart546487 1.png")),
             Text(
               participant,
-              style: TextStyle(color: Colors.black, fontFamily: "ABeeZee"),
+              style: TextStyle(color: Color(0xFF3F2917), fontFamily: "ABeeZee", fontSize: 16),
             ),
           ],
         ),
@@ -97,15 +106,30 @@ class _ChatPageState extends State<ChatPage> {
                             final Map<String, dynamic> field = fields[index];
                             return InputField(
                               decoration: InputDecoration(
-                                label: Text(field["name"]),
+                                fillColor: Color(0xFFF7FFF7),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: (field["name"]),
+                                hintStyle: TextStyle(
+                                  color: Color(0xFFCAB096),
+                                  fontFamily: "ABeeZee",
+                                  fontSize: 16,
+                                ),
                                 prefixIcon: Icon(
                                   field["icon"],
-                                  color: context.theme.colorScheme.tertiary,
+                                  color: Color(0xFFA66E38),
                                 ),
                               ),
                               controller: field["controller"],
                               onSubmitted: field["submit"],
-                              textInputType: field["input"],
+                              textInputType: TextInputType.multiline,
+                              maxLines: 5,
                               error: field["error"],
                             );
                           },
@@ -148,11 +172,11 @@ class _ChatPageState extends State<ChatPage> {
 class _Messages extends StatelessWidget {
   final String chatId;
 
-  const _Messages({super.key, required this.chatId});
+  const _Messages({required this.chatId});
 
   @override
   Widget build(BuildContext context) {
-    print("chadID: " + chatId);
+    print("chadID: $chatId");
     return StreamBuilder<QuerySnapshot>(
       stream: FIRESTORE
           .collection("Conversations")
