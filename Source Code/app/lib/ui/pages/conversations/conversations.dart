@@ -28,7 +28,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
-                ), 
+                ),
               ),
               backgroundColor: const Color(0xFFF7FFF7),
               builder: (context) {
@@ -117,7 +117,7 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   TextEditingController searchController = TextEditingController();
   List<String> searchResults = [];
-  String? selectedUser; 
+  String? selectedUser;
 
   void searchUsers(String query) async {
     if (query.isEmpty) {
@@ -131,10 +131,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         await FirebaseFirestore.instance.collection("users").get();
 
     List<String> matches = snapshot.docs
-        .where((user) => user["name"]
-            .toString()
-            .toLowerCase()
-            .contains(query.toLowerCase()))
+        .where((user) =>
+            user["name"].toString().toLowerCase().contains(query.toLowerCase()))
         .map((user) => user["name"].toString())
         .toList();
 
@@ -155,24 +153,23 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     });
 
     if (conversations.isEmpty) {
-      DocumentReference newConvo = await FirebaseFirestore.instance
-          .collection("Conversations")
-          .add({
+      DocumentReference newConvo =
+          await FirebaseFirestore.instance.collection("Conversations").add({
         "messages": [],
         "Participants": {profile.name, selectedUser}
       });
 
       if (!context.mounted) return;
       Navigator.pop(context);
-      Navigator.pushNamed(context, '/chat', arguments: {
-        'chatID': newConvo.id,
-        'participant': selectedUser
-      });
+      Navigator.pushNamed(context, '/chat',
+          arguments: {'chatID': newConvo.id, 'participant': selectedUser});
     } else {
       if (!context.mounted) return;
       Navigator.pop(context);
-      Navigator.pushNamed(context, '/chat',
-          arguments: {'chatID': conversations.first.id});
+      Navigator.pushNamed(context, '/chat', arguments: {
+        'chatID': conversations.first.id,
+        'participant': selectedUser
+      });
     }
   }
 
@@ -192,28 +189,27 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom), // Adjust for keyboard
-      child: 
-      Container(
+          bottom:
+              MediaQuery.of(context).viewInsets.bottom), // Adjust for keyboard
+      child: Container(
         padding: EdgeInsets.all(16),
         height: 400,
         child: Column(
           children: [
             Container(
-            width:50,
-            height: 5,
-            decoration: BoxDecoration(
-              color: Color(0xFFA66E38),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),  //
-          SizedBox(height: 16),
-          TextField(
+              width: 50,
+              height: 5,
+              decoration: BoxDecoration(
+                color: Color(0xFFA66E38),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ), //
+            SizedBox(height: 16),
+            TextField(
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFF3F2917),
@@ -222,8 +218,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
               maxLines: 1,
               maxLength: 100,
               controller: searchController,
-              decoration: 
-                InputDecoration(
+              decoration: InputDecoration(
                 constraints: BoxConstraints(
                   maxHeight: 60,
                 ),
@@ -238,11 +233,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24),
-                  borderSide: BorderSide(
-                    color: Color(0xFFCAB096)
-                  )
-                ),
+                    borderRadius: BorderRadius.circular(24),
+                    borderSide: BorderSide(color: Color(0xFFCAB096))),
                 suffixIcon: searchController.text.isNotEmpty
                     ? IconButton(
                         icon: Icon(Icons.clear),
@@ -254,7 +246,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         },
                       )
                     : null,
-                    contentPadding: EdgeInsets.symmetric(vertical:8),
+                contentPadding: EdgeInsets.symmetric(vertical: 8),
                 suffixIconColor: Color(0xFF3F2917),
               ),
               onChanged: searchUsers,
@@ -263,11 +255,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             Expanded(
               child: searchResults.isEmpty
                   ? Center(
-                    child: Text(
-                      "No users found",
-                      style: TextStyle(
-                        color: Color(0xFFA66E38),
-                        fontSize: 24),
+                      child: Text(
+                        "No users found",
+                        style:
+                            TextStyle(color: Color(0xFFA66E38), fontSize: 24),
                       ),
                     )
                   : ListView.builder(
@@ -277,9 +268,13 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                         return Container(
                           margin: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: isSelected ? Color(0xFFFEE7CB):Color(0xFFF7FFF7),
+                            color: isSelected
+                                ? Color(0xFFFEE7CB)
+                                : Color(0xFFF7FFF7),
                             border: Border.all(
-                              color: isSelected ? const Color(0xFFFF926C): Color(0xFFF7FFF7),
+                              color: isSelected
+                                  ? const Color(0xFFFF926C)
+                                  : Color(0xFFF7FFF7),
                               width: 2,
                             ),
                             borderRadius: BorderRadius.circular(24),
@@ -287,12 +282,17 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                           child: ListTile(
                             leading: CircleAvatar(
                               backgroundColor: Color(0xFFA66E38),
-                              child: Icon(Icons.person, color: isSelected ? Color(0xFFFEE7CB):Color(0xFFF7FFF7)),
+                              child: Icon(Icons.person,
+                                  color: isSelected
+                                      ? Color(0xFFFEE7CB)
+                                      : Color(0xFFF7FFF7)),
                             ),
-                            trailing: Icon(Icons.arrow_forward_ios, color:Color(0xFFA66E38) ),
+                            trailing: Icon(Icons.arrow_forward_ios,
+                                color: Color(0xFFA66E38)),
                             title: Text(
                               searchResults[index],
-                              style: const TextStyle(fontSize: 16, color: Color(0xFFA66E38)),
+                              style: const TextStyle(
+                                  fontSize: 16, color: Color(0xFFA66E38)),
                             ),
                             onTap: () => selectUser(searchResults[index]),
                           ),
@@ -302,8 +302,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
             ),
             SizedBox(height: 16),
             CustomButton(
-              text: "Add User", 
-              onTap:addUser,
+              text: "Add User",
+              onTap: addUser,
             )
           ],
         ),
@@ -311,4 +311,3 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     );
   }
 }
-
