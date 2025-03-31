@@ -19,23 +19,9 @@ class _ReportingPageState extends State<ReportingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // The app bar contains the "Dog Report" title and exit arrow icon
-      appBar: AppBar(
-        toolbarHeight: 50,
-        title: const Text('Dog Report'),
-        centerTitle: true,
-        leading: IconButton(  // Exit arrow icon
-          padding: const EdgeInsets.only(left: 25),
-          icon: const Icon(Icons.arrow_back, size: 35,),
-          onPressed: () {
-            Navigator.of(context).pop(); // TODO: Make sure this navigates to the previous page
-          },
-        )
-      ),
-
-      // The body contains the form for the user to fill out
-      body: Center(
+    // The body contains the form for the user to fill out
+    return SafeArea(
+      child: Center(
         child: Container(
           height: 830,
           width: 393,
@@ -52,13 +38,13 @@ class _ReportingPageState extends State<ReportingPage> {
               ),
               BoxShadow(
                 color:Color.fromARGB(255, 235, 165, 99),
-                offset: Offset(-3, -3),
-                blurRadius: 10.0,
-                spreadRadius: 1.0,
+                offset: Offset(-1, -1),
+                blurRadius: 5.0,
+                spreadRadius: 0.0,
               ),
             ],
           ),
-
+      
           // Stack to allow for better precision in positioning widgets
           child: Stack(
             children: [
@@ -101,7 +87,7 @@ class _ReportingPageState extends State<ReportingPage> {
                   ),              
                 ],
               ),
-
+      
               // Add Photos button
               Positioned(
                 right: 262,
@@ -113,7 +99,7 @@ class _ReportingPageState extends State<ReportingPage> {
                   onTap: () => print('Add Photos button pressed'), //TODO: Implement photo upload
                 ),
               ),
-
+      
               // Photo container (and camera placeholder)
               Positioned(
                 left: 28, 
@@ -150,7 +136,6 @@ class _ReportingPageState extends State<ReportingPage> {
           ),          
         ),
       ),
-       
     );
   }
 }

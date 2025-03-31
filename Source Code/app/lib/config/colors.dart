@@ -10,6 +10,7 @@ class WoofCareColors {
   static const Color primaryBackground = Color(0xFFEEB784);
   static const Color inputBackground = Color(0xFF26282F);
   static const Color cardBackground = Color(0x03FEFEFE);
+  static const Color appBarBackground = Color(0xFFF7FFF7);
   static const Color buttonColor = Color(0xFF09AF79);
   static const Color focusColor = Color(0xCCFFFFFF);
   static const Color dividerColor = Color(0xAA282828);
