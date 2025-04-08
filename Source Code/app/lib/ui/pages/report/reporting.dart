@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:woofcare/config/constants.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
-import 'package:woofcare/ui/widgets/custom_dropdown.dart';
 import 'package:woofcare/ui/widgets/custom_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -22,7 +19,6 @@ class _ReportingPageState extends State<ReportingPage> {
   final _dogDescriptionController = TextEditingController();
   final _locationDescriptionController = TextEditingController();
   final _nearestAddressController = TextEditingController();
-  final _locationFeaturesController = TextEditingController();
   final _extraNotesController = TextEditingController();
   String? dropdownValue;
   final List<String> urgencyList = [
