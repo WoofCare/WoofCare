@@ -52,9 +52,9 @@ class CustomTextField extends StatelessWidget {
           suffixIcon: Icon(suffix),
           prefixIcon: Icon(prefix),
           hintStyle: TextStyle(
-            color: const Color(0xFF3F2917).withOpacity(0.8),
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
+            color: const Color(0xFF3F2917).withOpacity(0.5),
+            fontWeight: FontWeight.w200,
+            fontSize: 13,
           ),
         ),
         maxLines: maxLines,

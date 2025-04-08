@@ -7,6 +7,7 @@ class CustomButton extends StatelessWidget {
   final double edgeSymmetricVertical;
   final double edgeInstetAll;
   final double? fontSize;
+  final FontWeight? fontWeight;
 
   const CustomButton({
     super.key,
@@ -16,6 +17,7 @@ class CustomButton extends StatelessWidget {
     this.edgeSymmetricVertical = 0.0,
     this.edgeInstetAll = 20.0,
     this.fontSize,
+    this.fontWeight = FontWeight.bold,
   });
 
   @override
@@ -36,7 +38,7 @@ class CustomButton extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               color: Colors.white,
-              fontWeight: FontWeight.bold,
+              fontWeight: fontWeight,
             ),
           ),
         ),

@@ -18,13 +18,74 @@ class _HomePageState extends State<HomePage> {
   final locationController = Location();
   LatLng? currentPosition;
 
-  void _reportDogButtonPressed() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      useSafeArea: true,
+  void _reportDogButtonPressed() {   // Show the bottom sheet when the button is pressed
+    showModalBottomSheet(      
       context: context, 
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
 
-      builder: (ctx) => const ReportingPage()
+      builder: (context) {
+        return DraggableScrollableSheet(   // Make the bottom sheet draggable
+          initialChildSize: 0.77,
+          minChildSize: 0.3,
+          maxChildSize: 0.9,
+          builder: (sheetContext, scrollController) {   
+            return Container(  
+              // Container to store the drag handle and the ReportingPage
+              decoration: const BoxDecoration(
+                color: Color(0xFFF7FFF7),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+                border: Border(
+                  top: BorderSide(
+                    color: Color(0xFFA66E38),
+                    width: 2.0,
+                  )
+                )              
+              ),
+
+              // Children of the container => drag handle and the ReportingPage
+              child: Column(
+                children: [
+                  // Drag handle (necessary since modal bottom sheet's handle doesn't align with the current setup)
+                  Container(
+                    margin: const EdgeInsets.only(top: 20, bottom: 16),
+                    width: 40,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3F2917),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+
+                  const Text(
+                    'Dog Report',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w200,
+                      color: Color(0xFF3F2917),
+                      decoration: TextDecoration.underline,
+                      decorationColor: Color(0xFF3F2917),
+                    )
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // The ReportingPage (uses Expanded to take up the rest of the space)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: ReportingPage(scrollController: scrollController),
+                    ),
+                  )
+                ]
+              )
+            );
+          }
+        );
+      },
     );
   }
 
@@ -104,7 +165,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchLocationUpdates() async {
     bool serviceEnabled;
-    PermissionStatus permissionGranted;
+    PermissionStatus permissionGranted; 
 
     serviceEnabled = await locationController.serviceEnabled();
     if (serviceEnabled) {

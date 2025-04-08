@@ -1,11 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:woofcare/config/constants.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
+import 'package:woofcare/ui/widgets/custom_dropdown.dart';
 import 'package:woofcare/ui/widgets/custom_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReportingPage extends StatefulWidget {
-  const ReportingPage({super.key});
+  final ScrollController? scrollController;
+
+  const ReportingPage({super.key, required this.scrollController});
 
   @override
   State<ReportingPage> createState() => _ReportingPageState();
@@ -15,7 +21,19 @@ class _ReportingPageState extends State<ReportingPage> {
   final _reportTitleController = TextEditingController();
   final _dogDescriptionController = TextEditingController();
   final _locationDescriptionController = TextEditingController();
+  final _nearestAddressController = TextEditingController();
+  final _locationFeaturesController = TextEditingController();
   final _extraNotesController = TextEditingController();
+  String? dropdownValue;
+  final List<String> urgencyList = [
+    'High Urgency',
+    'Medium Urgency',
+    'Low Urgency',
+  ];
+
+  bool useCurrentLocation = false;
+  bool dropPin = false;
+  bool anonymousReport = false;
 
   void submitReport() async {
     CollectionReference reports =
@@ -39,119 +57,293 @@ class _ReportingPageState extends State<ReportingPage> {
   @override
   Widget build(BuildContext context) {
     // The body contains the form for the user to fill out
-    return SafeArea(
-      child: Center(
-        child: Container(
-          height: 830,
-          width: 393,
-          // Decoration for the box (shadow, border radius, color)
-          decoration: BoxDecoration(
-            color: const Color(0xFFF7FFF7),
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: const [
-              BoxShadow(
-                  color: Color(0x1A000000),
-                  offset: Offset(4, 4),
-                  blurRadius: 7.0,
-                  spreadRadius: 2.0),
-              BoxShadow(
-                color: Color.fromARGB(255, 235, 165, 99),
-                offset: Offset(-1, -1),
-                blurRadius: 5.0,
-                spreadRadius: 0.0,
-              ),
-            ],
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height, 
+        maxWidth: MediaQuery.of(context).size.width,
+      ),
+      // Decoration for the box (shadow, border radius, color)
+      decoration: const BoxDecoration(
+        color: Color(0xFFF7FFF7),
+      ),
+
+
+      child: RawScrollbar(
+        controller: widget.scrollController,
+        thumbColor: const Color(0xFFA66E38),
+        thickness: 3,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: 27,
+            right: 27,
+            top: 20,
+            bottom: 250,
           ),
-
-          // Stack to allow for better precision in positioning widgets
-          child: Stack(children: [
-            Column(
-              // Column to hold the text fields
-              children: [
-                const SizedBox(height: 35),
-
-                // Report Title text field
-                CustomTextField(
-                    controller: _reportTitleController,
-                    hintText: 'Report Title'),
-
-                const SizedBox(height: 20),
-
-                // Dog Description text field
-                CustomTextField(
-                  controller: _dogDescriptionController,
-                  hintText:
-                      'Identifying features of dog? (i.e Patterns, injuries, gender, etc.)',
-                  top: 25,
-                  bottom: 25,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+        
+            // Column to hold the input fields and buttons of the form
+            // (i.e. Report Title, Dog Description, Location Description, Additional Notes)
+            children: [
+              // 'Description' text
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'Description:',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w200,
+                    color: Color(0xFF3F2917),
+                    decoration: TextDecoration.underline,
+                    decorationColor: Color(0xFF3F2917),
+                  ),
                 ),
+              ),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 16),
+          
+              // Report Title text field
+              CustomTextField(
+                  controller: _reportTitleController,
+                  hintText: 'Report Title'
+              ),
+          
+              const SizedBox(height: 20),
 
-                // Location Description text field
-                CustomTextField(
-                  controller: _locationDescriptionController,
-                  hintText:
-                      'Identifying features of location? (i.e Landmarks, dangers, time etc.)',
-                  top: 25,
-                  bottom: 25,
+              // Dropdown for urgency level
+              Center(
+                child: Container(
+                  width: 307,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFA66E38).withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: DropdownButton(
+                    isExpanded: true,
+                    underline: const SizedBox(), // Remove the underline
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    
+                    menuWidth: 340,
+                    dropdownColor: const Color(0xFFF7FFF7),
+                    borderRadius: BorderRadius.circular(16.0),
+                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+
+                    //focusColor: const Color.fromARGB(255, 0, 0, 0),
+                    
+                    hint: Text (
+                      'Select Urgency Level',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                        color: const Color(0xFF3F2917).withOpacity(0.5),
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                    items: urgencyList.map((urgency) => DropdownMenuItem(
+                      value: urgency,
+                      child: Text(
+                        urgency,
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                          color: const Color(0xFF3F2917),
+                          fontWeight: FontWeight.w200,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    )).toList(),
+                    onChanged: (dropdownValue) => setState(() => this.dropdownValue = dropdownValue),
+                  ),
                 ),
+              ),
 
-                const SizedBox(height: 20),
+              const SizedBox(height: 20),
+          
+              // Dog Description text field
+              CustomTextField(
+                controller: _dogDescriptionController,
+                hintText: 'Identifying features of dog? (i.e Patterns, injuries, gender, etc.)',
+                top: 25,
+                bottom: 25,
+              ),
+        
+              const SizedBox(height: 20),
+        
+              // Add Photos Button (new)
+              SizedBox(
+                width: 120,
+                child: CustomButton(
+                  text: 'Add Photos',
+                  fontSize: 10,
+                  edgeInstetAll: 10,
+                  fontWeight: FontWeight.w200,
+                  onTap: () => print('Add Photos Button Pressed'),
+                ),
+              ),
+        
+              const SizedBox(height: 20),
+        
+              // Photo Container (and camera placeholder)
+              Container(
+                width: double.infinity,
+                height: 200,
+                margin: const EdgeInsets.only(left: 20, right: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFA66E38).withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.camera_alt, 
+                    size: 100, 
+                    color: Colors.white,
+                  )
+                ),
+              ),
+        
+              const SizedBox(height: 20),
 
-                // Additional Notes text field
-                CustomTextField(
+              // 'Location' text
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'Location:',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w200,
+                    color: Color(0xFF3F2917),
+                    decoration: TextDecoration.underline,
+                    decorationColor: Color(0xFF3F2917),
+                  ),
+                ),
+              ),
+
+              Row(
+                children: [
+                  // Current Location Checkbox
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Checkbox(
+                      value: useCurrentLocation,
+                      side: const BorderSide(),
+                      focusColor: Colors.green,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          useCurrentLocation = !useCurrentLocation;
+                        });
+                      },
+                    ),
+                  ),
+                  const Text(
+                    "Use Current Location",
+                    style: TextStyle(
+                      color: Color(0xFF3F2917),
+                      fontSize: 12,
+                    ),
+                  ),
+                  
+                  const SizedBox(width: 30),
+                  // Drop Pin Checkbox
+                  Checkbox(
+                    value: dropPin,
+                    side: const BorderSide(),
+                    focusColor: Colors.green,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        dropPin = !dropPin;
+                      });
+                    },
+                  ),
+                  const Text(
+                    "Drop Pin",
+                    style: TextStyle(
+                      color: Color(0xFF3F2917),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+
+              // Nearest address text field
+              CustomTextField(
+                  controller: _nearestAddressController,
+                  hintText: 'Nearest Address',
+              ),
+
+              const SizedBox(height: 20),
+
+              // Location Description text field
+              CustomTextField(
+                controller: _locationDescriptionController,
+                hintText: 'Identifying features of location? (i.e Landmarks, dangers, time etc.)',
+                top: 25,
+                bottom: 25,
+              ),
+
+              const SizedBox(height: 20),
+
+              // 'Other' text
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Text(
+                  'Other:',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w200,
+                    color: Color(0xFF3F2917),
+                    decoration: TextDecoration.underline,
+                    decorationColor: Color(0xFF3F2917),
+                  ),
+                ),
+              ),  
+
+              Row(
+                children: [
+                  // Current Location Checkbox
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Checkbox(
+                      value: anonymousReport,
+                      side: const BorderSide(),
+                      focusColor: Colors.green,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          anonymousReport = !anonymousReport;
+                        });
+                      },
+                    ),
+                  ),
+                  const Text(
+                    "Make Anonymous Report",
+                    style: TextStyle(
+                      color: Color(0xFF3F2917),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+
+              // Extra notes text field
+              CustomTextField(
                   controller: _extraNotesController,
                   hintText: 'Additional Notes?',
-                ),
-              ],
-            ),
-
-            // Add Photos button
-            Positioned(
-              right: 262,
-              bottom: 350,
-              child: CustomButton(
-                text: 'Add Photos',
-                fontSize: 10,
-                edgeInstetAll: 10,
-                onTap: () => print(
-                    'Add Photos button pressed'), //TODO: Implement photo upload
               ),
-            ),
 
-            // Photo container (and camera placeholder)
-            Positioned(
-                left: 28,
-                bottom: 140,
-                child: Container(
-                    width: 330,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFA66E38).withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: const Image(
-                      image:
-                          AssetImage('assets/images/placeholders/camera.png'),
-                      fit: BoxFit.scaleDown,
-                    ))),
+              CustomButton(
+                text: 'Submit', 
+                fontSize: 20,
+                fontWeight: FontWeight.w200,
+                edgeSymmetricHorizontal: 50,
+                edgeSymmetricVertical: 40,
+                edgeInstetAll: 20,
+                onTap: () => submitReport(),
+              ),
 
-            // Submit button
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CustomButton(
-                  text: 'Submit',
-                  fontSize: 20,
-                  onTap: () => submitReport(),
-                  edgeSymmetricHorizontal: 80,
-                  edgeSymmetricVertical: 40,
-                  edgeInstetAll: 20,
-                ),
-              ],
-            )
-          ]),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

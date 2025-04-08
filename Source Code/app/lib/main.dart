@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import '/config/constants.dart';
 import '/config/theme.dart';
 import '/ui/pages/export.dart';
@@ -32,7 +31,6 @@ class WoofCare extends StatelessWidget {
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
-        "/report": (context) => const ReportingPage(),
       },
     );
   }
