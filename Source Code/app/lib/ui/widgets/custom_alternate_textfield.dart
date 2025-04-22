@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:woofcare/config/constants.dart';
+
+import '/config/constants.dart';
 
 class CustomAlternateTextfield extends StatelessWidget {
   final TextEditingController controller;
@@ -54,11 +55,12 @@ class CustomAlternateTextfield extends StatelessWidget {
               width: 2.0,
             ),
           ),
-          fillColor: const Color.fromARGB(255, 255, 219, 186).withOpacity(0.3),
+          fillColor:
+              const Color.fromARGB(255, 255, 219, 186).withValues(alpha: 0.3),
           filled: true,
           hintText: hintText,
           hintStyle: TextStyle(
-            color: const Color(0xFF3F2917).withOpacity(0.8),
+            color: const Color(0xFF3F2917).withValues(alpha: 0.8),
             fontWeight: FontWeight.bold,
           ),
         ),
