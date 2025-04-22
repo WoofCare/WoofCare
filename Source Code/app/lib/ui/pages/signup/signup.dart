@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:woofcare/services/auth.dart';
-import 'package:woofcare/ui/widgets/custom_button.dart';
-import 'package:woofcare/ui/widgets/custom_dropdown.dart';
-import 'package:woofcare/ui/widgets/custom_textfield.dart';
+
+import '/services/auth.dart';
+import '/ui/widgets/custom_button.dart';
+import '/ui/widgets/custom_dropdown.dart';
+import '/ui/widgets/custom_textfield.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -51,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
       _nameTextController,
       _emailTextController,
       _passwordTextController,
-      _passwordConfirmTextController
+      _passwordConfirmTextController,
     ];
 
     for (final controller in controllers) {
@@ -66,6 +67,7 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailTextController.text,
         password: _passwordTextController.text,
         data: {
+          "bio": "",
           "email": _emailTextController.text,
           "name": _nameTextController.text,
           "role": role,
@@ -103,11 +105,11 @@ class _SignUpPageState extends State<SignUpPage> {
           data: Theme.of(context).copyWith(
             textTheme: GoogleFonts.aBeeZeeTextTheme(),
             colorScheme: ThemeData.light().colorScheme.copyWith(
-                  primary: Colors.white,
-                  secondary: Colors.white,
-                  onSurface: Colors.black,
-                  onPrimary: Colors.black,
-                ),
+              primary: Colors.white,
+              secondary: Colors.white,
+              onSurface: Colors.black,
+              onPrimary: Colors.black,
+            ),
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: Colors.white,
@@ -125,73 +127,71 @@ class _SignUpPageState extends State<SignUpPage> {
     );
 
     if (pickedDate == null) return;
-    _dateOfBirthTextController.text =
-        DateFormat("yyyy-MM-dd").format(pickedDate);
+    _dateOfBirthTextController.text = DateFormat(
+      "yyyy-MM-dd",
+    ).format(pickedDate);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEEB784),
-      body: Center(
-        child: SizedBox(
-          width: 400,
-          child: Card(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color(0xFFEEB784),
-              ),
-              child: Stack(
-                children: [
-                  Container(
-                    // Container for the first background image
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/patterns/BigPawPattern.png",
-                        ),
-                        alignment: Alignment.topLeft,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    // Container for the second background image
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/patterns/SmallPawPattern.png",
-                        ),
-                        alignment: Alignment.bottomRight,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    // Padding for the container that holds the login form
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25.0, vertical: 125.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2.0,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF000000).withOpacity(0.45),
-                            spreadRadius: 2,
-                            blurRadius: 3,
-                            offset: const Offset(6, 3),
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: SizedBox(
+            width: 400,
+            child: Card(
+              child: Container(
+                decoration: const BoxDecoration(color: Color(0xFFEEB784)),
+                child: Stack(
+                  children: [
+                    Container(
+                      // Container for the first background image
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/images/patterns/BigPawPattern.png",
                           ),
-                        ],
+                          alignment: Alignment.topLeft,
+                        ),
                       ),
-                      child: ClipRRect(
-                        // ClipRRect to allow for rounded corners
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Scaffold(
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 255, 255),
-                          body: SafeArea(
+                    ),
+                    Container(
+                      // Container for the second background image
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                            "assets/images/patterns/SmallPawPattern.png",
+                          ),
+                          alignment: Alignment.bottomRight,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      // Padding for the container that holds the login form
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0,
+                        vertical: 125.0,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(color: Colors.black, width: 2.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(
+                                0xFF000000,
+                              ).withValues(alpha: 0.45),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(6, 3),
+                            ),
+                          ],
+                        ),
+                        child: ClipRRect(
+                          // ClipRRect to allow for rounded corners
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Container(
+                            color: const Color.fromARGB(255, 255, 255, 255),
                             child: Center(
                               child: SingleChildScrollView(
                                 child: Column(
@@ -201,9 +201,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                       child: Text(
                                         "Create Your Account",
                                         style: TextStyle(
-                                            color: Color(0xFF3F2917),
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold),
+                                          color: Color(0xFF3F2917),
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
 
@@ -246,9 +247,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                         label: "Search",
                                         itemAsString: (val) => val,
                                         icon: Icons.work,
-                                        items: roles.map((String roles) {
-                                          return roles;
-                                        }).toList(),
+                                        items:
+                                            roles.map((String roles) {
+                                              return roles;
+                                            }).toList(),
                                         onChanged: (String? val) {
                                           setState(() {
                                             role = val!;
@@ -280,6 +282,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         hintText: "Password",
                                         obscureText: true,
                                         prefix: Icons.password,
+                                        maxLines: 1,
                                       ),
                                     ),
                                     Padding(
@@ -292,6 +295,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         hintText: "Confirm Password",
                                         obscureText: true,
                                         prefix: Icons.password,
+                                        maxLines: 1,
                                       ),
                                     ),
 
@@ -319,8 +323,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

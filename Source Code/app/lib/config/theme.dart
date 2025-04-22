@@ -55,20 +55,13 @@ class WoofCareTheme {
           ),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        backgroundColor: WoofCareColors.appBarBackground,
+        backgroundColor: WoofCareColors.appBarColor,
         elevation: 0,
         titleTextStyle: TextStyle(
           color: WoofCareColors.primaryTextAndIcons,
-          fontSize: 30,
-          fontWeight: FontWeight.w600,
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
           fontFamily: GoogleFonts.aBeeZee().fontFamily,
-          decoration: TextDecoration.underline
-        ),
-      shape: const Border (
-          bottom: BorderSide(
-            color:  Color(0xFFA66E38),
-            width: 1,
-          )
         ),
       ),
       scrollbarTheme: ScrollbarThemeData(
@@ -94,8 +87,8 @@ class WoofCareTheme {
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         elevation: 0,
-        backgroundColor: Color (0xFFF7FFF7),
-        modalBackgroundColor: Color (0xFFF7FFF7),
+        backgroundColor: Color(0xFFF7FFF7),
+        modalBackgroundColor: Color(0xFFF7FFF7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(25),

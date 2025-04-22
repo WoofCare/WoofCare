@@ -1,5 +1,10 @@
+export 'article/article.dart';
+export 'chat/chat.dart';
+export 'chat/conversations.dart';
 export 'home/home.dart';
 export 'login/login.dart';
+export 'map/map.dart';
 export 'profile/profile.dart';
+export 'report/report.dart';
 export 'signup/signup.dart';
-export 'report/reporting.dart';
+export 'splash/splash.dart';

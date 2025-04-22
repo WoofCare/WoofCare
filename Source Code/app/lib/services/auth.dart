@@ -1,9 +1,37 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/models/profile.dart';
+
+import '/config/constants.dart';
+import '/models/profile.dart';
 
 class Auth {
+  static Future<void> launch(
+    BuildContext context,
+    void Function() onLoggedIn,
+  ) async {
+    if (AUTH.currentUser != null) {
+      try {
+        profile = await Profile.fromID(AUTH.currentUser!.uid);
+      } catch (error, _) {
+        if (error.toString().contains(
+              "does not exist within the DocumentSnapshotPlatform",
+            ) ||
+            error.toString().contains(
+              "on a DocumentSnapshotPlatform which does not exist",
+            )) {
+          if (context.mounted) {
+            Navigator.popAndPushNamed(context, "/login");
+          }
+        } else {
+          // TODO: Error Dialog
+        }
+        return;
+      }
+    }
+
+    onLoggedIn();
+  }
+
   static Future<void> signup({
     required String email,
     required String password,
@@ -23,7 +51,7 @@ class Auth {
       profile = await Profile.fromID(uid);
 
       if (context.mounted) {
-        Navigator.pushNamed(context, "/home");
+        Navigator.pushNamed(context, "/");
       }
     } on FirebaseAuthException catch (e) {
       error(e);
@@ -39,17 +67,14 @@ class Auth {
     required void Function(FirebaseAuthException e) error,
   }) async {
     try {
-      await AUTH.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await AUTH.signInWithEmailAndPassword(email: email, password: password);
 
       String uid = AUTH.currentUser!.uid;
 
       profile = await Profile.fromID(uid);
 
       if (context.mounted) {
-        Navigator.pushNamed(context, "/home");
+        Navigator.pushNamed(context, "/");
       }
     } on FirebaseAuthException catch (e) {
       error(e);
