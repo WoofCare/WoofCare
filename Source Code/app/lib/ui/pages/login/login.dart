@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/services/auth.dart';
-import 'package:woofcare/ui/widgets/custom_button.dart';
-import 'package:woofcare/ui/widgets/custom_textfield.dart';
+
+import '/config/constants.dart';
+import '/services/auth.dart';
+import '/ui/widgets/custom_button.dart';
+import '/ui/widgets/custom_textfield.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -15,6 +16,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  final TextEditingController _errorTextController = TextEditingController();
 
   String? errorMessage = "";
   bool remeberMe = false;
@@ -24,78 +26,84 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFEEB784),
-      body: Stack(
-        // Stack to allow for multiple background images
-        children: [
-          Container(
-            // Container for the first background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/patterns/BigPawPattern.png",
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          // Stack to allow for multiple background images
+          children: [
+            Container(
+              // Container for the first background image
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/patterns/BigPawPattern.png"),
+                  alignment: Alignment.topLeft,
                 ),
-                alignment: Alignment.topLeft,
               ),
             ),
-          ),
-          Container(
-            // Container for the second background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/patterns/SmallPawPattern.png",
+            Container(
+              // Container for the second background image
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/patterns/SmallPawPattern.png",
+                  ),
+                  alignment: Alignment.bottomRight,
                 ),
-                alignment: Alignment.bottomRight,
               ),
             ),
-          ),
-          Padding(
-            // Padding for the container that holds the login form
-            padding:
-                const EdgeInsets.symmetric(horizontal: 25.0, vertical: 125.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                  color: Colors.black,
-                  width: 2.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                      color: const Color(0xFF000000).withOpacity(0.45),
+            Padding(
+              // Padding for the container that holds the login form
+              padding: const EdgeInsets.only(
+                left: 25.0,
+                right: 25.0,
+                top: 175.0,
+                bottom: 100.0,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  // COMMENTED OUT BORDER
+                  // border: Border.all(
+                  //   //color: Colors.black,
+                  //   width: 2.0,
+                  // ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF000000).withValues(alpha: 0.45),
                       spreadRadius: 2,
                       blurRadius: 3,
-                      offset: const Offset(6, 3)),
-                ],
-              ),
-              child: ClipRRect(
-                // ClipRRect to allow for rounded corners
-                borderRadius: BorderRadius.circular(8.0),
-                child: Scaffold(
-                  backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                  body: SafeArea(
-                    child: Center(
-                      child: SingleChildScrollView(
+                      offset: const Offset(6, 3),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  // ClipRRect to allow for rounded corners
+                  borderRadius: BorderRadius.circular(
+                    8.0,
+                  ), // Radius of the corners
+                  child: Container(
+                    color: const Color.fromARGB(
+                      255,
+                      255,
+                      255,
+                      255,
+                    ), // Background color of the container
+                    child: SingleChildScrollView(
+                      child: Center(
+                        // Center the contents
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 60,
-                            ),
-
                             //Welcome Back Message
                             const Text(
                               "Welcome Back to \n      WoofCare!", // There is probably a better way to do this XD
                               style: TextStyle(
-                                  color: Color(0xFF3F2917),
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
+                                color: Color(0xFF3F2917),
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
 
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5),
 
                             const Divider(
                               color: Color(0xFF3F2917),
@@ -104,9 +112,7 @@ class _LogInPageState extends State<LogInPage> {
                               endIndent: 50,
                             ),
 
-                            const SizedBox(
-                              height: 25,
-                            ),
+                            const SizedBox(height: 25),
 
                             //Username Field
                             CustomTextField(
@@ -115,9 +121,7 @@ class _LogInPageState extends State<LogInPage> {
                               prefix: Icons.email,
                             ),
 
-                            const SizedBox(
-                              height: 15,
-                            ),
+                            const SizedBox(height: 15),
 
                             //Password Field
                             CustomTextField(
@@ -125,15 +129,26 @@ class _LogInPageState extends State<LogInPage> {
                               hintText: "Password",
                               obscureText: true,
                               prefix: Icons.password,
+                              maxLines: 1,
                             ),
 
-                            const SizedBox(
-                              height: 1,
+                            const SizedBox(height: 1),
+
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                _errorTextController.text,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ),
 
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30.0),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30.0,
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -167,37 +182,38 @@ class _LogInPageState extends State<LogInPage> {
                                       text: "Forgot Password?",
                                       style: theme.textTheme.bodyMedium!
                                           .copyWith(
-                                              color: const Color(0xFFA66E38)),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = forgotPassword,
+                                            color: const Color(0xFFA66E38),
+                                          ),
+                                      recognizer:
+                                          TapGestureRecognizer()
+                                            ..onTap = forgotPassword,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
 
-                            const SizedBox(
-                              height: 35,
-                            ),
+                            const SizedBox(height: 35),
 
                             //Log In Button
                             CustomButton(
                               text: "Log In",
-                              onTap: () => Auth.login(
-                                context: context,
-                                email: _emailTextController.text,
-                                password: _passwordTextController.text,
-                                error: (e) {
-                                  setState(() {
-                                    errorMessage = e.toString();
-                                  });
-                                },
-                              ),
+                              onTap:
+                                  () => Auth.login(
+                                    context: context,
+                                    email: _emailTextController.text,
+                                    password: _passwordTextController.text,
+                                    error: (e) {
+                                      setState(() {
+                                        errorMessage = e.toString();
+                                        _errorTextController.text =
+                                            errorMessage ?? '';
+                                      });
+                                    },
+                                  ),
                             ),
 
-                            const SizedBox(
-                              height: 55,
-                            ),
+                            const SizedBox(height: 15),
 
                             //First Time User? Sign Up Button
                             RichText(
@@ -211,10 +227,15 @@ class _LogInPageState extends State<LogInPage> {
                                   TextSpan(
                                     text: "Sign Up",
                                     style: theme.textTheme.bodyMedium!.copyWith(
-                                        color: const Color(0xFFA66E38)),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => Navigator.pushNamed(
-                                          context, "/signup"),
+                                      color: const Color(0xFFA66E38),
+                                    ),
+                                    recognizer:
+                                        TapGestureRecognizer()
+                                          ..onTap =
+                                              () => Navigator.pushNamed(
+                                                context,
+                                                "/signup",
+                                              ),
                                   ),
                                 ],
                               ),
@@ -227,8 +248,8 @@ class _LogInPageState extends State<LogInPage> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

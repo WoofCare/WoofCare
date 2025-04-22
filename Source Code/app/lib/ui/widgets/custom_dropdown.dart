@@ -49,12 +49,12 @@ class CustomDropdown<T> extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.0),
                   borderSide: const BorderSide(color: Color(0xFFFFFFFF)),
                 ),
-                fillColor: const Color(0xFFA66E38).withOpacity(0.3),
+                fillColor: const Color(0xFFA66E38).withValues(alpha: 0.3),
                 hintText: "Role",
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF3F2917).withOpacity(0.8),
+                  color: const Color(0xFF3F2917).withValues(alpha: 0.8),
                 ),
                 prefixIcon: Icon(
                   icon,
@@ -107,12 +107,12 @@ class CustomDropdown<T> extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.0),
                     borderSide: const BorderSide(color: Color(0xFFFFFFFF)),
                   ),
-                  fillColor: const Color(0xFFA66E38).withOpacity(0.3),
+                  fillColor: const Color(0xFFA66E38).withValues(alpha: 0.3),
                   prefixIcon: const Icon(Icons.search),
                   label: Text(
                     label,
                     style: TextStyle(
-                      color: const Color(0xFF3F2917).withOpacity(0.8),
+                      color: const Color(0xFF3F2917).withValues(alpha: 0.8),
                     ),
                   ),
                 ),

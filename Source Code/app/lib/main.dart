@@ -21,17 +21,21 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/login",
+      initialRoute: "/",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
         return widget!;
       },
       routes: {
+        "/": (context) => const SplashPage(),
         "/home": (context) => const HomePage(),
+        "/map": (context) => const MapPage(),
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
+        "/chat": (context) => const ChatPage(),
+        "/article": (context) => const ArticlePage(),
       },
     );
   }

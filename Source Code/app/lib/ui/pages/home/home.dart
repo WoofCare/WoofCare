@@ -1,79 +1,74 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:woofcare/config/constants.dart';
+
+import '/ui/pages/export.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<StatefulWidget> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final locationController = Location();
-  LatLng? currentPosition;
+  int currentPage = 1;
+
+  final List<Widget> pages = [
+    const ConversationsPage(),
+    const MapPage(),
+    const ArticlePage(),
+  ];
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) async => await fetchLocationUpdates());
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: currentPosition == null
-            ? const Center(child: CircularProgressIndicator())
-            : GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                mapType: MapType.normal,
-                initialCameraPosition: CameraPosition(
-                  target: currentPosition!,
-                  zoom: 13,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId('currentLocation'),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                    position: currentPosition!,
-                  ),
-                },
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Hi, ${profile.name}",
+            style: TextStyle(color: Colors.black, fontSize: 24),
+          ),
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              onPressed: () => Navigator.pushNamed(context, "/profile"),
+              icon: Image.asset(
+                "assets/images/homePageButtons/ProfileButton.png",
+                width: 40,
+                height: 40,
               ),
-      );
-
-  Future<void> fetchLocationUpdates() async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    serviceEnabled = await locationController.serviceEnabled();
-    if (serviceEnabled) {
-      serviceEnabled = await locationController.requestService();
-    } else {
-      return;
-    }
-
-    permissionGranted = await locationController.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await locationController.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    locationController.onLocationChanged.listen((currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null) {
-        setState(() {
-          currentPosition = LatLng(
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-          );
-        });
-      }
-    });
+            ),
+          ],
+        ),
+        body: pages[currentPage],
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentPage,
+          onTap: (value) {
+            setState(() {
+              currentPage = value;
+            });
+          },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.solidComments),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.solidMap),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.bookOpen),
+              label: 'Articles',
+            ),
+          ],
+          backgroundColor: const Color(0xFFE5E5E5),
+          unselectedItemColor: const Color(0xFFA66E38),
+          selectedItemColor: const Color(0xFF3F2917),
+        ),
+      ),
+    );
   }
 }

@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: "AIzaSyDHdWdQorxOsL7c_jmxHelaKXCveKnH4d0",
-    appId: "1:506976961145:android:b19e9a2b082f7b95240aa8",
-    messagingSenderId: "506976961145",
-    projectId: "woofcare-a9fac",
-    storageBucket: "woofcare-a9fac.appspot.com",
+    apiKey: 'AIzaSyDHdWdQorxOsL7c_jmxHelaKXCveKnH4d0',
+    appId: '1:506976961145:android:b19e9a2b082f7b95240aa8',
+    messagingSenderId: '506976961145',
+    projectId: 'woofcare-a9fac',
+    storageBucket: 'woofcare-a9fac.firebasestorage.app',
   );
+
 }
