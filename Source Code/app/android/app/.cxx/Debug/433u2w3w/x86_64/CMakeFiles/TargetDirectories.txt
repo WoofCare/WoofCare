@@ -1,0 +1,2 @@
+/mnt/STORAGE/Projects/Flutter/Apps/WoofCare/Source Code/app/android/app/.cxx/Debug/433u2w3w/x86_64/CMakeFiles/edit_cache.dir
+/mnt/STORAGE/Projects/Flutter/Apps/WoofCare/Source Code/app/android/app/.cxx/Debug/433u2w3w/x86_64/CMakeFiles/rebuild_cache.dir

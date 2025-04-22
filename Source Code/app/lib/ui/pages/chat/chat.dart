@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/config/constants.dart';
-import 'package:woofcare/ui/widgets/input_field.dart';
+import '/ui/widgets/input_field.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -21,17 +21,18 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
 
-    fields = [
-      {
-        "value": "message",
-        "name": "Message",
-        "controller": _messageController,
-        "icon": Icons.message,
-        "input": TextInputType.name,
-        "submit": (_) => submit(context),
-        "error": "",
-      },
-    ].obs;
+    fields =
+        [
+          {
+            "value": "message",
+            "name": "Message",
+            "controller": _messageController,
+            "icon": Icons.message,
+            "input": TextInputType.name,
+            "submit": (_) => submit(context),
+            "error": "",
+          },
+        ].obs;
   }
 
   @override
@@ -46,63 +47,65 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
+    final arguments =
+        (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{})
+            as Map;
     chatID = arguments['chatID'];
     final String participant = arguments['participant'];
-    return Scaffold(
-      // It is in the app bar where the user can see the name of the person they are chatting with
-      appBar: AppBar(
-        toolbarHeight: 80,
-        iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-        actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.phone),
-            onPressed: () {},
-          ),
-        ],
-        title: Column(
-          children: [
-            CircleAvatar(
+
+    return SafeArea(
+      child: Scaffold(
+        // It is in the app bar where the user can see the name of the person they are chatting with
+        appBar: AppBar(
+          toolbarHeight: 80,
+          iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+          actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+          actions: [
+            IconButton(icon: const Icon(Icons.phone), onPressed: () {}),
+          ],
+          title: Column(
+            children: [
+              CircleAvatar(
                 backgroundColor: Colors.grey,
                 radius: 25,
-                backgroundImage:
-                    AssetImage("assets/images/chat_icons/clipart546487 1.png")),
-            Text(
-              participant,
-              style: TextStyle(color: Color(0xFF3F2917), fontFamily: "ABeeZee", fontSize: 16),
-            ),
-          ],
+                backgroundImage: AssetImage(
+                  "assets/images/chat_icons/clipart546487 1.png",
+                ),
+              ),
+              Text(
+                participant,
+                style: TextStyle(
+                  color: Color(0xFF3F2917),
+                  fontFamily: "ABeeZee",
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      backgroundColor: const Color(0xFFEEB784),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _Messages(
-              chatId: chatID,
-            ),
-            Container(
-              // decoration: const BoxDecoration(
-              //   border: Border(
-              //     top: BorderSide(
-              //       color: Colors.white,
-              //       width: 2,
-              //     ),
-              //   ),
-              // ),
-              child: Row(
-                children: [
-                  Obx(
-                    () => Expanded(
-                      child: Column(
-                        children: List.generate(
-                          fields.length,
-                          (index) {
+        backgroundColor: const Color(0xFFEEB784),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _Messages(chatId: chatID),
+              Container(
+                // decoration: const BoxDecoration(
+                //   border: Border(
+                //     top: BorderSide(
+                //       color: Colors.white,
+                //       width: 2,
+                //     ),
+                //   ),
+                // ),
+                child: Row(
+                  children: [
+                    Obx(
+                      () => Expanded(
+                        child: Column(
+                          children: List.generate(fields.length, (index) {
                             final Map<String, dynamic> field = fields[index];
                             return InputField(
                               decoration: InputDecoration(
@@ -132,19 +135,19 @@ class _ChatPageState extends State<ChatPage> {
                               maxLines: 5,
                               error: field["error"],
                             );
-                          },
+                          }),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    onPressed: () => submit(context),
-                  ),
-                ],
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () => submit(context),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -157,13 +160,11 @@ class _ChatPageState extends State<ChatPage> {
         .collection("Conversations")
         .doc(chatID)
         .collection("messages")
-        .add(
-      {
-        "text": _messageController.text.trim(),
-        "sender": profile.name,
-        "time": Timestamp.now(),
-      },
-    );
+        .add({
+          "text": _messageController.text.trim(),
+          "sender": profile.name,
+          "time": Timestamp.now(),
+        });
 
     _messageController.clear();
   }
@@ -178,12 +179,13 @@ class _Messages extends StatelessWidget {
   Widget build(BuildContext context) {
     print("chadID: $chatId");
     return StreamBuilder<QuerySnapshot>(
-      stream: FIRESTORE
-          .collection("Conversations")
-          .doc(chatId)
-          .collection("messages")
-          .orderBy("time", descending: true)
-          .snapshots(),
+      stream:
+          FIRESTORE
+              .collection("Conversations")
+              .doc(chatId)
+              .collection("messages")
+              .orderBy("time", descending: true)
+              .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData ||
             snapshot.data == null ||
@@ -248,37 +250,30 @@ class _Message extends StatelessWidget {
         crossAxisAlignment:
             isSelf ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(
-            sender,
-            style: context.textTheme.titleSmall,
-          ),
+          Text(sender, style: context.textTheme.titleSmall),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: isSelf
-                ? const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+            decoration:
+                isSelf
+                    ? const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                      color: Color.fromARGB(255, 139, 158, 54),
+                    )
+                    : const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                      color: Color.fromARGB(255, 139, 158, 54),
                     ),
-                    color: Color.fromARGB(255, 139, 158, 54),
-                  )
-                : const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                    color: Color.fromARGB(255, 139, 158, 54),
-                  ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  text,
-                  style: context.textTheme.displaySmall,
-                ),
-              ],
+              children: [Text(text, style: context.textTheme.displaySmall)],
             ),
           ),
         ],

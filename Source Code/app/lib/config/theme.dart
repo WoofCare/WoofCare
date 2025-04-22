@@ -87,8 +87,8 @@ class WoofCareTheme {
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         elevation: 0,
-        backgroundColor: Color (0xFFF7FFF7),
-        modalBackgroundColor: Color (0xFFF7FFF7),
+        backgroundColor: Color(0xFFF7FFF7),
+        modalBackgroundColor: Color(0xFFF7FFF7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(25),
