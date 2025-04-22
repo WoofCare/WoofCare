@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "506976961145",
     "project_id": "woofcare-a9fac",
-    "storage_bucket": "woofcare-a9fac.appspot.com"
+    "storage_bucket": "woofcare-a9fac.firebasestorage.app"
   },
   "client": [
     {

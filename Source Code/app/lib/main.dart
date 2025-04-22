@@ -1,12 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/ui/pages/chat/chat.dart';
-import 'package:woofcare/ui/pages/conversations/conversations.dart';
-import 'package:woofcare/ui/pages/articles/articles.dart';
-import 'package:woofcare/ui/pages/navigation/navigation.dart';
-import 'package:woofcare/ui/pages/post/post.dart';
-import 'package:woofcare/ui/pages/postViewer/postViewer.dart';
+
 import '/config/constants.dart';
 import '/config/theme.dart';
 import '/ui/pages/export.dart';
@@ -27,23 +21,21 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/home",
+      initialRoute: "/",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
         return widget!;
       },
       routes: {
-        "/navigation": (context) => const NavPage(),
+        "/": (context) => const SplashPage(),
         "/home": (context) => const HomePage(),
-        "/post": (context) => const PostPage(),
+        "/map": (context) => const MapPage(),
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
-        "/conversations": (context) => const ConversationsPage(),
-        "/chat": (context) => const ChatPage()
-        "/articles": (context) => const ArticlesPage(),
-        "/postViewer": (context) => const PostViewerPage(),
+        "/chat": (context) => const ChatPage(),
+        "/article": (context) => const ArticlePage(),
       },
     );
   }

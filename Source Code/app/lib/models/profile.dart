@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:woofcare/config/constants.dart';
+
+import '/config/constants.dart';
 
 class Profile {
   final String id;
@@ -35,9 +36,7 @@ class Profile {
 
   Future<void> updateProfile() async {
     try {
-      await reference.update({
-        'bio': bio,
-      });
+      await reference.update({'bio': bio});
       print("Document updated successfully");
     } catch (e) {
       print("error updating doc");
