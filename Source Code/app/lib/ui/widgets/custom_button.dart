@@ -11,7 +11,11 @@ class CustomButton extends StatelessWidget {
   final double padding;
   final double margin;
   final double borderRadius;
-
+  final double edgeSymmetricHorizontal;
+  final double edgeSymmetricVertical;
+  final double edgeInstetAll;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const CustomButton({
     super.key,
@@ -25,6 +29,11 @@ class CustomButton extends StatelessWidget {
     this.padding = 20,
     this.margin = 20,
     this.borderRadius = 8,
+    this.edgeSymmetricHorizontal = 20.0,
+    this.edgeSymmetricVertical = 0.0,
+    this.edgeInstetAll = 20.0,
+    this.fontSize,
+    this.fontWeight = FontWeight.bold,
   });
 
   @override
@@ -40,6 +49,7 @@ class CustomButton extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
+        
         child: Center(
           child: Text(
             text,
