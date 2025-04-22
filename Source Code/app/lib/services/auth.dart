@@ -23,7 +23,7 @@ class Auth {
       profile = await Profile.fromID(uid);
 
       if (context.mounted) {
-        Navigator.pushNamed(context, "/conversations");
+        Navigator.pushNamed(context, "/navigation");
       }
     } on FirebaseAuthException catch (e) {
       error(e);
@@ -49,7 +49,7 @@ class Auth {
       profile = await Profile.fromID(uid);
 
       if (context.mounted) {
-        Navigator.pushNamed(context, "/conversations");
+        Navigator.pushNamed(context, "/navigation");
       }
     } on FirebaseAuthException catch (e) {
       error(e);

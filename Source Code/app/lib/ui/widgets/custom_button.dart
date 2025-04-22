@@ -3,11 +3,37 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final Function()? onTap;
+  final double? height;
+  final double? width;
+  final Color? color;
+  final double? fontSize;
+  final Color? fontColor;
+  final double padding;
+  final double margin;
+  final double borderRadius;
+  final double edgeSymmetricHorizontal;
+  final double edgeSymmetricVertical;
+  final double edgeInstetAll;
+  final double? fontSize;
+  final FontWeight? fontWeight;
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onTap,
+    this.width,
+    this.height,
+    this.color = const Color(0xFFA66E38),
+    this.fontSize= 18,
+    this.fontColor = const Color(0xFFF7FFF7),
+    this.padding = 20,
+    this.margin = 20,
+    this.borderRadius = 8,
+    this.edgeSymmetricHorizontal = 20.0,
+    this.edgeSymmetricVertical = 0.0,
+    this.edgeInstetAll = 20.0,
+    this.fontSize,
+    this.fontWeight = FontWeight.bold,
   });
 
   @override
@@ -15,18 +41,21 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        width: width,
+        height: height,
+        padding: EdgeInsets.all(padding),
+        margin: EdgeInsets.symmetric(horizontal: margin),
         decoration: BoxDecoration(
-          color: const Color(0xFFA66E38),
-          borderRadius: BorderRadius.circular(8.0),
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
+        
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
+            style: TextStyle(
+              fontSize: fontSize,
+              color: fontColor,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -97,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       lastDate: DateTime.now(),
-      firstDate: DateTime(2015),
+      firstDate: DateTime(1980),
       initialDate: DateTime.now(),
       builder: (context, child) {
         return Theme(

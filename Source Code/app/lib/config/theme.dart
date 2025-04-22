@@ -87,8 +87,8 @@ class WoofCareTheme {
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         elevation: 0,
-        backgroundColor: WoofCareColors.primaryBackground,
-        modalBackgroundColor: Colors.transparent,
+        backgroundColor: Color (0xFFF7FFF7),
+        modalBackgroundColor: Color (0xFFF7FFF7),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(25),
@@ -97,7 +97,7 @@ class WoofCareTheme {
         ),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        elevation: 10,
+        elevation: 0,
         backgroundColor: WoofCareColors.buttonColor,
         foregroundColor: WoofCareColors.primaryBackground,
       ),
