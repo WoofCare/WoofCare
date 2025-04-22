@@ -66,6 +66,7 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailTextController.text,
         password: _passwordTextController.text,
         data: {
+          "bio": "",
           "email": _emailTextController.text,
           "name": _nameTextController.text,
           "role": role,

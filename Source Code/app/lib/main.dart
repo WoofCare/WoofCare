@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:woofcare/config/constants.dart';
+import 'package:woofcare/ui/pages/chat/chat.dart';
+import 'package:woofcare/ui/pages/conversations/conversations.dart';
 import 'package:woofcare/ui/pages/articles/articles.dart';
 import 'package:woofcare/ui/pages/navigation/navigation.dart';
 import 'package:woofcare/ui/pages/post/post.dart';
@@ -37,6 +40,8 @@ class WoofCare extends StatelessWidget {
         "/login": (context) => const LogInPage(),
         "/signup": (context) => const SignUpPage(),
         "/profile": (context) => const ProfilePage(),
+        "/conversations": (context) => const ConversationsPage(),
+        "/chat": (context) => const ChatPage()
         "/articles": (context) => const ArticlesPage(),
         "/postViewer": (context) => const PostViewerPage(),
       },
