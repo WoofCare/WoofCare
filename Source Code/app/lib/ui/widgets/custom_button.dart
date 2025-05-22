@@ -8,12 +8,10 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final double? fontSize;
   final Color? fontColor;
-  final double padding;
   final double margin;
   final double borderRadius;
-  final double edgeSymmetricHorizontal;
-  final double edgeSymmetricVertical;
-  final double edgeInstetAll;
+  final double horizontalPadding;
+  final double verticalPadding;
   final FontWeight? fontWeight;
 
   const CustomButton({
@@ -25,12 +23,10 @@ class CustomButton extends StatelessWidget {
     this.color = const Color(0xFFA66E38),
     this.fontSize = 18,
     this.fontColor = const Color(0xFFF7FFF7),
-    this.padding = 20,
     this.margin = 20,
     this.borderRadius = 8,
-    this.edgeSymmetricHorizontal = 20.0,
-    this.edgeSymmetricVertical = 0.0,
-    this.edgeInstetAll = 20.0,
+    this.horizontalPadding = 20,
+    this.verticalPadding = 20,
     this.fontWeight = FontWeight.bold,
   });
 
@@ -41,7 +37,7 @@ class CustomButton extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        padding: EdgeInsets.all(padding),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
         margin: EdgeInsets.symmetric(horizontal: margin),
         decoration: BoxDecoration(
           color: color,
@@ -53,7 +49,7 @@ class CustomButton extends StatelessWidget {
             style: TextStyle(
               fontSize: fontSize,
               color: fontColor,
-              fontWeight: FontWeight.bold,
+              fontWeight: fontWeight,
             ),
           ),
         ),
