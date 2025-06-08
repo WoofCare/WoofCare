@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:woofcare/ui/pages/posts/posts.dart';
 
 import '/config/constants.dart';
 import '/config/theme.dart';
@@ -21,7 +22,7 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/",
+      initialRoute: "/posts",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
@@ -36,6 +37,7 @@ class WoofCare extends StatelessWidget {
         "/profile": (context) => const ProfilePage(),
         "/chat": (context) => const ChatPage(),
         "/article": (context) => const ArticlePage(),
+        "/posts": (context) => const SocialMediaFeed(),
       },
     );
   }
