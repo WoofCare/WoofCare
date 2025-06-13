@@ -9,7 +9,7 @@ class Auth {
     BuildContext context,
     void Function() onLoggedIn,
   ) async {
-    if (AUTH.currentUser != null) {
+    if (AUTH.currentUser != null) {    // TODO: This check seems redundant since we are already checking the condition when calling the function          
       try {
         profile = await Profile.fromID(AUTH.currentUser!.uid);
       } catch (error, _) {
@@ -79,7 +79,7 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       error(e);
     } catch (e) {
-      print(e.toString());
+      print(e.toString()); // TODO: Should remove before production stage
     }
   }
 

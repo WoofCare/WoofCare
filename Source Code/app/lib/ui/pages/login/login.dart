@@ -16,7 +16,7 @@ class LogInPage extends StatefulWidget {
 class _LogInPageState extends State<LogInPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
-  final TextEditingController _errorTextController = TextEditingController();
+  final _errorTextController = TextEditingController();
 
   String? errorMessage = "";
   bool rememberMe = false;
@@ -75,7 +75,7 @@ class _LogInPageState extends State<LogInPage> {
                     BoxShadow(
                       blurRadius: 10,
                       blurStyle: BlurStyle.normal,
-                      color: Colors.black.withOpacity(0.2),
+                      color: Colors.black.withValues(alpha: 0.2),
                       offset: const Offset(5, 5),
                       spreadRadius: 1,
                     )
@@ -90,7 +90,7 @@ class _LogInPageState extends State<LogInPage> {
                       //Welcome Back Message
                       const Text(
                         textAlign: TextAlign.center,
-                        "Welcome Back to WoofCare!", // There is probably a better way to do this XD
+                        "Welcome Back to WoofCare!", 
                         style: TextStyle(
                           color: Color(0xFF3F2917),
                           fontSize: 30,
@@ -181,10 +181,11 @@ class _LogInPageState extends State<LogInPage> {
                       Padding(
                         padding: const EdgeInsets.all(8),
                         child: Text(
+                          textAlign: TextAlign.center,
                           _errorTextController.text,
                           style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
+                            color: Color.fromARGB(255, 178, 1, 1),
+                            fontSize: 12,
                           ),
                         ),
                       ),
@@ -202,7 +203,7 @@ class _LogInPageState extends State<LogInPage> {
                               password: _passwordTextController.text,
                               error: (e) {
                                 setState(() {
-                                  errorMessage = e.toString();
+                                  errorMessage = e.message;
                                   _errorTextController.text =
                                       errorMessage ?? '';
                                 });
