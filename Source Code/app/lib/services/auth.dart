@@ -9,7 +9,6 @@ class Auth {
     BuildContext context,
     void Function() onLoggedIn,
   ) async {
-    if (AUTH.currentUser != null) {    // TODO: This check seems redundant since we are already checking the condition when calling the function          
       try {
         profile = await Profile.fromID(AUTH.currentUser!.uid);
       } catch (error, _) {
@@ -27,7 +26,6 @@ class Auth {
         }
         return;
       }
-    }
 
     onLoggedIn();
   }
