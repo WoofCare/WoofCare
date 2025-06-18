@@ -180,7 +180,7 @@ class _LogInPageState extends State<LogInPage> {
                     //Log In Button
                     CustomButton(
                       text: "Log In",
-                      margin: 30,
+                      // margin: 30,
                       onTap:
                         () => Auth.login(
                           context: context,
