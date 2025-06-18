@@ -90,7 +90,7 @@ class _LogInPageState extends State<LogInPage> {
                       textAlign: TextAlign.center,
                       "Welcome Back to WoofCare!", 
                       style: TextStyle(
-                        color: Color(0xFF3F2917),
+                        color: WoofCareColors.primaryTextAndIcons,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
@@ -99,7 +99,7 @@ class _LogInPageState extends State<LogInPage> {
                     const SizedBox(height: 5),
                         
                     const Divider(
-                      color: Color(0xFF3F2917),
+                      color: WoofCareColors.primaryTextAndIcons,
                       thickness: 3,
                       indent: 50,
                       endIndent: 50,
@@ -141,7 +141,7 @@ class _LogInPageState extends State<LogInPage> {
                               const Text(
                                 "Remember Me",
                                 style: TextStyle(
-                                  color: Color(0xFF3F2917),
+                                  color: WoofCareColors.primaryTextAndIcons,
                                   fontSize: 12,
                                 ),
                               ),
@@ -164,7 +164,7 @@ class _LogInPageState extends State<LogInPage> {
                               text: "Forgot Password?",
                               style: theme.textTheme.bodyMedium!
                                 .copyWith(
-                                  color: const Color(0xFFA66E38),
+                                  color: WoofCareColors.interactibleText,
                                 ),
                               recognizer:
                                 TapGestureRecognizer()
@@ -223,14 +223,14 @@ class _LogInPageState extends State<LogInPage> {
                         text: "Don't have an account? ",
                         style: const TextStyle(
                           fontFamily: "ABeeZee",
-                          color: Color(0xFF3F2917),
+                          color: WoofCareColors.primaryTextAndIcons,
                           fontSize: 12,
                         ),
                         children: <TextSpan>[
                           TextSpan(
                             text: "Sign Up",
                             style: theme.textTheme.bodyMedium!.copyWith(
-                              color: const Color(0xFFA66E38),
+                              color: WoofCareColors.interactibleText,
                             ),
                             recognizer:
                                 TapGestureRecognizer()
