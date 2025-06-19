@@ -38,10 +38,7 @@ class Auth {
     required void Function(FirebaseAuthException e) error,
   }) async {
     try {
-      await AUTH.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await AUTH.createUserWithEmailAndPassword(email: email, password: password);
 
       String uid = AUTH.currentUser!.uid;
       FIRESTORE.collection("users").doc(uid).set(data);

@@ -28,6 +28,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
+  void hideMessage() {
+    // Future.delayed used to hide message after 5 seconds
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          _visible = false;
+        });
+      }
+    });
+  }
+
   // Handles the password reset using AUTH
   Future passwordReset() async {
     try {
@@ -50,16 +61,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         } else {errorMessage = e.message;}
 
         _notificationTextController.text = errorMessage ?? '';
-
-        // Future.delayed used to hide message after 5 seconds
-        Future.delayed(const Duration(seconds: 5), () {
-          if (mounted) {
-            setState(() {
-              _visible = false;
-            });
-          }
-        });
       }); 
+
+      hideMessage();
     }
   }
 

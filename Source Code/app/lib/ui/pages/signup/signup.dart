@@ -26,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _passwordConfirmTextController = TextEditingController();
   final TextEditingController _errorTextController = TextEditingController();
+  var _visible = false;
 
   final List<String> roles = [
     "Animal Lover",
@@ -48,52 +49,87 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-  void signup() {
-    var progress = 0.0;
-
-    final controllers = [
-      _nameTextController,
-      _emailTextController,
-      _passwordTextController,
-      _passwordConfirmTextController,
-    ];
-
-    for (final controller in controllers) {
-      if (controller.value.text.isNotEmpty) {
-        progress += 1 / controllers.length;
+  void hideMessage() {
+    // Future.delayed used to hide message after 5 seconds
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          _visible = false;
+        });
       }
-    }
+    });
+  }
 
-    if (progress == 1 && passwordChecker()) {
-      Auth.signup(
-        context: context,
-        email: _emailTextController.text,
-        password: _passwordTextController.text,
-        data: {
-          "bio": "",
-          "email": _emailTextController.text,
-          "name": _nameTextController.text,
-          "role": role,
-        },
-        error: (e) {
-          setState(() {
-            errorMessage = e.message;
-            _errorTextController.text = errorMessage ?? '';
-          });
-        },
-      );
+  void signup() {
+    // var progress = 0.0;
+
+    // final controllers = [
+    //   _nameTextController,
+    //   _emailTextController,
+    //   _passwordTextController,
+    //   _passwordConfirmTextController,
+    // ];
+
+    // for (final controller in controllers) {
+    //   if (controller.value.text.isNotEmpty) {
+    //     progress += 1 / controllers.length;
+    //   }
+    // }
+
+    if (_nameTextController.text.isNotEmpty && _dateOfBirthTextController.text.isNotEmpty && role.isNotEmpty) {
+      if (passwordChecker()) {
+        Auth.signup(
+          context: context,
+          email: _emailTextController.text,
+          password: _passwordTextController.text,
+          data: {
+            "bio": "",
+            "email": _emailTextController.text,
+            "name": _nameTextController.text,
+            "role": role,
+          },
+          error: (e) {
+            setState(() {
+              _visible = true;
+
+              if (e.code == "channel-error") {  // Could be improved upon
+                errorMessage = "Please provide an email and/or password";
+              } else if (e.code == "invalid-email") {
+                errorMessage = "Email address is badly formatted"; 
+              } else {errorMessage = e.message;}
+
+              _errorTextController.text = errorMessage ?? '';
+
+            });
+
+            hideMessage();
+          },
+        );
+      }
     } else {
-      _errorTextController.text = "Error";
+      setState(() {
+        _visible = true;
+        _errorTextController.text = "Fill out your name, birth date, and role";
+      });
+
+      hideMessage();
     }
   }
 
   bool passwordChecker() {
-    if (_passwordTextController.text == _passwordConfirmTextController.text) {
-      _errorTextController.text = "";
-      return true;
-    } else {
-      _errorTextController.text = "Passwords do not match!";
+    if (_passwordTextController.text != _passwordConfirmTextController.text) {
+      setState(() {
+        _visible = true;
+        _errorTextController.text = "Passwords do not match!";
+      });
+
       return false;
+    } else {
+      setState(() {
+        _visible = false;
+        _errorTextController.text = "";
+      });
+      return true;
     }
   }
 
@@ -288,12 +324,16 @@ class _SignUpPageState extends State<SignUpPage> {
                       
                             const SizedBox(height: 10),
                                               
-                            // Passwords match text.
-                            Text(
-                              _errorTextController.text,
-                              style: const TextStyle(
-                                color: WoofCareColors.errorMessageColor,
-                                fontSize: 12,
+                            // Passwords match OR error text.
+                            AnimatedOpacity(
+                              opacity: _visible ? 1.0 : 0.0,
+                              duration: const Duration(milliseconds: 200),
+                              child: Text(
+                                _errorTextController.text,
+                                style: const TextStyle(
+                                  color: WoofCareColors.errorMessageColor,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
 
@@ -309,7 +349,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             //First Time User? Sign Up Button 
                             RichText(
                               text: TextSpan(
-                                text: "Don't have an account? ",
+                                text: "Already have an account? ",
                                 style: const TextStyle(
                                   fontFamily: "ABeeZee",
                                   color: WoofCareColors.primaryTextAndIcons,
@@ -317,7 +357,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: "Sign Up",
+                                    text: "Log In",
                                     style: theme.textTheme.bodyMedium!.copyWith(
                                       color: WoofCareColors.interactibleText,
                                     ),

@@ -23,6 +23,17 @@ class _LogInPageState extends State<LogInPage> {
   String? errorMessage = "";
   bool rememberMe = false;
 
+  void hideMessage() {
+    // Future.delayed used to hide message after 5 seconds
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          _visible = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,16 +201,9 @@ class _LogInPageState extends State<LogInPage> {
                               }
   
                               _errorTextController.text = errorMessage ?? '';
-
-                              // Future.delayed used to hide message after 5 seconds
-                              Future.delayed(const Duration(seconds: 5), () {
-                                if (mounted) {
-                                  setState(() {
-                                    _visible = false;
-                                  });
-                                }
-                              });
                             });
+
+                            hideMessage();
                           },
                         ),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '/services/auth.dart';
 import '/config/colors.dart';
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -230,10 +231,12 @@ class _ProfilePageState extends State<ProfilePage> {
               // Button Row
               //TODO: add functionality to buttons
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomButton(
                     height: 60,
-                    width: 200,
+                    width: 130,
+                    margin: 0,
                     color: const Color(0xFFCAB096),
                     fontColor: WoofCareColors.primaryTextAndIcons,
                     fontSize: 14,
@@ -245,7 +248,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   CustomButton(
                     height: 60,
-                    width: 140,
+                    width: 130,
+                    margin: 0,
                     borderRadius: 16,
                     text: "Follow",
                     fontSize: 14,
@@ -253,6 +257,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.pushNamed(context, "/home");
                     },
                   ),
+
+                  IconButton(onPressed: () => Auth.signOut(context), icon: const Icon(Icons.logout), color: WoofCareColors.primaryTextAndIcons,)
                 ],
               ),
 
