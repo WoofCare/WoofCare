@@ -6,6 +6,7 @@ import '/config/constants.dart';
 import '/services/auth.dart';
 import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_textfield.dart';
+import '/ui/widgets/custom_textfield_with_iconbutton.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -18,19 +19,28 @@ class _LogInPageState extends State<LogInPage> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final _errorTextController = TextEditingController();
-  var _visible = false;
+  var _visibleMessage = false;
+  var _visiblePassword = false;
 
   String? errorMessage = "";
   bool rememberMe = false;
 
+  // Hide error or other messages after a set amount of time
   void hideMessage() {
     // Future.delayed used to hide message after 5 seconds
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
         setState(() {
-          _visible = false;
+          _visibleMessage = false;
         });
       }
+    });
+  }
+
+  // Toggle the visibility of password
+  void _showPassword() {
+    setState(() {
+      _visiblePassword = !_visiblePassword;
     });
   }
 
@@ -116,13 +126,14 @@ class _LogInPageState extends State<LogInPage> {
                     ),
                         
                     const SizedBox(height: 35),
-                        
-                    //Password Field
-                    CustomTextField(
-                      controller: _passwordTextController,
-                      hintText: "Password",
-                      obscureText: true,
+
+                    CustomTextFieldWithIconButton(
+                      controller: _passwordTextController, 
+                      hintText: "Password", 
+                      obscureText: _visiblePassword,
                       prefix: Icons.password,
+                      onTapIcon: () => _showPassword(),
+                      suffix: Icons.visibility,
                       maxLines: 1,
                     ),
                         
@@ -190,7 +201,7 @@ class _LogInPageState extends State<LogInPage> {
                           error: (e) {
                             // If email is not valid, then display error message
                             setState(() { 
-                              _visible = true;
+                              _visibleMessage = true;
 
                               if (e.code == "channel-error") {  // Could be improved upon
                                 errorMessage = "Please provide an email and/or password";
@@ -238,7 +249,7 @@ class _LogInPageState extends State<LogInPage> {
 
                     // Error Message    
                     AnimatedOpacity(
-                      opacity: _visible ? 1.0 : 0.0,
+                      opacity: _visibleMessage ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 200),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
