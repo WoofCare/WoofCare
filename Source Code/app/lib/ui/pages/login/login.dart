@@ -52,23 +52,13 @@ class _LogInPageState extends State<LogInPage> {
           ),
           Padding(
             // Padding for the container that holds the login form
-            padding: const EdgeInsets.only(
-              left: 25.0,
-              right: 25.0,
-              top: 90.0,
-              bottom: 90.0,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 90.0, horizontal: 25.0),
+
             child: Container(
               // height: 30.0.sh,
-              
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(
-                  255,
-                  255,
-                  255,
-                  255,
-                ),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 10,
@@ -83,8 +73,8 @@ class _LogInPageState extends State<LogInPage> {
                 padding: const EdgeInsets.only(top: 40.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-    
                   children: [
+                    
                     //Welcome Back Message
                     const Text(
                       textAlign: TextAlign.center,
@@ -214,7 +204,7 @@ class _LogInPageState extends State<LogInPage> {
                         ),
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
 
                                                 
                     //First Time User? Sign Up Button

@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sizer/sizer.dart';
-// import 'package:sizer/sizer.dart';
+
 import 'package:woofcare/firebase_options.dart';
 import 'package:woofcare/ui/pages/forgotpw/forgot_pw_page.dart';
 
