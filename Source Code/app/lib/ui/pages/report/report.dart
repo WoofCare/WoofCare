@@ -101,7 +101,9 @@ class _ReportPageState extends State<ReportPage> {
 
               // Report Title text field
               CustomTextField(
-                  controller: _reportTitleController, hintText: 'Report Title'),
+                  controller: _reportTitleController, 
+                  hintText: 'Report Title'
+              ),
 
               const SizedBox(height: 20),
 
@@ -168,18 +170,16 @@ class _ReportPageState extends State<ReportPage> {
                 bottom: 25,
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
 
               // Add Photos Button (new)
-              SizedBox(
+              CustomButton(
                 width: 120,
-                child: CustomButton(
-                  text: 'Add Photos',
-                  fontSize: 10,
-                  edgeInstetAll: 10,
-                  fontWeight: FontWeight.w200,
-                  onTap: () => print('Add Photos Button Pressed'),
-                ),
+                verticalPadding: 10,
+                text: 'Add Photos',
+                fontSize: 12,
+                fontWeight: FontWeight.w200,
+                onTap: () => print('Add Photos Button Pressed'),
               ),
 
               const SizedBox(height: 20),
@@ -336,17 +336,20 @@ class _ReportPageState extends State<ReportPage> {
                 hintText: 'Additional Notes?',
               ),
 
-              CustomButton(
-                text: 'Submit',
-                fontSize: 20,
-                fontWeight: FontWeight.w200,
-                edgeSymmetricHorizontal: 50,
-                edgeSymmetricVertical: 40,
-                edgeInstetAll: 20,
-                onTap: () => submitReport(),
-              ),
-
               const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: CustomButton(
+                  text: 'Submit',
+                  fontSize: 20,
+                  verticalPadding: 15,
+                  margin: 50,
+                  fontWeight: FontWeight.w200,
+                 
+                  onTap: () => submitReport(),
+                ),
+              ),
             ],
           ),
         ),
