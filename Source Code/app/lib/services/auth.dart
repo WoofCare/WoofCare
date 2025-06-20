@@ -85,4 +85,18 @@ class Auth {
       Navigator.pushNamed(context, "/login");
     }
   }
+
+  static Future<void> passwordReset({
+    required email,
+    required BuildContext context,
+    required void Function() success,
+    required void Function(FirebaseAuthException e) error,
+  }) async {
+    try {
+      await AUTH.sendPasswordResetEmail(email: email);
+      success();
+    } on FirebaseAuthException catch (e) {      
+      error(e);
+    }
+  }
 }

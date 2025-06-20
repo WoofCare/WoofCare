@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:woofcare/services/auth.dart';
 import '/config/constants.dart';
 import '/config/colors.dart';
 
@@ -39,32 +40,34 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
   }
 
-  // Handles the password reset using AUTH
-  Future passwordReset() async {
-    try {
-      await AUTH.sendPasswordResetEmail(email: _emailTextController.text.trim());
-      setState(() {
-        _visible = true;
-        _verified = true;
+  void passwordReset() {
+    Auth.passwordReset(
+      email: _emailTextController.text.trim(), 
+      context: context, 
+      success: () {
+        setState(() {
+          _visible = true;
+          _verified = true;
 
-        _notificationTextController.text = "Check your email inbox!";
-      });
-    } on FirebaseAuthException catch (e) {      
-      // If email is not valid, then display error message
-      setState(() {                                         
-        _visible = true;
+          _notificationTextController.text = "Check your email inbox!";
+        });
+      },
+      error: (e) {
+        setState(() {                                         
+          _visible = true;
 
-        if (e.code == "channel-error") {  // Could be improved upon
-          errorMessage = "Please provide an email";
-        } else if (e.code == "invalid-email") {
-          errorMessage = "Email address is badly formatted"; 
-        } else {errorMessage = e.message;}
+          if (e.code == "channel-error") {  // Could be improved upon
+            errorMessage = "Please provide an email";
+          } else if (e.code == "invalid-email") {
+            errorMessage = "Email address is badly formatted"; 
+          } else {errorMessage = e.message;}
 
-        _notificationTextController.text = errorMessage ?? '';
-      }); 
+          _notificationTextController.text = errorMessage ?? '';
+        }); 
 
-      hideMessage();
-    }
+        hideMessage();
+      }
+    );
   }
 
   @override
@@ -206,7 +209,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
