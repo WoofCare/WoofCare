@@ -35,7 +35,7 @@ class _ReportPageState extends State<ReportPage> {
 
   void submitReport() async {
     CollectionReference reports =
-        FirebaseFirestore.instance.collection('Reports');
+        FIRESTORE.collection('Reports');
 
     Map<String, dynamic> newReportData = {
       'userID': profile.id,
@@ -102,7 +102,7 @@ class _ReportPageState extends State<ReportPage> {
               // Report Title text field
               CustomTextField(
                   controller: _reportTitleController, 
-                  hintText: 'Report Title'
+                  hintText: 'Report Title',
               ),
 
               const SizedBox(height: 20),
@@ -110,7 +110,7 @@ class _ReportPageState extends State<ReportPage> {
               // Dropdown for urgency level
               Center(
                 child: Container(
-                  width: 307,
+                  width: 280,
                   decoration: BoxDecoration(
                     color: const Color(0xFFA66E38).withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(16.0),
@@ -121,7 +121,7 @@ class _ReportPageState extends State<ReportPage> {
                     value: dropdownValue,
                     icon: const Icon(Icons.arrow_drop_down),
 
-                    menuWidth: 340,
+                    menuWidth: 280,
                     dropdownColor: const Color(0xFFF7FFF7),
                     borderRadius: BorderRadius.circular(16.0),
                     padding: const EdgeInsets.only(left: 50.0, right: 50.0),
