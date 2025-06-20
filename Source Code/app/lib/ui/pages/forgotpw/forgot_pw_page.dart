@@ -138,6 +138,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         child: IconButton(
                           onPressed: () => Navigator.pop(context), 
                           icon: const Icon(Icons.arrow_back),
+                          tooltip: "Back to Log In",
                           color: WoofCareColors.primaryTextAndIcons
                         )
                       )

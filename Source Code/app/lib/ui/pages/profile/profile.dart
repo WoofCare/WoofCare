@@ -32,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: [
             IconButton(
               icon: const Icon(Icons.menu),
+              tooltip: "Menu",
               onPressed: () {
                 // Menu with additional actions
                 //TODO: Implement menu actions
