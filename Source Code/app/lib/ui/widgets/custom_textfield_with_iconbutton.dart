@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
 
@@ -48,7 +49,7 @@ class CustomTextFieldWithIconButton extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
-            borderSide: const BorderSide(color: Color(0xFFFFFFFF)),
+            borderSide: const BorderSide(color: WoofCareColors.primaryTextAndIcons),
           ),
           fillColor: const Color(0xFFA66E38).withValues(alpha: 0.3),
           filled: true,
