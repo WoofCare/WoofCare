@@ -22,7 +22,7 @@ class WoofCare extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "WoofCare",
       theme: WoofCareTheme.of(context),
-      initialRoute: "/posts",
+      initialRoute: "/",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
 
