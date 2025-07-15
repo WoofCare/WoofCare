@@ -11,9 +11,13 @@ class WoofCareColors {
   static const Color inputBackground = Color(0xFF26282F);
   static const Color cardBackground = Color(0x03FEFEFE);
   static const Color appBarBackground = Color(0xFFF7FFF7);
+  static const Color postBackground = Color(0xFFF6F1E0);
   static const Color buttonColor = Color(0xFFEEB760);
   static const Color focusColor = Color(0xCCFFFFFF);
   static const Color dividerColor = Color(0xAA282828);
   static const Color primaryTextAndIcons = Color(0xFF3F2917);
+  static const Color interactibleText = Color(0xFFA66E38);
+  static const Color interactibleTextPressed = Color(0xFF63422C);
   static const Color appBarColor = Color(0xFFF7FFF7);
+  static const Color errorMessageColor = Color.fromARGB(255, 178, 1, 1);
 }

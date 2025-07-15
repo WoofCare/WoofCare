@@ -18,7 +18,7 @@ class _PostState extends State<Post> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14.0),
-            color: Color(0xFFF6F1E0),
+            color: WoofCareColors.postBackground,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

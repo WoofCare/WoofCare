@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:woofcare/config/colors.dart';
 import 'package:woofcare/config/constants.dart';
 import 'package:woofcare/ui/pages/posts/posts.dart';
 
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               label: 'Articles',
             ),
           ],
-          backgroundColor: const Color(0xFFE5E5E5),
+          backgroundColor: WoofCareColors.appBarColor,
           unselectedItemColor: const Color(0xFFA66E38),
           selectedItemColor: const Color(0xFF3F2917),
         ),
