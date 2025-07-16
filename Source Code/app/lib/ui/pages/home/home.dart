@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               label: 'Articles',
             ),
           ],
-          backgroundColor: WoofCareColors.appBarColor,
+          backgroundColor: WoofCareColors.alternativeBackground,
           unselectedItemColor: const Color(0xFFA66E38),
           selectedItemColor: const Color(0xFF3F2917),
         ),

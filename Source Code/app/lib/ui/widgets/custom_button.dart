@@ -8,12 +8,11 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final double? fontSize;
   final Color? fontColor;
-  final double padding;
+  // final double padding;
   final double margin;
   final double borderRadius;
-  final double edgeSymmetricHorizontal;
-  final double edgeSymmetricVertical;
-  final double edgeInstetAll;
+  final double verticalPadding;
+  final double horizontalPadding;
   final FontWeight? fontWeight;
 
   const CustomButton({
@@ -25,35 +24,42 @@ class CustomButton extends StatelessWidget {
     this.color = const Color(0xFFA66E38),
     this.fontSize = 18,
     this.fontColor = const Color(0xFFF7FFF7),
-    this.padding = 20,
     this.margin = 20,
     this.borderRadius = 8,
-    this.edgeSymmetricHorizontal = 20.0,
-    this.edgeSymmetricVertical = 0.0,
-    this.edgeInstetAll = 20.0,
+    this.horizontalPadding = 20,
+    this.verticalPadding = 20,
     this.fontWeight = FontWeight.bold,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: width,
-        height: height,
-        padding: EdgeInsets.all(padding),
-        margin: EdgeInsets.symmetric(horizontal: margin),
-        decoration: BoxDecoration(
-          color: color,
+    return Container(
+      width: width,
+      height: height,
+      margin: EdgeInsets.symmetric(horizontal: margin),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: fontSize,
-              color: fontColor,
-              fontWeight: FontWeight.bold,
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: horizontalPadding,
+              vertical: verticalPadding,
+            ),
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  color: fontColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ),

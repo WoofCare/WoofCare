@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/ui/pages/export.dart';
 
@@ -17,6 +19,39 @@ class _MapPageState extends State<MapPage> {
   final locationController = Location();
   LatLng? currentPosition;
 
+  Future<void> fetchLocationUpdates(BuildContext context) async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await locationController.serviceEnabled();
+    if (serviceEnabled) {
+      serviceEnabled = await locationController.requestService();
+    } else {
+      return;
+    }
+
+    permissionGranted = await locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) { // What if the permission status is grantedLimited?
+        return;
+      }
+    }
+
+    locationController.onLocationChanged.listen((currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null &&
+          context.mounted) {
+        setState(() {
+          currentPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+        });
+      }
+    });
+  }
+
   void _reportDogButtonPressed() {
     // Show the bottom sheet when the button is pressed
     showModalBottomSheet(
@@ -26,9 +61,9 @@ class _MapPageState extends State<MapPage> {
       builder: (context) {
         return DraggableScrollableSheet(
           // Make the bottom sheet draggable
-          initialChildSize: 0.77,
+          initialChildSize: 0.75,
           minChildSize: 0.3,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
           builder: (sheetContext, scrollController) {
             return Container(
               // Container to store the drag handle and the ReportingPage
@@ -119,57 +154,20 @@ class _MapPageState extends State<MapPage> {
         // Floating action button to report a dog
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 12),
           child: FloatingActionButton.large(
             onPressed: () {
               _reportDogButtonPressed();
             },
-            backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(90),
+              side: BorderSide(color: Color(0xFFCAB096)),
+              borderRadius: BorderRadiusGeometry.circular(90)
             ),
-            focusElevation: 0,
-            highlightElevation: 0,
-            child: Image.asset(
-              'assets/images/homePageButtons/ReportBtn.png',
-              fit: BoxFit.cover,
-            ),
+            backgroundColor: WoofCareColors.alternativeBackground,
+            child: FaIcon(FontAwesomeIcons.bullhorn),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> fetchLocationUpdates(BuildContext context) async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    serviceEnabled = await locationController.serviceEnabled();
-    if (serviceEnabled) {
-      serviceEnabled = await locationController.requestService();
-    } else {
-      return;
-    }
-
-    permissionGranted = await locationController.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await locationController.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    locationController.onLocationChanged.listen((currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null &&
-          context.mounted) {
-        setState(() {
-          currentPosition = LatLng(
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-          );
-        });
-      }
-    });
   }
 }
