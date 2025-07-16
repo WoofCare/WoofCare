@@ -34,8 +34,7 @@ class _ReportPageState extends State<ReportPage> {
   bool anonymousReport = false;
 
   void submitReport() async {
-    CollectionReference reports =
-        FirebaseFirestore.instance.collection('Reports');
+    CollectionReference reports = FIRESTORE.collection('Reports');
 
     Map<String, dynamic> newReportData = {
       'userID': profile.id,
@@ -61,9 +60,7 @@ class _ReportPageState extends State<ReportPage> {
         maxWidth: MediaQuery.of(context).size.width,
       ),
       // Decoration for the box (shadow, border radius, color)
-      decoration: const BoxDecoration(
-        color: Color(0xFFF7FFF7),
-      ),
+      decoration: const BoxDecoration(color: Color(0xFFF7FFF7)),
 
       child: RawScrollbar(
         controller: widget.scrollController,
@@ -101,8 +98,8 @@ class _ReportPageState extends State<ReportPage> {
 
               // Report Title text field
               CustomTextField(
-                  controller: _reportTitleController, 
-                  hintText: 'Report Title'
+                controller: _reportTitleController,
+                hintText: 'Report Title',
               ),
 
               const SizedBox(height: 20),
@@ -110,7 +107,7 @@ class _ReportPageState extends State<ReportPage> {
               // Dropdown for urgency level
               Center(
                 child: Container(
-                  width: 307,
+                  width: 280,
                   decoration: BoxDecoration(
                     color: const Color(0xFFA66E38).withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(16.0),
@@ -121,13 +118,12 @@ class _ReportPageState extends State<ReportPage> {
                     value: dropdownValue,
                     icon: const Icon(Icons.arrow_drop_down),
 
-                    menuWidth: 340,
+                    menuWidth: 280,
                     dropdownColor: const Color(0xFFF7FFF7),
                     borderRadius: BorderRadius.circular(16.0),
                     padding: const EdgeInsets.only(left: 50.0, right: 50.0),
 
                     //focusColor: const Color.fromARGB(255, 0, 0, 0),
-
                     hint: Text(
                       'Select Urgency Level',
                       textAlign: TextAlign.start,
@@ -138,23 +134,28 @@ class _ReportPageState extends State<ReportPage> {
                         fontWeight: FontWeight.w200,
                       ),
                     ),
-                    items: urgencyList
-                        .map((urgency) => DropdownMenuItem(
-                              value: urgency,
-                              child: Text(
-                                urgency,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: GoogleFonts.aBeeZee().fontFamily,
-                                  color: const Color(0xFF3F2917),
-                                  fontWeight: FontWeight.w200,
+                    items:
+                        urgencyList
+                            .map(
+                              (urgency) => DropdownMenuItem(
+                                value: urgency,
+                                child: Text(
+                                  urgency,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily:
+                                        GoogleFonts.aBeeZee().fontFamily,
+                                    color: const Color(0xFF3F2917),
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                  textAlign: TextAlign.start,
                                 ),
-                                textAlign: TextAlign.start,
                               ),
-                            ))
-                        .toList(),
-                    onChanged: (dropdownValue) =>
-                        setState(() => this.dropdownValue = dropdownValue),
+                            )
+                            .toList(),
+                    onChanged:
+                        (dropdownValue) =>
+                            setState(() => this.dropdownValue = dropdownValue),
                   ),
                 ),
               ),
@@ -194,11 +195,8 @@ class _ReportPageState extends State<ReportPage> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: const Center(
-                    child: Icon(
-                  Icons.camera_alt,
-                  size: 100,
-                  color: Colors.white,
-                )),
+                  child: Icon(Icons.camera_alt, size: 100, color: Colors.white),
+                ),
               ),
 
               const SizedBox(height: 20),
@@ -228,20 +226,15 @@ class _ReportPageState extends State<ReportPage> {
                       side: const BorderSide(),
                       focusColor: Colors.green,
                       onChanged: (bool? value) {
-                        setState(
-                          () {
-                            useCurrentLocation = !useCurrentLocation;
-                          },
-                        );
+                        setState(() {
+                          useCurrentLocation = !useCurrentLocation;
+                        });
                       },
                     ),
                   ),
                   const Text(
                     "Use Current Location",
-                    style: TextStyle(
-                      color: Color(0xFF3F2917),
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
                   ),
 
                   const SizedBox(width: 30),
@@ -251,19 +244,14 @@ class _ReportPageState extends State<ReportPage> {
                     side: const BorderSide(),
                     focusColor: Colors.green,
                     onChanged: (bool? value) {
-                      setState(
-                        () {
-                          dropPin = !dropPin;
-                        },
-                      );
+                      setState(() {
+                        dropPin = !dropPin;
+                      });
                     },
                   ),
                   const Text(
                     "Drop Pin",
-                    style: TextStyle(
-                      color: Color(0xFF3F2917),
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
                   ),
                 ],
               ),
@@ -312,20 +300,15 @@ class _ReportPageState extends State<ReportPage> {
                       side: const BorderSide(),
                       focusColor: Colors.green,
                       onChanged: (bool? value) {
-                        setState(
-                          () {
-                            anonymousReport = !anonymousReport;
-                          },
-                        );
+                        setState(() {
+                          anonymousReport = !anonymousReport;
+                        });
                       },
                     ),
                   ),
                   const Text(
                     "Make Anonymous Report",
-                    style: TextStyle(
-                      color: Color(0xFF3F2917),
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
                   ),
                 ],
               ),
@@ -346,7 +329,7 @@ class _ReportPageState extends State<ReportPage> {
                   verticalPadding: 15,
                   margin: 50,
                   fontWeight: FontWeight.w200,
-                 
+
                   onTap: () => submitReport(),
                 ),
               ),

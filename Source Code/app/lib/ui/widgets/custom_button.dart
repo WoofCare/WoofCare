@@ -8,10 +8,11 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final double? fontSize;
   final Color? fontColor;
+  // final double padding;
   final double margin;
   final double borderRadius;
-  final double horizontalPadding;
   final double verticalPadding;
+  final double horizontalPadding;
   final FontWeight? fontWeight;
 
   const CustomButton({
@@ -32,24 +33,33 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: width,
-        height: height,
-        padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding),
-        margin: EdgeInsets.symmetric(horizontal: margin),
-        decoration: BoxDecoration(
-          color: color,
+    return Container(
+      width: width,
+      height: height,
+      margin: EdgeInsets.symmetric(horizontal: margin),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(borderRadius),
-        ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: fontSize,
-              color: fontColor,
-              fontWeight: fontWeight,
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: horizontalPadding,
+              vertical: verticalPadding,
+            ),
+            child: Center(
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  color: fontColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ),
