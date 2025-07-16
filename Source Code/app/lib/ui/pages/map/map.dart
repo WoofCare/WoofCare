@@ -107,6 +107,12 @@ class _MapPageState extends State<MapPage> {
                   Expanded(
                     child: SingleChildScrollView(
                       controller: scrollController,
+                      padding: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        top: 20,
+                        bottom: 250,
+                      ),
                       child: ReportPage(scrollController: scrollController),
                     ),
                   ),
