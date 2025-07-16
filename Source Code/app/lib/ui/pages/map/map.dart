@@ -101,7 +101,7 @@ class _MapPageState extends State<MapPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 15),
 
                   // The ReportingPage (uses Expanded to take up the rest of the space)
                   Expanded(

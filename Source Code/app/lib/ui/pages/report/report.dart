@@ -83,7 +83,7 @@ class _ReportPageState extends State<ReportPage> {
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  'Description:',
+                  'Description',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w200,
@@ -205,7 +205,7 @@ class _ReportPageState extends State<ReportPage> {
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  'Location:',
+                  'Location',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w200,
@@ -279,7 +279,7 @@ class _ReportPageState extends State<ReportPage> {
               const Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: Text(
-                  'Other:',
+                  'Other',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w200,
