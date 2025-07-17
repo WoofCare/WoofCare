@@ -48,17 +48,15 @@ class CustomTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
-            borderSide: const BorderSide(
-              color: WoofCareColors.primaryTextAndIcons,
-            ),
+            borderSide: const BorderSide(color: WoofCareColors.primaryTextAndIcons),
           ),
-          fillColor: const Color(0xFFA66E38).withValues(alpha: 0.3),
+          fillColor: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
           filled: true,
           hintText: hintText,
-          suffixIcon: Icon(suffix),
+          suffixIcon: Icon(suffix), // TODO: Suffix and prefix are taking space even on textfields with no Icon 
           prefixIcon: Icon(prefix),
           hintStyle: TextStyle(
-            color: const Color(0xFF3F2917).withValues(alpha: 0.5),
+            color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),
             fontWeight: FontWeight.w200,
             fontSize: 13,
           ),
