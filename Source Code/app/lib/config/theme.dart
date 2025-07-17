@@ -55,7 +55,7 @@ class WoofCareTheme {
           ),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        backgroundColor: WoofCareColors.alternativeBackground,
+        backgroundColor: WoofCareColors.secondaryBackground,
         elevation: 0,
         titleTextStyle: TextStyle(
           color: WoofCareColors.primaryTextAndIcons,

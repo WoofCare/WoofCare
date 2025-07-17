@@ -68,10 +68,10 @@ class _MapPageState extends State<MapPage> {
             return Container(
               // Container to store the drag handle and the ReportingPage
               decoration: const BoxDecoration(
-                color: Color(0xFFF7FFF7),
+                color: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
-                  top: BorderSide(color: Color(0xFFA66E38), width: 2.0),
+                  top: BorderSide(color: WoofCareColors.borderOutline, width: 2.0),
                 ),
               ),
 
@@ -84,7 +84,7 @@ class _MapPageState extends State<MapPage> {
                     width: 40,
                     height: 5,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF3F2917),
+                      color: WoofCareColors.primaryTextAndIcons,
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -95,25 +95,31 @@ class _MapPageState extends State<MapPage> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w200,
-                      color: Color(0xFF3F2917),
+                      color: WoofCareColors.primaryTextAndIcons,
                       decoration: TextDecoration.underline,
-                      decorationColor: Color(0xFF3F2917),
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+
+                  Divider(color: Colors.black, height: 2.0),
 
                   // The ReportingPage (uses Expanded to take up the rest of the space)
                   Expanded(
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 20,
-                        bottom: 250,
+                    child: SafeArea(
+                      top: false,
+                      left: false,
+                      right: false,
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: 30,
+                        ),
+                        child: ReportPage(scrollController: scrollController),
                       ),
-                      child: ReportPage(scrollController: scrollController),
                     ),
                   ),
                 ],
@@ -166,10 +172,10 @@ class _MapPageState extends State<MapPage> {
               _reportDogButtonPressed();
             },
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Color(0xFFCAB096)),
+              side: BorderSide(color: WoofCareColors.borderOutline.withValues(alpha: 0.5)),
               borderRadius: BorderRadiusGeometry.circular(90)
             ),
-            backgroundColor: WoofCareColors.alternativeBackground,
+            backgroundColor: WoofCareColors.secondaryBackground,
             child: FaIcon(FontAwesomeIcons.bullhorn),
           ),
         ),

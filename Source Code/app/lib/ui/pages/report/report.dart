@@ -8,7 +8,7 @@ import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_textfield.dart';
 
 class ReportPage extends StatefulWidget {
-  final ScrollController? scrollController;
+  final ScrollController scrollController;
 
   const ReportPage({super.key, required this.scrollController});
 
@@ -58,7 +58,7 @@ class _ReportPageState extends State<ReportPage> {
     return Container(
 
       // Decoration for the box (shadow, border radius, color)
-      decoration: const BoxDecoration(color: Color(0xFFF7FFF7)),
+      decoration: const BoxDecoration(color: WoofCareColors.secondaryBackground),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,16 +67,15 @@ class _ReportPageState extends State<ReportPage> {
         // (i.e. Report Title, Dog Description, Location Description, Additional Notes)
         children: [
           // 'Description' text
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
               'Description',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w200,
-                color: Color(0xFF3F2917),
+                color: WoofCareColors.primaryTextAndIcons,
                 decoration: TextDecoration.underline,
-                decorationColor: Color(0xFF3F2917),
               ),
             ),
           ),
@@ -94,9 +93,9 @@ class _ReportPageState extends State<ReportPage> {
           // Dropdown for urgency level
           Center(
             child: Container(
-              // width: 280,
+              margin: EdgeInsets.symmetric(horizontal: 25.0),
               decoration: BoxDecoration(
-                color: const Color(0xFFA66E38).withValues(alpha: 0.3),
+                color: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: DropdownButton(
@@ -106,18 +105,17 @@ class _ReportPageState extends State<ReportPage> {
                 icon: const Icon(Icons.arrow_drop_down),
             
                 menuWidth: 280,
-                dropdownColor: WoofCareColors.alternativeBackground,
+                dropdownColor: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(16.0),
-                padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+                padding: const EdgeInsets.symmetric(horizontal: 50.0),
             
-                //focusColor: const Color.fromARGB(255, 0, 0, 0),
                 hint: Text(
                   'Select Urgency Level',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 13,
                     fontFamily: GoogleFonts.aBeeZee().fontFamily,
-                    color: const Color(0xFF3F2917).withValues(alpha: 0.5),
+                    color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),
                     fontWeight: FontWeight.w200,
                   ),
                 ),
@@ -132,7 +130,7 @@ class _ReportPageState extends State<ReportPage> {
                                 fontSize: 13,
                                 fontFamily:
                                     GoogleFonts.aBeeZee().fontFamily,
-                                color: const Color(0xFF3F2917),
+                                color: WoofCareColors.primaryTextAndIcons,
                                 fontWeight: FontWeight.w200,
                               ),
                               textAlign: TextAlign.start,
@@ -178,7 +176,7 @@ class _ReportPageState extends State<ReportPage> {
             height: 200,
             margin: const EdgeInsets.only(left: 20, right: 20),
             decoration: BoxDecoration(
-              color: const Color(0xFFA66E38).withValues(alpha: 0.3),
+              color: WoofCareColors.placeholderBackground.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: const Center(
@@ -196,9 +194,8 @@ class _ReportPageState extends State<ReportPage> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w200,
-                color: Color(0xFF3F2917),
+                color: WoofCareColors.primaryTextAndIcons,
                 decoration: TextDecoration.underline,
-                decorationColor: Color(0xFF3F2917),
               ),
             ),
           ),
@@ -221,7 +218,7 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Use Current Location",
-                style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
+                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
               ),
             
               const SizedBox(width: 30),
@@ -238,7 +235,7 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Drop Pin",
-                style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
+                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
               ),
             ],
           ),
@@ -270,9 +267,8 @@ class _ReportPageState extends State<ReportPage> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w200,
-                color: Color(0xFF3F2917),
+                color: WoofCareColors.primaryTextAndIcons,
                 decoration: TextDecoration.underline,
-                decorationColor: Color(0xFF3F2917),
               ),
             ),
           ),
@@ -295,7 +291,7 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Make Anonymous Report",
-                style: TextStyle(color: Color(0xFF3F2917), fontSize: 12),
+                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
               ),
             ],
           ),
@@ -308,17 +304,14 @@ class _ReportPageState extends State<ReportPage> {
             
           const SizedBox(height: 20),
             
-          Padding(
-            padding: const EdgeInsets.only(bottom: 100),
-            child: CustomButton(
-              text: 'Submit',
-              fontSize: 20,
-              verticalPadding: 15,
-              margin: 50,
-              fontWeight: FontWeight.w200,
-            
-              onTap: () => submitReport(),
-            ),
+          CustomButton(
+            text: 'Submit',
+            fontSize: 20,
+            verticalPadding: 15,
+            margin: 50,
+            fontWeight: FontWeight.w200,
+          
+            onTap: () => submitReport(),
           ),
         ],
       ),
