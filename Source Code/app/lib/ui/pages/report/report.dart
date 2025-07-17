@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
