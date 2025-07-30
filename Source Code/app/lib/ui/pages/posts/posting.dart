@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
@@ -19,7 +16,21 @@ class PostingPage extends StatefulWidget {
 }
 
 class _PostingPageState extends State<PostingPage> {
+  final currUser = AUTH.currentUser!;
   final _postTextController = TextEditingController();
+
+  void postMessage() {
+    if (_postTextController.text.isNotEmpty) {
+      FIRESTORE.collection("User Posts").add({
+        'email': currUser.email,
+        'message': _postTextController.text,
+        'timestamp': Timestamp.now(),
+        'likes': [],
+      });
+
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +73,7 @@ class _PostingPageState extends State<PostingPage> {
                   margin: 10,
                   fontWeight: FontWeight.w200,
 
-                  onTap: () => print("Post Submitted by ${AUTH.currentUser!.email}"),
+                  onTap: () => postMessage(),
                 ),
               ],
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:woofcare/config/colors.dart';
 import 'package:woofcare/config/constants.dart';
-import 'package:woofcare/ui/pages/export.dart';
+import 'package:woofcare/tools/functions.dart';
 import 'package:woofcare/ui/pages/posts/posting.dart';
 import 'package:woofcare/ui/widgets/post_widget.dart';
 
@@ -78,51 +78,39 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: [ 
+          // This Expanded widget holds all the posts that will appear on the feed page
           Expanded(
-            child: SingleChildScrollView(
-              child: 
-              Column(
-                children: [
-                  Post(
-                    message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    user: "Jesus Aguilar",
-                    time: "07/29/2025 - 10:52 AM",
-                  ), 
-                  Post(
-                    message: "Hello",
-                    user: "Jesus Aguilar",
-                    time: "07/29/2025 - 10:52 AM",
-                  ), 
-                  Post(
-                    message: "Hello",
-                    user: "Jesus Aguilar",
-                    time: "07/29/2025 - 10:52 AM",
-                  ),
-                ] 
-              ),
+            // We use a StreamBuilder to hear for any changes in the "User Posts" collection from firebase
+            child: StreamBuilder(
+              stream: FIRESTORE
+                .collection("User Posts")
+                .orderBy("timestamp", descending: true)
+                .snapshots(),
+
+              builder: (context, snapshot) {
+                // If there is any data in the snapshot of the collection return a ListView.builder will all the posts (docs)
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final post = snapshot.data!.docs[index];
+                      return Post(
+                        message: post['message'], 
+                        user: post['email'], 
+                        time: formatDate(post['timestamp']),
+                        postId: post.id, 
+                        usersWhoLiked: List<String>.from(post['likes'] ?? []),
+                      );
+                    }
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}", style: TextStyle(color: WoofCareColors.errorMessageColor),));
+                }
+                return const Center(child: CircularProgressIndicator(),);  
+              },
             ),
           ),
-
-          // Expanded(
-          //   child: StreamBuilder(
-          //     stream: FIRESTORE
-          //       .collection("User Posts")
-          //       .orderBy("Timestamp", descending: false)
-          //       .snapshots(),
-
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         return ListView.builder(
-          //           itemBuilder: (context, index) {
-          //             final post = snapshot.data!.docs[index];
-                      
-          //           }
-          //         );
-          //       }
-          //     },
-          //   ),
-          // ),
         ],
       ),
 
