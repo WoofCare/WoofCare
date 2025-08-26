@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/ui/pages/home/home.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
+import 'package:woofcare/ui/widgets/custom_stat.dart';
 import '/config/colors.dart';
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -287,24 +288,139 @@ class _ProfilePageState extends State<ProfilePage> {
               // Spacer
               const SizedBox(height: 20),
 
-              // About
-              Flexible(
+              // AboutInformation
+              Expanded(
                 child: Container(
-                  height: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF7FFF7),
+                  decoration: BoxDecoration(
+                    color: WoofCareColors.offWhite,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
+                    )
+                  ),
+                  child: Column(
+                  children: [
+                  // Row of two buttons
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 25),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            backgroundColor: WoofCareColors.buttonColor,
+                          ),
+                          child: Text('About', style: TextStyle(fontSize: 12, color: WoofCareColors.offWhite)),
+                        ),
+                        SizedBox(width: 25),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100, 25),
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            backgroundColor: WoofCareColors.backgroundElementColor
+                          ),
+                          child: Text('Posts', style: TextStyle(fontSize: 12, color: WoofCareColors.primaryTextAndIcons)),
+                        ),
+                      ],
                     ),
                   ),
-                  alignment: Alignment.bottomCenter,
+
+                  //Stats
+                  //TODO: connect stats to database
+                  Container(
+                    height: 60, // controls vertical height of stats and dividers
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        custom_stat('1.2K', 'Posts'),
+                        VerticalDivider(
+                          color: WoofCareColors.dividerColor,
+                          thickness: 1,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        custom_stat('345', 'Followers'),
+                        VerticalDivider(
+                          color: WoofCareColors.dividerColor,
+                          thickness: 1,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        custom_stat('87', 'Following'),
+                        VerticalDivider(
+                          color: WoofCareColors.dividerColor,
+                          thickness: 1,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        custom_stat('5', 'Reports'),
+                      ],
+                    ),
+                  ),
+
+                  // Spacer
+                  const SizedBox(height: 20),
+
+                  Container(alignment : Alignment.center,
+                    padding: EdgeInsets.only(left: 16),
+                    child: Text('About:', 
+                    style: TextStyle(
+                      fontSize: 16, 
+                      fontWeight: FontWeight.bold,
+                      color: WoofCareColors.primaryTextAndIcons
+                      )
+                    )
+                  ),
+                  // Biography box
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: WoofCareColors.textBoxColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'This is the biography box. Here you can write a short description about the user.',
+                      style: TextStyle(fontSize: 12, color: WoofCareColors.primaryTextAndIcons),
+                    ),
+                  ),
+
+                  // Spacer
+                  const SizedBox(height: 10),
+
+                  Divider(
+                    color: WoofCareColors.dividerColor,
+                    thickness: 2,
+                    indent: 16,
+                    endIndent: 16,
+                  ),
+
+                  // List of item
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 3, // Example item count
+                      itemBuilder: (context, index) => ListTile(
+                          leading: Icon(Icons.pets, color: WoofCareColors.primaryTextAndIcons),
+                          title: Text('Item ${index + 1}', 
+                          style: 
+                            TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12)),
+                          /*subtitle: Text('Subtitle for item ${index + 1}', style: TextStyle(color: WoofCareColors.buttonColor)),*/
+                           )
+                          ) 
+                  )
+                ],
                 ),
               ),
-            ],
-          ),
+              ),
+            ]
+          )
         ),
-      ),
-    );
+        ),
+      );
   }
 }
