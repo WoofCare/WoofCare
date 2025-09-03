@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:woofcare/ui/pages/home/home.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
@@ -15,6 +16,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _bioTextController = TextEditingController(text: profile.bio);
+  bool _editMode = false;
 
   // @override
   // void dispose() {
@@ -26,21 +28,41 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: const Color(0xFFEEB784),
         appBar: AppBar(
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                // Menu with additional actions
-                //TODO: Implement menu actions
+            MenuAnchor(
+              menuChildren: [
+                MenuItemButton(
+                  onPressed: () {
+                    setState(() {
+                      _editMode = !_editMode;
+                    });
+                  },
+                  leadingIcon: _editMode
+                      ? const Icon(Icons.create_rounded)
+                      : const Icon(Icons.create_outlined),
+                  child: const Text('Edit Mode'),
+                ),
+              ],
+              builder: (BuildContext context, MenuController controller, Widget? child) {
+                return IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    if (controller.isOpen) {
+                      controller.close();
+                    } else {
+                      controller.open();
+                    }
+                  },
+                );
               },
-            ),
+            )
           ],
         ),
-
         //Header
         body: GestureDetector(
           onTap: () {
@@ -366,6 +388,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Spacer
                   const SizedBox(height: 20),
 
+                  // Biography Section
                   Container(alignment : Alignment.center,
                     padding: EdgeInsets.only(left: 16),
                     child: Text('About:', 
@@ -378,16 +401,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   // Biography box
                   Container(
+                    width: double.infinity,
                     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    padding: EdgeInsets.all(24),
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: WoofCareColors.textBoxColor,
+                      color: WoofCareColors.offWhite,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Text(
-                      'This is the biography box. Here you can write a short description about the user.',
-                      style: TextStyle(fontSize: 12, color: WoofCareColors.primaryTextAndIcons),
-                    ),
+                    child: _editMode
+                        ? TextField(
+                            controller: _bioTextController,
+                            maxLines: 10,
+                            maxLength: 500,
+                            buildCounter: (
+                              BuildContext context, {
+                              required int currentLength,
+                              required bool isFocused,
+                              required int? maxLength,
+                            }) {
+                              return Text(
+                                '$currentLength / $maxLength',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: WoofCareColors.primaryTextAndIcons,
+                                ),
+                              );
+                            },
+                            style: TextStyle(fontSize: 12, color: WoofCareColors.primaryTextAndIcons),
+                            decoration: const InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                borderSide: BorderSide(color: WoofCareColors.backgroundElementColor),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                borderSide: BorderSide(color: WoofCareColors.backgroundElementColor),
+                              ),
+                              hintText: 'Enter your biography...',
+                              hintStyle: TextStyle(color: WoofCareColors.primaryTextAndIcons),
+                              fillColor: WoofCareColors.textBoxColor,
+                            ),
+                          )
+                        : Text(
+                            _bioTextController.text.isEmpty
+                                ? 'This is the biography box. Here you can write a short description about the user.'
+                                : _bioTextController.text,
+                            maxLines: 10,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 12, color: WoofCareColors.primaryTextAndIcons),
+                          ),
                   ),
 
                   // Spacer
