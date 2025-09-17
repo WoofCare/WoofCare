@@ -47,7 +47,8 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevents the keyboard from pushing the container up
+      resizeToAvoidBottomInset:
+          false, // Prevents the keyboard from pushing the container up
       body: Stack(
         // Stack to allow for multiple background images
         children: [
@@ -64,16 +65,17 @@ class _LogInPageState extends State<LogInPage> {
             // Container for the second background image
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/patterns/SmallPawPattern.png",
-                ),
+                image: AssetImage("assets/images/patterns/SmallPawPattern.png"),
                 alignment: Alignment.bottomRight,
               ),
             ),
           ),
           Padding(
             // Padding for the container that holds the login form
-            padding: const EdgeInsets.symmetric(vertical: 90.0, horizontal: 25.0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 90.0,
+              horizontal: 25.0,
+            ),
 
             child: Container(
               // height: 30.0.sh,
@@ -87,7 +89,7 @@ class _LogInPageState extends State<LogInPage> {
                     color: Colors.black.withValues(alpha: 0.2),
                     offset: const Offset(5, 5),
                     spreadRadius: 1,
-                  )
+                  ),
                 ],
               ), // Background color of the container
               child: Padding(
@@ -95,57 +97,53 @@ class _LogInPageState extends State<LogInPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    
                     //Welcome Back Message
                     const Text(
                       textAlign: TextAlign.center,
-                      "Welcome Back to WoofCare!", 
+                      "Welcome Back to WoofCare!",
                       style: TextStyle(
                         color: WoofCareColors.primaryTextAndIcons,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  
-                      
+                    ),
+
                     const SizedBox(height: 5),
-                        
+
                     const Divider(
                       color: WoofCareColors.primaryTextAndIcons,
                       thickness: 3,
                       indent: 50,
                       endIndent: 50,
                     ),
-                        
+
                     const SizedBox(height: 35),
-                        
+
                     //Email Field
                     CustomTextField(
                       controller: _emailTextController,
                       hintText: "Email",
                       prefix: Icons.email,
                     ),
-                        
+
                     const SizedBox(height: 35),
 
                     CustomTextFieldWithIconButton(
-                      controller: _passwordTextController, 
-                      hintText: "Password", 
+                      controller: _passwordTextController,
+                      hintText: "Password",
                       obscureText: _visiblePassword,
                       prefix: Icons.password,
                       onTapIcon: () => _showPassword(),
                       suffix: Icons.visibility,
                       maxLines: 1,
                     ),
-                        
+
                     const SizedBox(height: 7),
-                        
+
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           //Remember Me Text & Checkbox
                           Row(
@@ -169,59 +167,65 @@ class _LogInPageState extends State<LogInPage> {
                               ),
                             ],
                           ),
-                        
+
                           // Forgot Password Button
                           RichText(
                             text: TextSpan(
                               text: "Forgot Password?",
-                              style: theme.textTheme.bodyMedium!
-                                .copyWith(
-                                  color: WoofCareColors.interactibleText,
-                                ),
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                color: WoofCareColors.interactibleText,
+                              ),
                               recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () => Navigator.pushNamed(context, "/forgotpw"),
+                                  TapGestureRecognizer()
+                                    ..onTap =
+                                        () => Navigator.pushNamed(
+                                          context,
+                                          "/forgotpw",
+                                        ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                        
+
                     const SizedBox(height: 25.0),
-                        
+
                     //Log In Button
                     CustomButton(
                       text: "Log In",
                       // margin: 30,
                       onTap:
-                        () => Auth.login(
-                          context: context,
-                          email: _emailTextController.text.trim(),
-                          password: _passwordTextController.text.trim(),
-                          error: (e) {
-                            // If email is not valid, then display error message
-                            setState(() { 
-                              _visibleMessage = true;
+                          () => Auth.login(
+                            context: context,
+                            email: _emailTextController.text.trim(),
+                            password: _passwordTextController.text.trim(),
+                            error: (e) {
+                              // If email is not valid, then display error message
+                              setState(() {
+                                _visibleMessage = true;
 
-                              if (e.code == "channel-error") {  // Could be improved upon
-                                errorMessage = "Please provide an email and/or password";
-                              } else if (e.code == "invalid-email") {
-                                errorMessage = "Email address is badly formatted"; 
-                              } else if (e.code == "invalid-credential") {
-                                errorMessage = "Auth credential is malformed or has expired.";
-                              }
-  
-                              _errorTextController.text = errorMessage ?? '';
-                            });
+                                if (e.code == "channel-error") {
+                                  // Could be improved upon
+                                  errorMessage =
+                                      "Please provide an email and/or password";
+                                } else if (e.code == "invalid-email") {
+                                  errorMessage =
+                                      "Email address is badly formatted";
+                                } else if (e.code == "invalid-credential") {
+                                  errorMessage =
+                                      "Auth credential is malformed or has expired.";
+                                }
 
-                            hideMessage();
-                          },
-                        ),
+                                _errorTextController.text = errorMessage ?? '';
+                              });
+
+                              hideMessage();
+                            },
+                          ),
                     ),
 
                     const SizedBox(height: 15),
 
-                                                
                     //First Time User? Sign Up Button
                     RichText(
                       text: TextSpan(
@@ -239,7 +243,11 @@ class _LogInPageState extends State<LogInPage> {
                             ),
                             recognizer:
                                 TapGestureRecognizer()
-                                  ..onTap = () => Navigator.pushNamed(context, "/signup"),
+                                  ..onTap =
+                                      () => Navigator.pushNamed(
+                                        context,
+                                        "/signup",
+                                      ),
                           ),
                         ],
                       ),
@@ -247,7 +255,7 @@ class _LogInPageState extends State<LogInPage> {
 
                     const SizedBox(height: 15),
 
-                    // Error Message    
+                    // Error Message
                     AnimatedOpacity(
                       opacity: _visibleMessage ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 200),

@@ -1,11 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:woofcare/firebase_options.dart';
 import 'package:woofcare/ui/pages/forgotpw/forgot_pw_page.dart';
 import 'package:woofcare/ui/pages/posts/posts.dart';
-
 
 import '/config/constants.dart';
 import '/config/theme.dart';
@@ -15,7 +13,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
 
   runApp(const WoofCare());
 }
@@ -32,7 +29,7 @@ class WoofCare extends StatelessWidget {
       initialRoute: "/",
       builder: (context, widget) {
         theme = WoofCareTheme.of(context);
-    
+
         return widget!;
       },
       routes: {

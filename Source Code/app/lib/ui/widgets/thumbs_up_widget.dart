@@ -21,22 +21,23 @@ class _ThumbsUpButtonState extends State<ThumbsUpButton> {
   bool isLiked = false;
   final currUser = AUTH.currentUser!;
 
-
   void postLiked() {
     setState(() {
       isLiked = !isLiked;
     });
 
     // Get a reference from the post that holds the current thumbs up widget
-    DocumentReference postRef = FIRESTORE.collection('User Posts').doc(widget.postId);
+    DocumentReference postRef = FIRESTORE
+        .collection('User Posts')
+        .doc(widget.postId);
 
     if (isLiked) {
       postRef.update({
-        'likes': FieldValue.arrayUnion([currUser.email])
+        'likes': FieldValue.arrayUnion([currUser.email]),
       });
     } else {
       postRef.update({
-        'likes': FieldValue.arrayRemove([currUser.email])
+        'likes': FieldValue.arrayRemove([currUser.email]),
       });
     }
   }
@@ -46,17 +47,18 @@ class _ThumbsUpButtonState extends State<ThumbsUpButton> {
     return Row(
       children: [
         IconButton(
-          onPressed: postLiked, 
-          icon: Icon(
-            isLiked ? Icons.thumb_up : Icons.thumb_up_outlined
-          ),
-          color: isLiked ? WoofCareColors.primaryTextAndIcons : WoofCareColors.inputBackground,
+          onPressed: postLiked,
+          icon: Icon(isLiked ? Icons.thumb_up : Icons.thumb_up_outlined),
+          color:
+              isLiked
+                  ? WoofCareColors.primaryTextAndIcons
+                  : WoofCareColors.inputBackground,
         ),
 
         Text(
           widget.numOfLikes.toString(),
           style: TextStyle(color: WoofCareColors.primaryTextAndIcons),
-        )
+        ),
       ],
     );
   }

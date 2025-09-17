@@ -26,8 +26,7 @@ class WoofCareTheme {
         error: Colors.red,
         onError: Colors.white,
       ),
-      textTheme: ThemeData.light()
-          .textTheme
+      textTheme: ThemeData.light().textTheme
           .copyWith(
             bodyMedium: GoogleFonts.aBeeZee(
               fontSize: 12,
@@ -49,10 +48,7 @@ class WoofCareTheme {
               letterSpacing: 1.4,
             ),
           )
-          .apply(
-            displayColor: Colors.white,
-            bodyColor: Colors.white,
-          ),
+          .apply(displayColor: Colors.white, bodyColor: Colors.white),
       appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: WoofCareColors.secondaryBackground,
@@ -106,8 +102,9 @@ class WoofCareTheme {
           textStyle: WidgetStateProperty.all<TextStyle>(
             const TextStyle(color: WoofCareColors.white60),
           ),
-          foregroundColor:
-              WidgetStateProperty.all<Color>(WoofCareColors.buttonColor),
+          foregroundColor: WidgetStateProperty.all<Color>(
+            WoofCareColors.buttonColor,
+          ),
         ),
       ),
     );

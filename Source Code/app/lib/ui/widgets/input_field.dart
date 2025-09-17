@@ -56,11 +56,13 @@ class InputField extends StatelessWidget {
                     ),
                     enabled: enabled,
                     minLines: 1,
-                    textCapitalization: hideText
-                        ? TextCapitalization.none
-                        : TextCapitalization.words,
+                    textCapitalization:
+                        hideText
+                            ? TextCapitalization.none
+                            : TextCapitalization.words,
                     maxLines: maxLines,
-                    textInputAction: textInputAction ??
+                    textInputAction:
+                        textInputAction ??
                         (onSubmitted == null
                             ? TextInputAction.next
                             : TextInputAction.done),
@@ -76,9 +78,10 @@ class InputField extends StatelessWidget {
                   if (hideText)
                     IconButton(
                       highlightColor: const Color.fromRGBO(0, 0, 0, 0),
-                      icon: hide.value
-                          ? const Icon(Icons.visibility)
-                          : const Icon(Icons.visibility_off),
+                      icon:
+                          hide.value
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
                       onPressed: () => hide.toggle(),
                     ),
                 ],
@@ -99,8 +102,9 @@ class InputField extends StatelessWidget {
                       child: AutoSizeText(
                         error!,
                         maxLines: 2,
-                        style: context.textTheme.bodySmall!
-                            .copyWith(color: context.theme.colorScheme.error),
+                        style: context.textTheme.bodySmall!.copyWith(
+                          color: context.theme.colorScheme.error,
+                        ),
                       ),
                     ),
                   ],

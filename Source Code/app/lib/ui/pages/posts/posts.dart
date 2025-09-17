@@ -14,12 +14,12 @@ class SocialMediaFeed extends StatefulWidget {
 }
 
 class _SocialMediaFeedState extends State<SocialMediaFeed> {
-
   void _postButtonPressed() {
     showModalBottomSheet(
-      context: context, 
+      context: context,
       isScrollControlled: true,
-      enableDrag: false, // Prevent dragging of the modal bottom sheet (instead cancel with "Cancel" button)
+      enableDrag:
+          false, // Prevent dragging of the modal bottom sheet (instead cancel with "Cancel" button)
       backgroundColor: Colors.transparent,
       builder: (context) {
         return DraggableScrollableSheet(
@@ -66,11 +66,11 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                 ],
               ),
             );
-          }
+          },
         );
-      }
+      },
     );
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,15 +78,16 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [ 
+        children: [
           // This Expanded widget holds all the posts that will appear on the feed page
           Expanded(
             // We use a StreamBuilder to hear for any changes in the "User Posts" collection from firebase
             child: StreamBuilder(
-              stream: FIRESTORE
-                .collection("User Posts")
-                .orderBy("timestamp", descending: true)
-                .snapshots(),
+              stream:
+                  FIRESTORE
+                      .collection("User Posts")
+                      .orderBy("timestamp", descending: true)
+                      .snapshots(),
 
               builder: (context, snapshot) {
                 // If there is any data in the snapshot of the collection return a ListView.builder will all the posts (docs)
@@ -96,18 +97,23 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                     itemBuilder: (context, index) {
                       final post = snapshot.data!.docs[index];
                       return Post(
-                        message: post['message'], 
-                        user: post['email'], 
+                        message: post['message'],
+                        user: post['email'],
                         time: formatDate(post['timestamp']),
-                        postId: post.id, 
+                        postId: post.id,
                         usersWhoLiked: List<String>.from(post['likes'] ?? []),
                       );
-                    }
+                    },
                   );
                 } else if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}", style: TextStyle(color: WoofCareColors.errorMessageColor),));
+                  return Center(
+                    child: Text(
+                      "Error: ${snapshot.error}",
+                      style: TextStyle(color: WoofCareColors.errorMessageColor),
+                    ),
+                  );
                 }
-                return const Center(child: CircularProgressIndicator(),);  
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ),
@@ -118,14 +124,14 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _postButtonPressed(),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: WoofCareColors.borderOutline.withValues(alpha: 0.5)),
-          borderRadius: BorderRadiusGeometry.circular(90)
+          side: BorderSide(
+            color: WoofCareColors.borderOutline.withValues(alpha: 0.5),
+          ),
+          borderRadius: BorderRadiusGeometry.circular(90),
         ),
         backgroundColor: WoofCareColors.secondaryBackground,
         child: FaIcon(FontAwesomeIcons.paperPlane),
       ),
-      
     );
   }
 }
-

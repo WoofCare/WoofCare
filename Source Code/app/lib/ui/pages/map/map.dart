@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:woofcare/config/colors.dart';
@@ -97,6 +96,7 @@ class _MapPageState extends State<MapPage> {
         ),
       ),
     );
+  }
 
   Future<void> fetchLocationUpdates(BuildContext context) async {
     bool serviceEnabled;
@@ -112,7 +112,8 @@ class _MapPageState extends State<MapPage> {
     permissionGranted = await locationController.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await locationController.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) { // What if the permission status is grantedLimited?
+      if (permissionGranted != PermissionStatus.granted) {
+        // What if the permission status is grantedLimited?
         return;
       }
     }
@@ -150,7 +151,10 @@ class _MapPageState extends State<MapPage> {
                 color: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
-                  top: BorderSide(color: WoofCareColors.borderOutline, width: 2.0),
+                  top: BorderSide(
+                    color: WoofCareColors.borderOutline,
+                    width: 2.0,
+                  ),
                 ),
               ),
 

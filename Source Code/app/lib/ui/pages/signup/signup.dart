@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:woofcare/config/colors.dart';
 import 'package:woofcare/config/constants.dart';
-
-
 
 import '/services/auth.dart';
 import '/ui/widgets/custom_button.dart';
@@ -21,10 +19,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _nameTextController = TextEditingController();
-  final TextEditingController _dateOfBirthTextController = TextEditingController();
+  final TextEditingController _dateOfBirthTextController =
+      TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
-  final TextEditingController _passwordConfirmTextController = TextEditingController();
+  final TextEditingController _passwordConfirmTextController =
+      TextEditingController();
   final TextEditingController _errorTextController = TextEditingController();
   var _visible = false;
 
@@ -76,7 +76,9 @@ class _SignUpPageState extends State<SignUpPage> {
     //   }
     // }
 
-    if (_nameTextController.text.isNotEmpty && _dateOfBirthTextController.text.isNotEmpty && role.isNotEmpty) {
+    if (_nameTextController.text.isNotEmpty &&
+        _dateOfBirthTextController.text.isNotEmpty &&
+        role.isNotEmpty) {
       if (passwordChecker()) {
         Auth.signup(
           context: context,
@@ -92,14 +94,16 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() {
               _visible = true;
 
-              if (e.code == "channel-error") {  // Could be improved upon
+              if (e.code == "channel-error") {
+                // Could be improved upon
                 errorMessage = "Please provide an email and/or password";
               } else if (e.code == "invalid-email") {
-                errorMessage = "Email address is badly formatted"; 
-              } else {errorMessage = e.message;}
+                errorMessage = "Email address is badly formatted";
+              } else {
+                errorMessage = e.message;
+              }
 
               _errorTextController.text = errorMessage ?? '';
-
             });
 
             hideMessage();
@@ -180,7 +184,9 @@ class _SignUpPageState extends State<SignUpPage> {
           width: 400,
           child: Card(
             child: Container(
-              decoration: const BoxDecoration(color: WoofCareColors.primaryBackground),
+              decoration: const BoxDecoration(
+                color: WoofCareColors.primaryBackground,
+              ),
               child: Stack(
                 children: [
                   Container(
@@ -207,7 +213,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   Padding(
                     // Padding for the container that holds the login form
-                    padding: const EdgeInsets.symmetric(vertical: 80.0, horizontal: 25.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 80.0,
+                      horizontal: 25.0,
+                    ),
 
                     child: Container(
                       decoration: BoxDecoration(
@@ -221,7 +230,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             color: Colors.black.withValues(alpha: 0.2),
                             offset: const Offset(5, 5),
                             spreadRadius: 1,
-                          )
+                          ),
                         ],
                       ),
                       child: Padding(
@@ -229,7 +238,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                        
                             Text(
                               "Create Your Account",
                               style: TextStyle(
@@ -238,7 +246,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                              
+
                             const Divider(
                               height: 0,
                               color: WoofCareColors.primaryTextAndIcons,
@@ -246,18 +254,18 @@ class _SignUpPageState extends State<SignUpPage> {
                               indent: 45,
                               endIndent: 45,
                             ),
-                                
+
                             const SizedBox(height: 25),
-                                              
+
                             // Name text entry.
                             CustomTextField(
                               controller: _nameTextController,
                               hintText: "Name",
                               prefix: Icons.person,
                             ),
-                                              
+
                             const SizedBox(height: 10),
-                                              
+
                             CustomTextField(
                               controller: _dateOfBirthTextController,
                               hintText: "Date of Birth",
@@ -265,9 +273,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               suffix: Icons.arrow_drop_down,
                               onTap: () => pickDate(context),
                             ),
-                      
+
                             // const SizedBox(height: 2),
-                                              
+
                             // Selection of role.
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -291,18 +299,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                 },
                               ),
                             ),
-                                              
+
                             const SizedBox(height: 10),
-                                              
+
                             // Email Text Entry
                             CustomTextField(
                               controller: _emailTextController,
                               hintText: "Email",
                               prefix: Icons.email,
                             ),
-                      
+
                             const SizedBox(height: 10),
-                                              
+
                             CustomTextField(
                               controller: _passwordTextController,
                               hintText: "Password",
@@ -310,20 +318,19 @@ class _SignUpPageState extends State<SignUpPage> {
                               prefix: Icons.password,
                               maxLines: 1,
                             ),
-                      
+
                             const SizedBox(height: 10),
-                      
+
                             CustomTextField(
-                              controller:
-                                  _passwordConfirmTextController,
+                              controller: _passwordConfirmTextController,
                               hintText: "Confirm Password",
                               obscureText: true,
                               prefix: Icons.password,
                               maxLines: 1,
                             ),
-                      
+
                             const SizedBox(height: 10),
-                                              
+
                             // Passwords match OR error text.
                             AnimatedOpacity(
                               opacity: _visible ? 1.0 : 0.0,
@@ -338,15 +345,12 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
 
                             const SizedBox(height: 20),
-                                              
-                            CustomButton(
-                              text: "Sign up",
-                              onTap: signup,
-                            ),
+
+                            CustomButton(text: "Sign up", onTap: signup),
 
                             const SizedBox(height: 15),
 
-                            //First Time User? Sign Up Button 
+                            //First Time User? Sign Up Button
                             RichText(
                               text: TextSpan(
                                 text: "Already have an account? ",
@@ -363,12 +367,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                     recognizer:
                                         TapGestureRecognizer()
-                                          ..onTap = () => Navigator.pushNamed(context, "/login"),
+                                          ..onTap =
+                                              () => Navigator.pushNamed(
+                                                context,
+                                                "/login",
+                                              ),
                                   ),
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       ),

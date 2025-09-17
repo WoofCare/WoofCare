@@ -44,12 +44,15 @@ class CustomTextFieldWithIconButton extends StatelessWidget {
           contentPadding: EdgeInsets.fromLTRB(0, top, 0, bottom),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
-            borderSide:
-                const BorderSide(color: Color.fromARGB(255, 22, 16, 16)),
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 22, 16, 16),
+            ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
-            borderSide: const BorderSide(color: WoofCareColors.primaryTextAndIcons),
+            borderSide: const BorderSide(
+              color: WoofCareColors.primaryTextAndIcons,
+            ),
           ),
           fillColor: const Color(0xFFA66E38).withValues(alpha: 0.3),
           filled: true,

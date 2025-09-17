@@ -9,7 +9,7 @@ class Post extends StatelessWidget {
   final String time;
   final String postId;
   final List<String> usersWhoLiked;
-  
+
   Post({
     super.key,
     required this.message,
@@ -60,37 +60,38 @@ class Post extends StatelessWidget {
                           children: [
                             // User's Email
                             Text(
-                              user, 
+                              user,
                               style: TextStyle(
-                                color: WoofCareColors.primaryTextAndIcons
+                                color: WoofCareColors.primaryTextAndIcons,
                               ),
                             ),
-                            
+
                             Text(
-                              '·', 
+                              '·',
                               style: TextStyle(
-                                color: WoofCareColors.primaryTextAndIcons, 
+                                color: WoofCareColors.primaryTextAndIcons,
                               ),
                             ),
 
                             Flexible(
                               // Posting time
                               child: Text(
-                                time, 
+                                time,
                                 style: TextStyle(
-                                  color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),
+                                  color: WoofCareColors.primaryTextAndIcons
+                                      .withValues(alpha: 0.5),
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      
+
                         Text(
                           // The message of the post (the main part)
                           message,
                           style: TextStyle(
-                            color: WoofCareColors.primaryTextAndIcons
+                            color: WoofCareColors.primaryTextAndIcons,
                           ),
                         ),
                       ],
@@ -99,12 +100,15 @@ class Post extends StatelessWidget {
                 ],
               ),
             ),
-      
+
             // Row that holds the three interactions with the post (like it, comment it, share it)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ThumbsUpButton(postId: postId, numOfLikes: usersWhoLiked.length,),
+                ThumbsUpButton(
+                  postId: postId,
+                  numOfLikes: usersWhoLiked.length,
+                ),
 
                 IconButton(
                   onPressed: () {},

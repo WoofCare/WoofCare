@@ -45,8 +45,7 @@ class _PostingPageState extends State<PostingPage> {
 
         // Column to hold the rows of info and inputs ("Exit" and "Post"), and input field for posting (and images in the future)
         children: [
-
-          // Row containing "Exit" and "Post" button 
+          // Row containing "Exit" and "Post" button
           Padding(
             padding: EdgeInsets.only(bottom: 20.0),
             child: Row(
@@ -56,9 +55,9 @@ class _PostingPageState extends State<PostingPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context), 
+                    onPressed: () => Navigator.pop(context),
                     icon: Icon(
-                      Icons.arrow_back, 
+                      Icons.arrow_back,
                       color: WoofCareColors.primaryTextAndIcons,
                     ),
                     tooltip: "Back",
@@ -91,11 +90,10 @@ class _PostingPageState extends State<PostingPage> {
                     Icons.person,
                     color: WoofCareColors.primaryTextAndIcons,
                   ),
-                  
                 ),
-                
+
                 Text(
-                  "${AUTH.currentUser!.email}", 
+                  "${AUTH.currentUser!.email}",
                   style: TextStyle(color: WoofCareColors.primaryTextAndIcons),
                 ),
               ],

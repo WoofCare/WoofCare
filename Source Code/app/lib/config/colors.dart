@@ -29,9 +29,7 @@ class WoofCareColors {
   static const Color interactibleText = Color(0xFFA66E38);
   static const Color interactibleTextPressed = Color(0xFF63422C);
   static const Color appBarColor = Color(0xFFF7FFF7);
-  
+
   static const Color floatingActionIcons = Color(0xFFFF926C);
-  static const Color interactibleText = Color(0xFFA66E38);
-  static const Color interactibleTextPressed = Color(0xFF63422C);
   static const Color errorMessageColor = Color(0xFFB20101);
 }

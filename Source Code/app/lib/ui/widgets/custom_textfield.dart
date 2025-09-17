@@ -41,7 +41,7 @@ class CustomTextField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: TextField(
         controller: controller,
-        keyboardType: keyboardType, 
+        keyboardType: keyboardType,
         autofocus: autofocus,
         obscureText: obscureText,
         style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black),
@@ -56,12 +56,16 @@ class CustomTextField extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
-            borderSide: const BorderSide(color: WoofCareColors.primaryTextAndIcons),
+            borderSide: const BorderSide(
+              color: WoofCareColors.primaryTextAndIcons,
+            ),
           ),
           fillColor: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
           filled: true,
           hintText: hintText,
-          suffixIcon: Icon(suffix), // TODO: Suffix and prefix are taking space even on textfields with no Icon 
+          suffixIcon: Icon(
+            suffix,
+          ), // TODO: Suffix and prefix are taking space even on textfields with no Icon
           prefixIcon: Icon(prefix),
           hintStyle: TextStyle(
             color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),

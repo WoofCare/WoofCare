@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/services/auth.dart';
-import '/config/constants.dart';
-import '/config/colors.dart';
 
+import '/config/colors.dart';
+import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_textfield.dart';
 
@@ -21,7 +20,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   var _verified = false;
 
   String? errorMessage = "";
-
 
   @override
   void dispose() {
@@ -42,8 +40,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   void passwordReset() {
     Auth.passwordReset(
-      email: _emailTextController.text.trim(), 
-      context: context, 
+      email: _emailTextController.text.trim(),
+      context: context,
       success: () {
         setState(() {
           _visible = true;
@@ -53,20 +51,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         });
       },
       error: (e) {
-        setState(() {                                         
+        setState(() {
           _visible = true;
 
-          if (e.code == "channel-error") {  // Could be improved upon
+          if (e.code == "channel-error") {
+            // Could be improved upon
             errorMessage = "Please provide an email";
           } else if (e.code == "invalid-email") {
-            errorMessage = "Email address is badly formatted"; 
-          } else {errorMessage = e.message;}
+            errorMessage = "Email address is badly formatted";
+          } else {
+            errorMessage = e.message;
+          }
 
           _notificationTextController.text = errorMessage ?? '';
-        }); 
+        });
 
         hideMessage();
-      }
+      },
     );
   }
 
@@ -90,9 +91,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             // Container for the second background image
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                  "assets/images/patterns/SmallPawPattern.png",
-                ),
+                image: AssetImage("assets/images/patterns/SmallPawPattern.png"),
                 alignment: Alignment.bottomRight,
               ),
             ),
@@ -107,15 +106,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
             child: Container(
               // height: 30.0.sh,
-              
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(
-                  255,
-                  255,
-                  255,
-                  255,
-                ),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 boxShadow: [
                   BoxShadow(
                     blurRadius: 10,
@@ -123,7 +116,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     color: Colors.black.withValues(alpha: 0.2),
                     offset: const Offset(5, 5),
                     spreadRadius: 1,
-                  )
+                  ),
                 ],
               ), // Background color of the container
 
@@ -137,43 +130,47 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0, bottom: 20.0),
+                        padding: const EdgeInsets.only(
+                          left: 10.0,
+                          bottom: 20.0,
+                        ),
                         child: IconButton(
-                          onPressed: () => Navigator.pop(context), 
+                          onPressed: () => Navigator.pop(context),
                           icon: const Icon(Icons.arrow_back),
                           tooltip: "Back to Log In",
-                          color: WoofCareColors.primaryTextAndIcons
-                        )
-                      )
+                          color: WoofCareColors.primaryTextAndIcons,
+                        ),
+                      ),
                     ),
 
                     // Heading
                     const Text(
                       textAlign: TextAlign.center,
-                      "Reset your password", 
+                      "Reset your password",
                       style: TextStyle(
                         color: Color(0xFF3F2917),
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  
+                    ),
 
                     const SizedBox(height: 5.0),
 
                     // Body text
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                      child: Text(
-                        "No worries, we got you! Just provide your email and we will send a link to help you reset your password", 
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodyMedium!.
-                          copyWith(
-                            color: const Color(0xFFA66E38),
-                            fontSize: 13.5
-                          ),
-                      
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0,
                       ),
-                    ),  
+                      child: Text(
+                        "No worries, we got you! Just provide your email and we will send a link to help you reset your password",
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                          color: const Color(0xFFA66E38),
+                          fontSize: 13.5,
+                        ),
+                      ),
+                    ),
 
                     const SizedBox(height: 10.0),
 
@@ -193,7 +190,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       onTap: () => passwordReset(),
                     ),
 
-                    // Error Message    
+                    // Error Message
                     AnimatedOpacity(
                       opacity: _visible ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 200),
@@ -203,7 +200,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           textAlign: TextAlign.center,
                           _notificationTextController.text,
                           style: TextStyle(
-                            color: _verified ? WoofCareColors.primaryTextAndIcons : WoofCareColors.errorMessageColor,
+                            color:
+                                _verified
+                                    ? WoofCareColors.primaryTextAndIcons
+                                    : WoofCareColors.errorMessageColor,
                             fontSize: 12,
                           ),
                         ),
@@ -215,7 +215,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             ),
           ),
         ],
-      ),      
+      ),
     );
   }
 }

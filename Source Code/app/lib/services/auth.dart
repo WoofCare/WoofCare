@@ -9,23 +9,23 @@ class Auth {
     BuildContext context,
     void Function() onLoggedIn,
   ) async {
-      try {
-        profile = await Profile.fromID(AUTH.currentUser!.uid);
-      } catch (error, _) {
-        if (error.toString().contains(
-              "does not exist within the DocumentSnapshotPlatform",
-            ) ||
-            error.toString().contains(
-              "on a DocumentSnapshotPlatform which does not exist",
-            )) {
-          if (context.mounted) {
-            Navigator.popAndPushNamed(context, "/login");
-          }
-        } else {
-          // TODO: Error Dialog
+    try {
+      profile = await Profile.fromID(AUTH.currentUser!.uid);
+    } catch (error, _) {
+      if (error.toString().contains(
+            "does not exist within the DocumentSnapshotPlatform",
+          ) ||
+          error.toString().contains(
+            "on a DocumentSnapshotPlatform which does not exist",
+          )) {
+        if (context.mounted) {
+          Navigator.popAndPushNamed(context, "/login");
         }
-        return;
+      } else {
+        // TODO: Error Dialog
       }
+      return;
+    }
 
     onLoggedIn();
   }
@@ -38,7 +38,10 @@ class Auth {
     required void Function(FirebaseAuthException e) error,
   }) async {
     try {
-      await AUTH.createUserWithEmailAndPassword(email: email, password: password);
+      await AUTH.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       String uid = AUTH.currentUser!.uid;
       FIRESTORE.collection("users").doc(uid).set(data);
@@ -95,7 +98,7 @@ class Auth {
     try {
       await AUTH.sendPasswordResetEmail(email: email);
       success();
-    } on FirebaseAuthException catch (e) {      
+    } on FirebaseAuthException catch (e) {
       error(e);
     }
   }

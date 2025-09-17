@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '/config/colors.dart';
 
 Widget custom_stat(String number, String label) {
@@ -7,7 +8,11 @@ Widget custom_stat(String number, String label) {
     children: [
       Text(
         number,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: WoofCareColors.primaryTextAndIcons),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: WoofCareColors.primaryTextAndIcons,
+        ),
       ),
       SizedBox(height: 4),
       Text(
