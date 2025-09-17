@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/ui/pages/export.dart';
 
@@ -17,6 +19,39 @@ class _MapPageState extends State<MapPage> {
   final locationController = Location();
   LatLng? currentPosition;
 
+  Future<void> fetchLocationUpdates(BuildContext context) async {
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+
+    serviceEnabled = await locationController.serviceEnabled();
+    if (serviceEnabled) {
+      serviceEnabled = await locationController.requestService();
+    } else {
+      return;
+    }
+
+    permissionGranted = await locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) { // What if the permission status is grantedLimited?
+        return;
+      }
+    }
+
+    locationController.onLocationChanged.listen((currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null &&
+          context.mounted) {
+        setState(() {
+          currentPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+        });
+      }
+    });
+  }
+
   void _reportDogButtonPressed() {
     // Show the bottom sheet when the button is pressed
     showModalBottomSheet(
@@ -26,17 +61,17 @@ class _MapPageState extends State<MapPage> {
       builder: (context) {
         return DraggableScrollableSheet(
           // Make the bottom sheet draggable
-          initialChildSize: 0.77,
+          initialChildSize: 0.75,
           minChildSize: 0.3,
-          maxChildSize: 0.9,
+          maxChildSize: 0.95,
           builder: (sheetContext, scrollController) {
             return Container(
               // Container to store the drag handle and the ReportingPage
               decoration: const BoxDecoration(
-                color: Color(0xFFF7FFF7),
+                color: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
-                  top: BorderSide(color: Color(0xFFA66E38), width: 2.0),
+                  top: BorderSide(color: WoofCareColors.borderOutline, width: 2.0),
                 ),
               ),
 
@@ -49,7 +84,7 @@ class _MapPageState extends State<MapPage> {
                     width: 40,
                     height: 5,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF3F2917),
+                      color: WoofCareColors.primaryTextAndIcons,
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
@@ -60,19 +95,31 @@ class _MapPageState extends State<MapPage> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w200,
-                      color: Color(0xFF3F2917),
+                      color: WoofCareColors.primaryTextAndIcons,
                       decoration: TextDecoration.underline,
-                      decorationColor: Color(0xFF3F2917),
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+
+                  Divider(color: Colors.black, height: 2.0),
 
                   // The ReportingPage (uses Expanded to take up the rest of the space)
                   Expanded(
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: ReportPage(scrollController: scrollController),
+                    child: SafeArea(
+                      top: false,
+                      left: false,
+                      right: false,
+                      child: SingleChildScrollView(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: 30,
+                        ),
+                        child: ReportPage(scrollController: scrollController),
+                      ),
                     ),
                   ),
                 ],
@@ -119,57 +166,20 @@ class _MapPageState extends State<MapPage> {
         // Floating action button to report a dog
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 12),
           child: FloatingActionButton.large(
             onPressed: () {
               _reportDogButtonPressed();
             },
-            backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(90),
+              side: BorderSide(color: WoofCareColors.borderOutline.withValues(alpha: 0.5)),
+              borderRadius: BorderRadiusGeometry.circular(90)
             ),
-            focusElevation: 0,
-            highlightElevation: 0,
-            child: Image.asset(
-              'assets/images/homePageButtons/ReportBtn.png',
-              fit: BoxFit.cover,
-            ),
+            backgroundColor: WoofCareColors.secondaryBackground,
+            child: FaIcon(FontAwesomeIcons.bullhorn),
           ),
         ),
       ),
     );
-  }
-
-  Future<void> fetchLocationUpdates(BuildContext context) async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-
-    serviceEnabled = await locationController.serviceEnabled();
-    if (serviceEnabled) {
-      serviceEnabled = await locationController.requestService();
-    } else {
-      return;
-    }
-
-    permissionGranted = await locationController.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await locationController.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    locationController.onLocationChanged.listen((currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null &&
-          context.mounted) {
-        setState(() {
-          currentPosition = LatLng(
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-          );
-        });
-      }
-    });
   }
 }

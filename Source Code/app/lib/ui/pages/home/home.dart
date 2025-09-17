@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:woofcare/config/colors.dart';
 import 'package:woofcare/config/constants.dart';
+import 'package:woofcare/ui/pages/posts/posts.dart';
 
 import '/ui/pages/export.dart';
 
@@ -12,11 +14,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentPage = 1;
+  int currentPageIndex = 1;
 
   final List<Widget> pages = [
     const ConversationsPage(),
     const MapPage(),
+    const SocialMediaFeed(),
     const ArticlePage(),
   ];
 
@@ -41,13 +44,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: pages[currentPage],
+        body: pages[currentPageIndex],
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          currentIndex: currentPage,
+          currentIndex: currentPageIndex,
           onTap: (value) {
             setState(() {
-              currentPage = value;
+              currentPageIndex = value;
             });
           },
           items: const <BottomNavigationBarItem>[
@@ -60,11 +63,15 @@ class _HomePageState extends State<HomePage> {
               label: 'Map',
             ),
             BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.signsPost),
+              label: 'Feed',
+            ),
+            BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.bookOpen),
               label: 'Articles',
             ),
           ],
-          backgroundColor: const Color(0xFFE5E5E5),
+          backgroundColor: WoofCareColors.secondaryBackground,
           unselectedItemColor: const Color(0xFFA66E38),
           selectedItemColor: const Color(0xFF3F2917),
         ),

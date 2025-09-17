@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 
 import 'package:woofcare/firebase_options.dart';
 import 'package:woofcare/ui/pages/forgotpw/forgot_pw_page.dart';
+import 'package:woofcare/ui/pages/posts/posts.dart';
+
 
 import '/config/constants.dart';
 import '/config/theme.dart';
@@ -43,6 +45,7 @@ class WoofCare extends StatelessWidget {
         "/profile": (context) => const ProfilePage(),
         "/chat": (context) => const ChatPage(),
         "/article": (context) => const ArticlePage(),
+        "/posts": (context) => const SocialMediaFeed(),
       },
     );
   }
