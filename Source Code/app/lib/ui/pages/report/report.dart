@@ -56,13 +56,13 @@ class _ReportPageState extends State<ReportPage> {
   Widget build(BuildContext context) {
     // The body contains the form for the user to fill out
     return Container(
-
       // Decoration for the box (shadow, border radius, color)
-      decoration: const BoxDecoration(color: WoofCareColors.secondaryBackground),
+      decoration: const BoxDecoration(
+        color: WoofCareColors.secondaryBackground,
+      ),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-            
         // Column to hold the input fields and buttons of the form
         // (i.e. Report Title, Dog Description, Location Description, Additional Notes)
         children: [
@@ -79,23 +79,24 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-            
           const SizedBox(height: 16),
-            
+
           // Report Title text field
           CustomTextField(
             controller: _reportTitleController,
             hintText: 'Report Title',
           ),
-            
+
           const SizedBox(height: 20),
-            
+
           // Dropdown for urgency level
           Center(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 25.0),
               decoration: BoxDecoration(
-                color: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
+                color: WoofCareColors.textfieldBackground.withValues(
+                  alpha: 0.3,
+                ),
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: DropdownButton(
@@ -103,19 +104,19 @@ class _ReportPageState extends State<ReportPage> {
                 underline: const SizedBox(), // Remove the underline
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_drop_down),
-            
                 menuWidth: 280,
                 dropdownColor: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(16.0),
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            
                 hint: Text(
                   'Select Urgency Level',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 13,
                     fontFamily: GoogleFonts.aBeeZee().fontFamily,
-                    color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),
+                    color: WoofCareColors.primaryTextAndIcons.withValues(
+                      alpha: 0.5,
+                    ),
                     fontWeight: FontWeight.w200,
                   ),
                 ),
@@ -128,8 +129,7 @@ class _ReportPageState extends State<ReportPage> {
                               urgency,
                               style: TextStyle(
                                 fontSize: 13,
-                                fontFamily:
-                                    GoogleFonts.aBeeZee().fontFamily,
+                                fontFamily: GoogleFonts.aBeeZee().fontFamily,
                                 color: WoofCareColors.primaryTextAndIcons,
                                 fontWeight: FontWeight.w200,
                               ),
@@ -144,9 +144,16 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-            
+
           const SizedBox(height: 20),
-            
+
+
+              // Report Title text field
+              CustomTextField(
+                  controller: _reportTitleController, 
+                  hintText: 'Report Title',
+              ),
+
           // Dog Description text field
           CustomTextField(
             controller: _dogDescriptionController,
@@ -155,9 +162,66 @@ class _ReportPageState extends State<ReportPage> {
             top: 25,
             bottom: 25,
           ),
-            
+
+
           const SizedBox(height: 50),
-            
+
+
+              // Dropdown for urgency level
+              Center(
+                child: Container(
+                  width: 280,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFA66E38).withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: DropdownButton(
+                    isExpanded: true,
+                    underline: const SizedBox(), // Remove the underline
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_drop_down),
+
+                    menuWidth: 280,
+                    dropdownColor: const Color(0xFFF7FFF7),
+                    borderRadius: BorderRadius.circular(16.0),
+                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+
+                    //focusColor: const Color.fromARGB(255, 0, 0, 0),
+
+                    hint: Text(
+                      'Select Urgency Level',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                        color: const Color(0xFF3F2917).withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                    items: urgencyList
+                        .map((urgency) => DropdownMenuItem(
+                              value: urgency,
+                              child: Text(
+                                urgency,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                                  color: const Color(0xFF3F2917),
+                                  fontWeight: FontWeight.w200,
+                                ),
+                             
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                onChanged:
+                    (dropdownValue) =>
+                        setState(() => this.dropdownValue = dropdownValue),
+
+                  ),
+                ),
+
           // Add Photos Button (new)
           CustomButton(
             width: 120,
@@ -167,25 +231,28 @@ class _ReportPageState extends State<ReportPage> {
             fontWeight: FontWeight.w200,
             onTap: () => print('Add Photos Button Pressed'),
           ),
-            
+
           const SizedBox(height: 20),
-            
+
           // Photo Container (and camera placeholder)
           Container(
             width: double.infinity,
             height: 200,
             margin: const EdgeInsets.only(left: 20, right: 20),
             decoration: BoxDecoration(
-              color: WoofCareColors.placeholderBackground.withValues(alpha: 0.3),
+              color: WoofCareColors.placeholderBackground.withValues(
+                alpha: 0.3,
+
+              ),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: const Center(
               child: Icon(Icons.camera_alt, size: 100, color: Colors.white),
             ),
           ),
-            
+
           const SizedBox(height: 20),
-            
+
           // 'Location' text
           const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -199,7 +266,19 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-            
+
+
+              const SizedBox(height: 50),
+
+              // Add Photos Button (new)
+              CustomButton(
+                width: 120,
+                verticalPadding: 10,
+                text: 'Add Photos',
+                fontSize: 12,
+                fontWeight: FontWeight.w200,
+                onTap: () => print('Add Photos Button Pressed'),
+
           Row(
             children: [
               // Current Location Checkbox
@@ -218,9 +297,12 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Use Current Location",
-                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
+                style: TextStyle(
+                  color: WoofCareColors.primaryTextAndIcons,
+                  fontSize: 12,
+                ),
               ),
-            
+
               const SizedBox(width: 30),
               // Drop Pin Checkbox
               Checkbox(
@@ -235,19 +317,19 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Drop Pin",
-                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
+                style: TextStyle(
+                  color: WoofCareColors.primaryTextAndIcons,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
-            
           // Nearest address text field
           CustomTextField(
             controller: _nearestAddressController,
             hintText: 'Nearest Address',
           ),
-            
           const SizedBox(height: 20),
-            
           // Location Description text field
           CustomTextField(
             controller: _locationDescriptionController,
@@ -256,9 +338,7 @@ class _ReportPageState extends State<ReportPage> {
             top: 25,
             bottom: 25,
           ),
-            
           const SizedBox(height: 20),
-            
           // 'Other' text
           const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -272,7 +352,6 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-            
           Row(
             children: [
               // Current Location Checkbox
@@ -291,9 +370,47 @@ class _ReportPageState extends State<ReportPage> {
               ),
               const Text(
                 "Make Anonymous Report",
-                style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12),
+                style: TextStyle(
+                  color: WoofCareColors.primaryTextAndIcons,
+                  fontSize: 12,
+                ),
               ),
             ],
+          ),
+
+          // Extra notes text field
+          CustomTextField(
+            controller: _extraNotesController,
+            hintText: 'Additional Notes?',
+          ),
+
+
+              const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: CustomButton(
+                  text: 'Submit',
+                  fontSize: 20,
+                  verticalPadding: 15,
+                  margin: 50,
+                  fontWeight: FontWeight.w200,
+                 
+                  onTap: () => submitReport(),
+                ),
+              ),
+            ],
+
+          const SizedBox(height: 20),
+
+          CustomButton(
+            text: 'Submit',
+            fontSize: 20,
+            verticalPadding: 15,
+            margin: 50,
+            fontWeight: FontWeight.w200,
+
+            onTap: () => submitReport(),
           ),
             
           // Extra notes text field
