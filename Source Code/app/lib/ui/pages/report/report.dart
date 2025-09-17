@@ -63,7 +63,6 @@ class _ReportPageState extends State<ReportPage> {
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         // Column to hold the input fields and buttons of the form
         // (i.e. Report Title, Dog Description, Location Description, Additional Notes)
         children: [
@@ -80,7 +79,6 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-
           const SizedBox(height: 16),
 
           // Report Title text field
@@ -106,12 +104,10 @@ class _ReportPageState extends State<ReportPage> {
                 underline: const SizedBox(), // Remove the underline
                 value: dropdownValue,
                 icon: const Icon(Icons.arrow_drop_down),
-
                 menuWidth: 280,
                 dropdownColor: WoofCareColors.secondaryBackground,
                 borderRadius: BorderRadius.circular(16.0),
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
-
                 hint: Text(
                   'Select Urgency Level',
                   textAlign: TextAlign.start,
@@ -213,12 +209,16 @@ class _ReportPageState extends State<ReportPage> {
                                   color: const Color(0xFF3F2917),
                                   fontWeight: FontWeight.w200,
                                 ),
-                                textAlign: TextAlign.start,
-                              ),
-                            ))
+                             
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        )
                         .toList(),
-                    onChanged: (dropdownValue) =>
+                onChanged:
+                    (dropdownValue) =>
                         setState(() => this.dropdownValue = dropdownValue),
+
                   ),
                 ),
 
@@ -324,15 +324,12 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ],
           ),
-
           // Nearest address text field
           CustomTextField(
             controller: _nearestAddressController,
             hintText: 'Nearest Address',
           ),
-
           const SizedBox(height: 20),
-
           // Location Description text field
           CustomTextField(
             controller: _locationDescriptionController,
@@ -341,9 +338,7 @@ class _ReportPageState extends State<ReportPage> {
             top: 25,
             bottom: 25,
           ),
-
           const SizedBox(height: 20),
-
           // 'Other' text
           const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -357,7 +352,6 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
-
           Row(
             children: [
               // Current Location Checkbox
@@ -416,6 +410,24 @@ class _ReportPageState extends State<ReportPage> {
             margin: 50,
             fontWeight: FontWeight.w200,
 
+            onTap: () => submitReport(),
+          ),
+            
+          // Extra notes text field
+          CustomTextField(
+            controller: _extraNotesController,
+            hintText: 'Additional Notes?',
+          ),
+            
+          const SizedBox(height: 20),
+            
+          CustomButton(
+            text: 'Submit',
+            fontSize: 20,
+            verticalPadding: 15,
+            margin: 50,
+            fontWeight: FontWeight.w200,
+          
             onTap: () => submitReport(),
           ),
         ],
