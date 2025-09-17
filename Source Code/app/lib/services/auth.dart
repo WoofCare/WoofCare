@@ -9,7 +9,6 @@ class Auth {
     BuildContext context,
     void Function() onLoggedIn,
   ) async {
-    if (AUTH.currentUser != null) {
       try {
         profile = await Profile.fromID(AUTH.currentUser!.uid);
       } catch (error, _) {
@@ -27,7 +26,6 @@ class Auth {
         }
         return;
       }
-    }
 
     onLoggedIn();
   }
@@ -40,10 +38,7 @@ class Auth {
     required void Function(FirebaseAuthException e) error,
   }) async {
     try {
-      await AUTH.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await AUTH.createUserWithEmailAndPassword(email: email, password: password);
 
       String uid = AUTH.currentUser!.uid;
       FIRESTORE.collection("users").doc(uid).set(data);
@@ -79,7 +74,7 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       error(e);
     } catch (e) {
-      print(e.toString());
+      print(e.toString()); // TODO: Should remove before production stage
     }
   }
 
@@ -88,6 +83,20 @@ class Auth {
 
     if (context.mounted) {
       Navigator.pushNamed(context, "/login");
+    }
+  }
+
+  static Future<void> passwordReset({
+    required email,
+    required BuildContext context,
+    required void Function() success,
+    required void Function(FirebaseAuthException e) error,
+  }) async {
+    try {
+      await AUTH.sendPasswordResetEmail(email: email);
+      success();
+    } on FirebaseAuthException catch (e) {      
+      error(e);
     }
   }
 }

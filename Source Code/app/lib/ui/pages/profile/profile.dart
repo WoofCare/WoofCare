@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
+import '/services/auth.dart';
+
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:woofcare/ui/pages/home/home.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
+
 import '/config/colors.dart';
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -34,6 +38,14 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
+
+            IconButton(
+              icon: const Icon(Icons.menu),
+              tooltip: "Menu",
+              onPressed: () {
+                // Menu with additional actions
+                //TODO: Implement menu actions
+
             MenuAnchor(
               menuChildren: [
                 MenuItemButton(
@@ -267,43 +279,71 @@ class _ProfilePageState extends State<ProfilePage> {
               // Button Row
               //TODO: add functionality to buttons
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right:0),
-                    child: CustomButton(
-                        height: 60,
-                        width: 200,
-                        color: WoofCareColors.backgroundElementColor,
-                        fontColor: WoofCareColors.primaryTextAndIcons,
-                        fontSize: 14,
-                        borderRadius: 16,
-                        text: "Message",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const HomePage()),
-                          );
-                        },
-                      ),
-                    ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 0),
-                      child: CustomButton(
-                        height: 60,
-                        color: WoofCareColors.buttonColor,
-                        borderRadius: 16,
-                        text: "Follow",
-                        fontSize: 14,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const HomePage()),
-                          );
-                        },
-                      ),
-                    ),
+                  CustomButton(
+                    height: 60,
+                    width: 130,
+                    margin: 0,
+                    color: const Color(0xFFCAB096),
+                    fontColor: WoofCareColors.primaryTextAndIcons,
+                    fontSize: 14,
+                    borderRadius: 16,
+                    text: "Message",
+                    onTap: () {
+                      Navigator.pushNamed(context, "/home");
+                    },
                   ),
+                  CustomButton(
+                    height: 60,
+                    width: 130,
+                    margin: 0,
+                    borderRadius: 16,
+                    text: "Follow",
+                    fontSize: 14,
+                    onTap: () {
+                      Navigator.pushNamed(context, "/home");
+                    },
+// =======
+//                   Padding(
+//                     padding: const EdgeInsets.only(left: 10, right:0),
+//                     child: CustomButton(
+//                         height: 60,
+//                         width: 200,
+//                         color: WoofCareColors.backgroundElementColor,
+//                         fontColor: WoofCareColors.primaryTextAndIcons,
+//                         fontSize: 14,
+//                         borderRadius: 16,
+//                         text: "Message",
+//                         onTap: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(builder: (context) => const HomePage()),
+//                           );
+//                         },
+//                       ),
+//                     ),
+//                   Expanded(
+//                     child: Padding(
+//                       padding: const EdgeInsets.only(right: 10, left: 0),
+//                       child: CustomButton(
+//                         height: 60,
+//                         color: WoofCareColors.buttonColor,
+//                         borderRadius: 16,
+//                         text: "Follow",
+//                         fontSize: 14,
+//                         onTap: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(builder: (context) => const HomePage()),
+//                           );
+//                         },
+//                       ),
+//                     ),
+// >>>>>>> main
+                  ),
+
+                  IconButton(onPressed: () => Auth.signOut(context), icon: const Icon(Icons.logout), color: WoofCareColors.primaryTextAndIcons,)
                 ],
               ),
 

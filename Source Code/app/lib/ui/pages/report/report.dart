@@ -151,6 +151,13 @@ class _ReportPageState extends State<ReportPage> {
 
           const SizedBox(height: 20),
 
+
+              // Report Title text field
+              CustomTextField(
+                  controller: _reportTitleController, 
+                  hintText: 'Report Title',
+              ),
+
           // Dog Description text field
           CustomTextField(
             controller: _dogDescriptionController,
@@ -160,7 +167,60 @@ class _ReportPageState extends State<ReportPage> {
             bottom: 25,
           ),
 
+
           const SizedBox(height: 50),
+
+
+              // Dropdown for urgency level
+              Center(
+                child: Container(
+                  width: 280,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFA66E38).withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(16.0),
+                  ),
+                  child: DropdownButton(
+                    isExpanded: true,
+                    underline: const SizedBox(), // Remove the underline
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_drop_down),
+
+                    menuWidth: 280,
+                    dropdownColor: const Color(0xFFF7FFF7),
+                    borderRadius: BorderRadius.circular(16.0),
+                    padding: const EdgeInsets.only(left: 50.0, right: 50.0),
+
+                    //focusColor: const Color.fromARGB(255, 0, 0, 0),
+
+                    hint: Text(
+                      'Select Urgency Level',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                        color: const Color(0xFF3F2917).withValues(alpha: 0.5),
+                        fontWeight: FontWeight.w200,
+                      ),
+                    ),
+                    items: urgencyList
+                        .map((urgency) => DropdownMenuItem(
+                              value: urgency,
+                              child: Text(
+                                urgency,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: GoogleFonts.aBeeZee().fontFamily,
+                                  color: const Color(0xFF3F2917),
+                                  fontWeight: FontWeight.w200,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (dropdownValue) =>
+                        setState(() => this.dropdownValue = dropdownValue),
+                  ),
+                ),
 
           // Add Photos Button (new)
           CustomButton(
@@ -182,6 +242,7 @@ class _ReportPageState extends State<ReportPage> {
             decoration: BoxDecoration(
               color: WoofCareColors.placeholderBackground.withValues(
                 alpha: 0.3,
+
               ),
               borderRadius: BorderRadius.circular(8.0),
             ),
@@ -205,6 +266,18 @@ class _ReportPageState extends State<ReportPage> {
               ),
             ),
           ),
+
+
+              const SizedBox(height: 50),
+
+              // Add Photos Button (new)
+              CustomButton(
+                width: 120,
+                verticalPadding: 10,
+                text: 'Add Photos',
+                fontSize: 12,
+                fontWeight: FontWeight.w200,
+                onTap: () => print('Add Photos Button Pressed'),
 
           Row(
             children: [
@@ -316,6 +389,23 @@ class _ReportPageState extends State<ReportPage> {
             controller: _extraNotesController,
             hintText: 'Additional Notes?',
           ),
+
+
+              const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: CustomButton(
+                  text: 'Submit',
+                  fontSize: 20,
+                  verticalPadding: 15,
+                  margin: 50,
+                  fontWeight: FontWeight.w200,
+                 
+                  onTap: () => submitReport(),
+                ),
+              ),
+            ],
 
           const SizedBox(height: 20),
 
