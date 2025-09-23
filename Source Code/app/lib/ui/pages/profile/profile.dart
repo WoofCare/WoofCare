@@ -62,70 +62,32 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
-            MenuAnchor(
-              style: MenuStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                shadowColor: MaterialStateProperty.all(Colors.transparent),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius
-                            .zero, // no rounded border for the menu itself
-                  ),
-                ),
+            // 👇 Toggle Edit Mode Button
+            IconButton(
+              icon: Icon(
+                _editMode ? Icons.create_rounded : Icons.create_outlined,
+                color:
+                    _editMode
+                        ? WoofCareColors.offWhite
+                        : WoofCareColors.primaryTextAndIcons,
               ),
+              tooltip: "Toggle Edit Mode",
+              onPressed: () {
+                setState(() {
+                  _editMode = !_editMode;
+                });
+              },
+            ),
 
-              menuChildren: [
-                // Edit Mode toggle button
-                MenuItemButton(
-                  onPressed: () {
-                    setState(() {
-                      _editMode = !_editMode;
-                    });
-                  },
-                  style: ButtonStyle(
-                    // 👇 Only color the button if edit mode is active
-                    backgroundColor: MaterialStateProperty.all(
-                      _editMode
-                          ? WoofCareColors.buttonColor
-                          : WoofCareColors.offWhite,
-                    ),
-                  ),
-                  leadingIcon: Icon(
-                    _editMode ? Icons.create_rounded : Icons.create_outlined,
-                    color:
-                        _editMode
-                            ? WoofCareColors.offWhite
-                            : WoofCareColors
-                                .primaryTextAndIcons, // icon color changes
-                  ),
-                  child: Text(
-                    'Edit Mode',
-                    style: TextStyle(
-                      color:
-                          _editMode
-                              ? WoofCareColors.offWhite
-                              : WoofCareColors.primaryTextAndIcons,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ],
-              builder: (
-                BuildContext context,
-                MenuController controller,
-                Widget? child,
-              ) {
-                return IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () {
-                    if (controller.isOpen) {
-                      controller.close();
-                    } else {
-                      controller.open();
-                    }
-                  },
-                );
+            // 👇 Settings Button
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+                color: WoofCareColors.primaryTextAndIcons,
+              ),
+              tooltip: "Settings",
+              onPressed: () {
+                // TODO: Open settings page or dialog
               },
             ),
           ],
@@ -696,7 +658,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         f.label ==
                                                         selectedFact!.label,
                                                   );
-                                          
+
                                               if (alreadyExists) {
                                                 // Show alert/snackbar
                                                 ScaffoldMessenger.of(
