@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -45,7 +46,11 @@ class _ConversationsPageState extends State<ConversationsPage> {
               },
             );
           },
-          child: const Icon(Icons.add, color: Color(0xFFFF926C), size: 25),
+          child: const Icon(
+            Icons.add,
+            color: WoofCareColors.floatingActionIcons,
+            size: 25,
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(8),

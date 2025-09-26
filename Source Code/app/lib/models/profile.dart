@@ -43,9 +43,5 @@ class Profile {
     }
   }
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
-        "role": role,
-      };
+  Map<String, dynamic> toJson() => {"name": name, "email": email, "role": role};
 }

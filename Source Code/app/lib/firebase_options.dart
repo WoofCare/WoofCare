@@ -59,5 +59,4 @@ class DefaultFirebaseOptions {
     projectId: 'woofcare-a9fac',
     storageBucket: 'woofcare-a9fac.firebasestorage.app',
   );
-
 }

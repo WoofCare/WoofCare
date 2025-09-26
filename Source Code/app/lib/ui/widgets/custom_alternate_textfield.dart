@@ -55,8 +55,12 @@ class CustomAlternateTextfield extends StatelessWidget {
               width: 2.0,
             ),
           ),
-          fillColor:
-              const Color.fromARGB(255, 255, 219, 186).withValues(alpha: 0.3),
+          fillColor: const Color.fromARGB(
+            255,
+            255,
+            219,
+            186,
+          ).withValues(alpha: 0.3),
           filled: true,
           hintText: hintText,
           hintStyle: TextStyle(

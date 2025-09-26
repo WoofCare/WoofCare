@@ -3,8 +3,10 @@ import 'package:woofcare/ui/pages/export.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
+
 import '/config/colors.dart';
 import '/config/constants.dart';
+import '/services/auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -62,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
-            // 👇 Toggle Edit Mode Button
             IconButton(
               icon: Icon(
                 _editMode ? Icons.create_rounded : Icons.create_outlined,
@@ -79,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
 
-            // 👇 Settings Button
+           
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -164,6 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     /*children: const [
                                       //TextSpan(
                                         TODO: connect username to database
+                                    children: const [
+                                      TextSpan(
+                                        //TODO: connect username to database
                                         text: " @username",
                                         style: TextStyle(
                                           fontSize: 12,
@@ -285,6 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Button Row
               //TODO: add functionality to buttons
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 0),
@@ -356,7 +361,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 minimumSize: Size(100, 25),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 16,
-                                  vertical: 10,
+
+                                  vertical: 12,
+
                                 ),
                                 backgroundColor: WoofCareColors.buttonColor,
                               ),
@@ -375,7 +382,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 minimumSize: Size(100, 25),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 16,
-                                  vertical: 10,
+
+                                  vertical: 12,
+
                                 ),
                                 backgroundColor:
                                     WoofCareColors.backgroundElementColor,
@@ -431,6 +440,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       // Spacer
                       if (_editMode) const SizedBox(height: 20),
 
+
                       // Biography Section
                       Container(
                         alignment: Alignment.center,
@@ -458,6 +468,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         child:
                             _editMode
+
                                 ? Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
@@ -481,11 +492,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         );
                                       },
+
                                       style: TextStyle(
                                         fontSize: 12,
                                         color:
                                             WoofCareColors.primaryTextAndIcons,
                                       ),
+
                                       decoration: const InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
@@ -537,6 +550,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                       ),
+
 
                       Divider(
                         color: WoofCareColors.dividerColor,

@@ -9,24 +9,22 @@ class Auth {
     BuildContext context,
     void Function() onLoggedIn,
   ) async {
-    if (AUTH.currentUser != null) {
-      try {
-        profile = await Profile.fromID(AUTH.currentUser!.uid);
-      } catch (error, _) {
-        if (error.toString().contains(
-              "does not exist within the DocumentSnapshotPlatform",
-            ) ||
-            error.toString().contains(
-              "on a DocumentSnapshotPlatform which does not exist",
-            )) {
-          if (context.mounted) {
-            Navigator.popAndPushNamed(context, "/login");
-          }
-        } else {
-          // TODO: Error Dialog
+    try {
+      profile = await Profile.fromID(AUTH.currentUser!.uid);
+    } catch (error, _) {
+      if (error.toString().contains(
+            "does not exist within the DocumentSnapshotPlatform",
+          ) ||
+          error.toString().contains(
+            "on a DocumentSnapshotPlatform which does not exist",
+          )) {
+        if (context.mounted) {
+          Navigator.popAndPushNamed(context, "/login");
         }
-        return;
+      } else {
+        // TODO: Error Dialog
       }
+      return;
     }
 
     onLoggedIn();
@@ -79,7 +77,7 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       error(e);
     } catch (e) {
-      print(e.toString());
+      print(e.toString()); // TODO: Should remove before production stage
     }
   }
 
@@ -88,6 +86,20 @@ class Auth {
 
     if (context.mounted) {
       Navigator.pushNamed(context, "/login");
+    }
+  }
+
+  static Future<void> passwordReset({
+    required email,
+    required BuildContext context,
+    required void Function() success,
+    required void Function(FirebaseAuthException e) error,
+  }) async {
+    try {
+      await AUTH.sendPasswordResetEmail(email: email);
+      success();
+    } on FirebaseAuthException catch (e) {
+      error(e);
     }
   }
 }
