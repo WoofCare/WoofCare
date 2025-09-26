@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/ui/pages/export.dart';
+import 'package:woofcare/ui/pages/settings/settings.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
@@ -14,17 +15,6 @@ class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
-
-final List<FactOption> availableFacts = [
-  FactOption(Icons.pets, "Has a dog"),
-  FactOption(Icons.volunteer_activism, "Volunteers"),
-  FactOption(Icons.favorite, "Looking to adopt"),
-  FactOption(Icons.school, "Dog trainer"),
-  FactOption(
-    Icons.health_and_safety,
-    "Passionate about pet health and wellness.",
-  ),
-];
 
 class FactOption {
   final IconData icon;
@@ -64,12 +54,16 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
+<<<<<<< Updated upstream
+=======
+            //edit mode button
+>>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 _editMode ? Icons.create_rounded : Icons.create_outlined,
                 color:
                     _editMode
-                        ? WoofCareColors.offWhite
+                        ? WoofCareColors.buttonColor
                         : WoofCareColors.primaryTextAndIcons,
               ),
               tooltip: "Toggle Edit Mode",
@@ -80,7 +74,11 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
 
+<<<<<<< Updated upstream
            
+=======
+            //settings button
+>>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -88,7 +86,12 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               tooltip: "Settings",
               onPressed: () {
-                // TODO: Open settings page or dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsPage(),
+                  ),
+                );
               },
             ),
           ],
@@ -302,12 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: 16,
                       text: "Message",
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ConversationsPage(),
-                          ),
-                        );
+                        Navigator.pop(context,0);
                       },
                     ),
                   ),
@@ -592,7 +590,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       FactOption? selectedFact =
-                                          availableFacts.first;
+                                          _factOptions.first;
                                       return AlertDialog(
                                         backgroundColor:
                                             WoofCareColors.offWhite,
@@ -614,7 +612,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               dropdownColor:
                                                   WoofCareColors.offWhite,
                                               items:
-                                                  availableFacts.map((fact) {
+                                                  _factOptions.map((fact) {
                                                     return DropdownMenuItem<
                                                       FactOption
                                                     >(
