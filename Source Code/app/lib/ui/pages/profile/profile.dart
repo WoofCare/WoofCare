@@ -54,7 +54,10 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: const Color(0xFFEEB784),
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
+<<<<<<< Updated upstream
+=======
             //edit mode button
+>>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 _editMode ? Icons.create_rounded : Icons.create_outlined,
@@ -71,8 +74,11 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
 
+<<<<<<< Updated upstream
            
+=======
             //settings button
+>>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -299,12 +305,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderRadius: 16,
                       text: "Message",
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ConversationsPage(),
-                          ),
-                        );
                         Navigator.pop(context,0);
                       },
                     ),
@@ -588,7 +588,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       FactOption? selectedFact =
-                                          availableFacts.first;
                                           _factOptions.first;
                                       return AlertDialog(
                                         backgroundColor:
@@ -611,7 +610,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                               dropdownColor:
                                                   WoofCareColors.offWhite,
                                               items:
-                                                  availableFacts.map((fact) {
                                                   _factOptions.map((fact) {
                                                     return DropdownMenuItem<
                                                       FactOption
