@@ -562,10 +562,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       // List of fact item
                       Expanded(
                         child: ListView.builder(
-                          itemCount: _factOptions.length,
+                          itemCount: _editMode
+                              ? _factOptions.length + 1
+                              : _factOptions.length,
                           itemBuilder: (context, index) {
                             // "add a fact" button at top of list if in edit mode
-                            if (_editMode && index == 0) {
+                            if (_editMode && index ==  0) {
                               return ListTile(
                                 dense: true,
                                 contentPadding: EdgeInsets.symmetric(
@@ -760,7 +762,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            _factOptions.removeAt(index);
+                                            _factOptions.removeAt(index-1);
                                           });
                                         },
                                       )

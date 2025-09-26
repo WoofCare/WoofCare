@@ -18,7 +18,7 @@ class WoofCareColors {
   static const Color appBarBackground = Color(0xFFF7FFF7);
 
   static const Color postBackground = Color(0xFFF6F1E0);
-  static const Color buttonColor = Color(0xFFEEB760);
+  static const Color buttonColor = Color(0xFFA66E38);
   static const Color textfieldBackground = Color(0xFFA66E38);
   static const Color placeholderBackground = Color(0xFFA66E38);
   static const Color borderOutline = Color(0xFFA66E38);
