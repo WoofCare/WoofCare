@@ -39,6 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
     FactOption(Icons.home, "Works at an animal shelter."),
   ];
 
+  List<FactOption> _selOptions = [];
+
   // @override
   // void dispose() {
   //   _bioTextController.dispose();
@@ -555,8 +557,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       Expanded(
                         child: ListView.builder(
                           itemCount: _editMode
-                              ? _factOptions.length + 1
-                              : _factOptions.length,
+                              ? _selOptions.length + 1
+                              : _selOptions.length,
                           itemBuilder: (context, index) {
                             // "add a fact" button at top of list if in edit mode
                             if (_editMode && index ==  0) {
@@ -660,7 +662,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               if (selectedFact == null) return;
 
                                               // Check if the fact already exists in the list
-                                              final alreadyExists = _factOptions
+                                              final alreadyExists = _selOptions
                                                   .any(
                                                     (f) =>
                                                         f.label ==
@@ -685,7 +687,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 );
                                               } else {
                                                 setState(() {
-                                                  _factOptions.add(
+                                                  _selOptions.add(
                                                     selectedFact!,
                                                   );
                                                 });
@@ -713,7 +715,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   // Add the chosen fact
                                   if (newFact != null) {
                                     setState(() {
-                                      _factOptions.add(newFact);
+                                      _selOptions.add(newFact);
                                     });
                                   }
                                 },
@@ -721,7 +723,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
 
                             final fact =
-                                _factOptions[index -
+                                _selOptions[index -
                                     (_editMode
                                         ? 1
                                         : 0)]; // Adjust index if in edit mode
@@ -743,7 +745,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
 
-                              // 🔹 Show delete button only in edit mode
+                              //show delete only in edit mode
                               trailing:
                                   _editMode
                                       ? IconButton(
@@ -754,7 +756,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            _factOptions.removeAt(index-1);
+                                            _selOptions.removeAt(index-1);
                                           });
                                         },
                                       )
