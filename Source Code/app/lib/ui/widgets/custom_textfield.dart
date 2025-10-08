@@ -28,7 +28,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.suffix,
     this.prefix,
-    this.horizontalPadding = 25,
+    this.horizontalPadding = 12,
     this.maxLines = 100,
     this.minLines = 1,
     this.top = 0,
@@ -47,7 +47,8 @@ class CustomTextField extends StatelessWidget {
         style: theme.textTheme.bodyMedium!.copyWith(color: Colors.black),
         onTap: onTap,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(0, top, 0, bottom),
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric( vertical: 12, horizontal: 16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
             borderSide: const BorderSide(
@@ -62,11 +63,13 @@ class CustomTextField extends StatelessWidget {
           ),
           fillColor: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
           filled: true,
+          
+          //make it so no icon space is taken if no icon is provided
+          suffixIcon: prefix != null ? Icon(prefix): null,
+          prefixIcon: prefix != null ? Icon(prefix): null,
+
+          //hint style
           hintText: hintText,
-          suffixIcon: Icon(
-            suffix,
-          ), // TODO: Suffix and prefix are taking space even on textfields with no Icon
-          prefixIcon: Icon(prefix),
           hintStyle: TextStyle(
             color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.5),
             fontWeight: FontWeight.w200,

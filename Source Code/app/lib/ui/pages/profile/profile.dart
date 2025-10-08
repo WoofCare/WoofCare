@@ -7,7 +7,6 @@ import 'package:woofcare/ui/widgets/custom_stat.dart';
 
 import '/config/colors.dart';
 import '/config/constants.dart';
-import '/services/auth.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -36,6 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
       Icons.health_and_safety,
       "Passionate about pet health and wellness.",
     ),
+    FactOption(Icons.nature_people, "Loves outdoor activities with pets."),
+    FactOption(Icons.home, "Works at an animal shelter."),
   ];
 
   // @override
@@ -49,15 +50,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: const Color(0xFFEEB784),
+        backgroundColor: WoofCareColors.primaryBackground,
         appBar: AppBar(
-          backgroundColor: const Color(0xFFEEB784),
+          backgroundColor: WoofCareColors.primaryBackground,
           foregroundColor: WoofCareColors.primaryTextAndIcons,
           actions: [
-<<<<<<< Updated upstream
-=======
             //edit mode button
->>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 _editMode ? Icons.create_rounded : Icons.create_outlined,
@@ -74,11 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             ),
 
-<<<<<<< Updated upstream
-           
-=======
             //settings button
->>>>>>> Stashed changes
             IconButton(
               icon: Icon(
                 Icons.settings,
