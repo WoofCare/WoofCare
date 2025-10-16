@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/ui/pages/export.dart';
 import 'package:woofcare/ui/pages/settings/settings.dart';
+import 'package:woofcare/ui/widgets/contact_info.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
@@ -30,9 +31,10 @@ class _ProfilePageState extends State<ProfilePage> {
   // Track whether we are in edit mode or view mode
   // When true, fields are editable
   bool _editMode = false;
-
-//TODO: connect to database for profile picture
+//TODO: connect to database for profile picture and account details
   ImageProvider? profileImage; 
+  String email = "example@email.com";
+  String phone = "(123) 456-7890";
 
 //TODO: connect to database for more facts
   final List<FactOption> _factOptions = [
@@ -144,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   TextSpan(
                                     text: profile.name,
                                     style: const TextStyle(
-                                      fontFamily: "Abeezee",
+                                      fontFamily: "Roboto",
                                       fontWeight: FontWeight.bold,
                                       fontSize: 24,
                                       color: WoofCareColors.primaryTextAndIcons,
@@ -173,7 +175,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   profile.role,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
-                                    fontFamily: "Abeezee",
+                                    fontFamily: "Roboto",
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16,
                                     color: WoofCareColors.primaryTextAndIcons,
@@ -210,56 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                               const SizedBox(height: 5),
 
-                              //phone number
-                              const SizedBox(
-                                width: 300,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.phone,
-                                      size: 24,
-                                      color: Color(0xFF805832),
-                                    ),
-                                    SizedBox(width: 3),
-                                    Text(
-                                      //TODO: connect phone number to database + allow privacy
-                                      "(123)456-7890",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: "Abeezee",
-                                        fontSize: 14,
-                                        color: Color(0xFF805832),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              const SizedBox(height: 3),
-
-                              //email
-                              SizedBox(
-                                width: 300,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.mail_outline,
-                                      size: 24,
-                                      color: Color(0xFF805832),
-                                    ),
-                                    const SizedBox(width: 3),
-                                    Text(
-                                      profile.email,
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                        fontFamily: "Abeezee",
-                                        fontSize: 14,
-                                        color: Color(0xFF805832),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              ContactInfoSection(isEditMode: _editMode, email: email, phone: phone)
                             ],
                           ),
                         ),
