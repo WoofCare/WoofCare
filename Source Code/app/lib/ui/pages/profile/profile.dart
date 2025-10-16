@@ -4,6 +4,7 @@ import 'package:woofcare/ui/pages/settings/settings.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
 import 'package:woofcare/ui/widgets/custom_stat.dart';
+import 'package:woofcare/ui/widgets/editable_profilepic.dart';
 
 import '/config/colors.dart';
 import '/config/constants.dart';
@@ -15,6 +16,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+// Model class for a fact option
 class FactOption {
   final IconData icon;
   final String label;
@@ -24,8 +26,15 @@ class FactOption {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _bioTextController = TextEditingController(text: profile.bio);
+  
+  // Track whether we are in edit mode or view mode
+  // When true, fields are editable
   bool _editMode = false;
 
+//TODO: connect to database for profile picture
+  ImageProvider? profileImage; 
+
+//TODO: connect to database for more facts
   final List<FactOption> _factOptions = [
     FactOption(Icons.pets, "Has a dog"),
     FactOption(Icons.volunteer_activism, "Volunteers"),
@@ -39,6 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
     FactOption(Icons.home, "Works at an animal shelter."),
   ];
 
+  //TODO: connect to database to save selected facts between sessions to display
   List<FactOption> _selOptions = [];
 
   // @override
@@ -105,31 +115,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   const SizedBox(width: 20), // Spacer on the left
                   // Profile Picture
-                  GestureDetector(
-                    onTap: () {}, //TODO: Add photo function
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color:
-                              WoofCareColors
-                                  .primaryTextAndIcons, // Stroke color
-                          width: 3.0, // Stroke width
-                        ),
-                      ),
-                      child: const CircleAvatar(
-                        // CircleAvatar for the profile picture
-                        radius: 75,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          color: WoofCareColors.primaryTextAndIcons,
-                          Icons.person,
-                          size: 100,
-                        ),
-                      ),
-                    ),
+                  EditableProfilePicture(
+                    isEditMode: _editMode,
+                    image: profileImage
                   ),
 
                   //spacer between picture and text
@@ -291,7 +279,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 0),
+                    padding: const EdgeInsets.only(left: 0, right: 0),
                     child: CustomButton(
                       height: 60,
                       width: 200,
@@ -432,13 +420,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
 
                       // Spacer
-                      if (_editMode) const SizedBox(height: 20),
+                      if (!_editMode) const SizedBox(height: 10),
 
 
                       // Biography Section
                       Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 16),
                         child: Text(
                           'About:',
                           style: TextStyle(
