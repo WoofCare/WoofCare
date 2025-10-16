@@ -331,6 +331,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   child: Column(
                     children: [
+                      /*
                       // Row of two buttons
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -382,7 +383,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       ),
+                      */
 
+                      /*
                       //Stats
                       //TODO: connect stats to database
                       if (!_editMode) //Hide stats in edit mod
@@ -418,6 +421,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                         ),
+                      */
 
                       // Spacer
                       if (!_editMode) const SizedBox(height: 10),
