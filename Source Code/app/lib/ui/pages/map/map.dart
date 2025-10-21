@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:woofcare/config/colors.dart';
@@ -77,21 +78,17 @@ class _MapPageState extends State<MapPage> {
         // Floating action button to report a dog
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 8),
+          padding: const EdgeInsets.only(top: 12),
           child: FloatingActionButton.large(
             onPressed: () {
               _reportDogButtonPressed();
             },
-            backgroundColor: Colors.transparent,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(90),
+              side: BorderSide(color: WoofCareColors.borderOutline.withValues(alpha: 0.5)),
+              borderRadius: BorderRadiusGeometry.circular(90)
             ),
-            focusElevation: 0,
-            highlightElevation: 0,
-            child: Image.asset(
-              'assets/images/homePageButtons/ReportBtn.png',
-              fit: BoxFit.cover,
-            ),
+            backgroundColor: WoofCareColors.secondaryBackground.withValues(alpha: 0.9),
+            child: FaIcon(FontAwesomeIcons.bullhorn),
           ),
         ),
       ),
