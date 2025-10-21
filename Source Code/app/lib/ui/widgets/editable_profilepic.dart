@@ -7,12 +7,11 @@ class EditableProfilePicture extends StatelessWidget {
   final ImageProvider? image;
 
   const EditableProfilePicture({
-    Key? key,
+    super.key,
     required this.isEditMode,
     this.image,
-  }) : super(key: key);
+  });
 
-  
   void _showChangePictureDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -34,62 +33,60 @@ class EditableProfilePicture extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-        // profile picture review
-        Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: WoofCareColors.primaryTextAndIcons,
-              width: 3.0,
-            ),
-          ),
-          child: CircleAvatar(
-            radius: 75,
-            backgroundColor: WoofCareColors.offWhite,
-            backgroundImage: image,
-            child: image == null
-                ? const Icon(
-                    Icons.person,
-                    size: 100,
+              // profile picture review
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
                     color: WoofCareColors.primaryTextAndIcons,
-                  )
-                : null,
-          ),
-        ),
-        const SizedBox(height: 10),
-
-               // ✅ Button instead of text
-            ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close dialog first
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Opening image picker..."),
-                    duration: Duration(seconds: 2),
+                    width: 3.0,
                   ),
-                );
-                // TODO: Add actual image picker here
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: WoofCareColors.buttonColor,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: CircleAvatar(
+                  radius: 75,
+                  backgroundColor: WoofCareColors.offWhite,
+                  backgroundImage: image,
+                  child:
+                      image == null
+                          ? const Icon(
+                            Icons.person,
+                            size: 100,
+                            color: WoofCareColors.primaryTextAndIcons,
+                          )
+                          : null,
                 ),
               ),
-              icon: const Icon(Icons.photo_camera_outlined, size: 18),
-              label: const Text(
-                "Choose New Picture",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
+              const SizedBox(height: 10),
+
+              // ✅ Button instead of text
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog first
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Opening image picker..."),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  // TODO: Add actual image picker here
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: WoofCareColors.buttonColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: const Icon(Icons.photo_camera_outlined, size: 18),
+                label: const Text(
+                  "Choose New Picture",
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
           actionsAlignment: MainAxisAlignment.end,
           actions: [
             // Cancel
@@ -106,25 +103,28 @@ class EditableProfilePicture extends StatelessWidget {
               ),
             ),
 
-            CustomSmallButton(text: "Save", onTap: () {
-              Navigator.of(context).pop();
-            }), 
+            CustomSmallButton(
+              text: "Save",
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isEditMode
-          ? () {
-              _showChangePictureDialog(context);
-              // TODO: Add change photo function
-            }
-          : null,
+      onTap:
+          isEditMode
+              ? () {
+                _showChangePictureDialog(context);
+                // TODO: Add change photo function
+              }
+              : null,
       child: Container(
         width: 150,
         height: 150,
@@ -142,13 +142,14 @@ class EditableProfilePicture extends StatelessWidget {
               radius: 75,
               backgroundColor: WoofCareColors.offWhite,
               backgroundImage: image, // Display the image if provided
-              child: image == null
-                  ? const Icon(
-                      Icons.person,
-                      size: 100,
-                      color: WoofCareColors.primaryTextAndIcons,
-                    )
-                  : null,
+              child:
+                  image == null
+                      ? const Icon(
+                        Icons.person,
+                        size: 100,
+                        color: WoofCareColors.primaryTextAndIcons,
+                      )
+                      : null,
             ),
 
             //dark overlay when in edit mode

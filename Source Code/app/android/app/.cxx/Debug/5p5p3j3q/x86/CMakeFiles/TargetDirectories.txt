@@ -1,2 +1,0 @@
-C:/Users/danla/Documents/Flutter Projects/woofcare/Source Code/app/android/app/.cxx/Debug/5p5p3j3q/x86/CMakeFiles/edit_cache.dir
-C:/Users/danla/Documents/Flutter Projects/woofcare/Source Code/app/android/app/.cxx/Debug/5p5p3j3q/x86/CMakeFiles/rebuild_cache.dir

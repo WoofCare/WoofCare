@@ -4,7 +4,6 @@ import 'package:woofcare/ui/pages/settings/settings.dart';
 import 'package:woofcare/ui/widgets/contact_info.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
-import 'package:woofcare/ui/widgets/custom_stat.dart';
 import 'package:woofcare/ui/widgets/editable_profilepic.dart';
 
 import '/config/colors.dart';
@@ -27,16 +26,16 @@ class FactOption {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _bioTextController = TextEditingController(text: profile.bio);
-  
+
   // Track whether we are in edit mode or view mode
   // When true, fields are editable
   bool _editMode = false;
-//TODO: connect to database for profile picture and account details
-  ImageProvider? profileImage; 
+  //TODO: connect to database for profile picture and account details
+  ImageProvider? profileImage;
   String email = "example@email.com";
   String phone = "(123) 456-7890";
 
-//TODO: connect to database for more facts
+  //TODO: connect to database for more facts
   final List<FactOption> _factOptions = [
     FactOption(Icons.pets, "Has a dog"),
     FactOption(Icons.volunteer_activism, "Volunteers"),
@@ -51,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
 
   //TODO: connect to database to save selected facts between sessions to display
-  List<FactOption> _selOptions = [];
+  final List<FactOption> _selOptions = [];
 
   // @override
   // void dispose() {
@@ -84,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
               });
             },
           ),
-    
+
           //settings button
           IconButton(
             icon: Icon(
@@ -95,9 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const SettingsPage(),
-                ),
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
             },
           ),
@@ -118,12 +115,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 // Profile Picture
                 EditableProfilePicture(
                   isEditMode: _editMode,
-                  image: profileImage
+                  image: profileImage,
                 ),
-    
+
                 //spacer between picture and text
                 const SizedBox(width: 5),
-    
+
                 //profile information
                 Expanded(
                   child: SafeArea(
@@ -166,7 +163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ),
-    
+
                             // Role
                             SizedBox(
                               width: 300,
@@ -181,9 +178,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ),
-    
+
                             const SizedBox(height: 5),
-    
+
                             //location
                             const SizedBox(
                               width: 300,
@@ -208,10 +205,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                             ),
-    
+
                             const SizedBox(height: 5),
-    
-                            ContactInfoSection(isEditMode: _editMode, email: email, phone: phone)
+
+                            ContactInfoSection(
+                              isEditMode: _editMode,
+                              email: email,
+                              phone: phone,
+                            ),
                           ],
                         ),
                       ),
@@ -221,10 +222,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 20), // Spacer on the right
               ],
             ),
-    
+
             // Spacer
             const SizedBox(height: 20),
-    
+
             // Button Row
             //TODO: add functionality to buttons
             Row(
@@ -241,7 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: 16,
                     text: "Message",
                     onTap: () {
-                      Navigator.pop(context,0);
+                      Navigator.pop(context, 0);
                     },
                   ),
                 ),
@@ -267,10 +268,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-    
+
             // Spacer
             const SizedBox(height: 20),
-    
+
             // AboutInformation
             Expanded(
               child: Container(
@@ -336,7 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     */
-    
+
                     /*
                     //Stats
                     //TODO: connect stats to database
@@ -374,11 +375,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     */
-    
+
                     // Spacer
                     if (!_editMode) const SizedBox(height: 10),
-    
-    
+
                     // Biography Section
                     Container(
                       alignment: Alignment.center,
@@ -394,10 +394,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     // Biography box
                     Container(
                       width: double.infinity,
-                      margin: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: WoofCareColors.offWhite,
@@ -405,7 +402,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child:
                           _editMode
-    
                               ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -429,13 +425,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                         ),
                                       );
                                     },
-    
+
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color:
-                                          WoofCareColors.primaryTextAndIcons,
+                                      color: WoofCareColors.primaryTextAndIcons,
                                     ),
-    
+
                                     decoration: const InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -460,15 +455,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       hintText: 'Enter your biography...',
                                       hintStyle: TextStyle(
                                         color:
-                                            WoofCareColors
-                                                .primaryTextAndIcons,
+                                            WoofCareColors.primaryTextAndIcons,
                                       ),
                                       fillColor: WoofCareColors.textBoxColor,
                                     ),
                                   ),
-    
+
                                   SizedBox(height: 10),
-    
+
                                   CustomSmallButton(
                                     text: "Save",
                                     onTap: () {},
@@ -487,24 +481,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                     ),
-    
-    
+
                     Divider(
                       color: WoofCareColors.dividerColor,
                       thickness: 2,
                       indent: 16,
                       endIndent: 16,
                     ),
-    
+
                     // List of fact item
                     Expanded(
                       child: ListView.builder(
-                        itemCount: _editMode
-                            ? _selOptions.length + 1
-                            : _selOptions.length,
+                        itemCount:
+                            _editMode
+                                ? _selOptions.length + 1
+                                : _selOptions.length,
                         itemBuilder: (context, index) {
                           // "add a fact" button at top of list if in edit mode
-                          if (_editMode && index ==  0) {
+                          if (_editMode && index == 0) {
                             return ListTile(
                               dense: true,
                               contentPadding: EdgeInsets.symmetric(
@@ -531,8 +525,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     FactOption? selectedFact =
                                         _factOptions.first;
                                     return AlertDialog(
-                                      backgroundColor:
-                                          WoofCareColors.offWhite,
+                                      backgroundColor: WoofCareColors.offWhite,
                                       title: Text(
                                         "Choose a fact",
                                         style: TextStyle(
@@ -594,16 +587,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       actions: [
                                         TextButton(
                                           onPressed:
-                                              () => Navigator.pop(
-                                                context,
-                                                null,
-                                              ),
+                                              () =>
+                                                  Navigator.pop(context, null),
                                           child: Text("Cancel"),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
                                             if (selectedFact == null) return;
-    
+
                                             // Check if the fact already exists in the list
                                             final alreadyExists = _selOptions
                                                 .any(
@@ -611,7 +602,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       f.label ==
                                                       selectedFact!.label,
                                                 );
-    
+
                                             if (alreadyExists) {
                                               // Show alert/snackbar
                                               ScaffoldMessenger.of(
@@ -630,9 +621,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               );
                                             } else {
                                               setState(() {
-                                                _selOptions.add(
-                                                  selectedFact!,
-                                                );
+                                                _selOptions.add(selectedFact!);
                                               });
                                               Navigator.pop(
                                                 context,
@@ -654,7 +643,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                     );
                                   },
                                 );
-    
+
                                 // Add the chosen fact
                                 if (newFact != null) {
                                   setState(() {
@@ -664,7 +653,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             );
                           }
-    
+
                           final fact =
                               _selOptions[index -
                                   (_editMode
@@ -687,7 +676,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 fontSize: 12,
                               ),
                             ),
-    
+
                             //show delete only in edit mode
                             trailing:
                                 _editMode
@@ -699,7 +688,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _selOptions.removeAt(index-1);
+                                          _selOptions.removeAt(index - 1);
                                         });
                                       },
                                     )

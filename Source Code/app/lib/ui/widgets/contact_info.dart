@@ -6,11 +6,11 @@ class ContactInfoSection extends StatefulWidget {
   final String phone;
 
   const ContactInfoSection({
-    Key? key,
+    super.key,
     required this.isEditMode,
     required this.email,
     required this.phone,
-  }) : super(key: key);
+  });
 
   @override
   State<ContactInfoSection> createState() => _ContactInfoSectionState();
@@ -36,11 +36,7 @@ class _ContactInfoSectionState extends State<ContactInfoSection> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 22,
-              color: const Color(0xFF805832),
-            ),
+            Icon(icon, size: 22, color: const Color(0xFF805832)),
             const SizedBox(width: 6),
 
             Expanded(
@@ -55,22 +51,22 @@ class _ContactInfoSectionState extends State<ContactInfoSection> {
               ),
             ),
 
-        
             SizedBox(
               width: 24,
-              child: widget.isEditMode
-                  ? IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      icon: Icon(
-                        hidden ? Icons.visibility_off : Icons.visibility,
-                        size: 16,
-                        color: const Color(0xFF805832),
-                      ),
-                      tooltip: hidden ? "Show" : "Hide",
-                      onPressed: onToggle,
-                    )
-                  : const SizedBox.shrink(),
+              child:
+                  widget.isEditMode
+                      ? IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        icon: Icon(
+                          hidden ? Icons.visibility_off : Icons.visibility,
+                          size: 16,
+                          color: const Color(0xFF805832),
+                        ),
+                        tooltip: hidden ? "Show" : "Hide",
+                        onPressed: onToggle,
+                      )
+                      : const SizedBox.shrink(),
             ),
           ],
         ),

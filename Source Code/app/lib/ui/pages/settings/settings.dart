@@ -1,18 +1,9 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:woofcare/ui/pages/export.dart';
-import 'package:woofcare/ui/pages/settings/settings.dart';
-import 'package:woofcare/ui/widgets/custom_button.dart';
 import 'package:woofcare/ui/widgets/custom_small_button.dart';
-import '/config/colors.dart' as app_colors;
-import '/config/constants.dart';
 
-import '/config/constants.dart';
-import '/services/auth.dart';
-import '/ui/widgets/custom_button.dart';
+import '/config/colors.dart' as app_colors;
 import '/ui/widgets/custom_textfield.dart';
-import '/ui/widgets/custom_small_button.dart';
-import '/ui/widgets/custom_setting_tiles.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,6 +19,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final _passwordTextController = TextEditingController();
   final _emailTextController = TextEditingController();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -390,7 +382,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 );
                               },
                             ),
-                             title: Text(
+                            title: Text(
                               "About Us",
                               style: TextStyle(
                                 color:
@@ -430,7 +422,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 );
                               },
                             ),
-                             title: Text(
+                            title: Text(
                               "Privacy Policy",
                               style: TextStyle(
                                 color:
@@ -470,7 +462,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 );
                               },
                             ),
-                             title: Text(
+                            title: Text(
                               "Terms & Conditions",
                               style: TextStyle(
                                 color:
@@ -494,7 +486,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             title: const Text(
                               "Log Out",
                               style: TextStyle(
-                                color: Color(0xFFFF926C), // Bootstrap's red color
+                                color: Color(
+                                  0xFFFF926C,
+                                ), // Bootstrap's red color
                                 fontSize: 16,
                               ),
                             ),

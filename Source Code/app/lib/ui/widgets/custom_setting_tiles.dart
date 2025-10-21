@@ -66,10 +66,7 @@ class SettingsExpansionFormTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: onSave,
-                child: const Text("Save"),
-              ),
+              ElevatedButton(onPressed: onSave, child: const Text("Save")),
             ],
           ),
         ),
@@ -105,9 +102,10 @@ class SettingsDropdownTile extends StatelessWidget {
       ),
       trailing: DropdownButton<String>(
         value: value,
-        items: options
-            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-            .toList(),
+        items:
+            options
+                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                .toList(),
         onChanged: onChanged,
       ),
     );
@@ -138,8 +136,8 @@ class SettingsSwitchTile extends StatelessWidget {
         ),
       ),
       trailing: Switch(
-        trackColor: MaterialStateProperty.all(WoofCareColors.buttonColor),
-        thumbColor: MaterialStateProperty.all(WoofCareColors.offWhite),
+        trackColor: WidgetStateProperty.all(WoofCareColors.buttonColor),
+        thumbColor: WidgetStateProperty.all(WoofCareColors.offWhite),
         value: value,
         onChanged: onChanged,
       ),

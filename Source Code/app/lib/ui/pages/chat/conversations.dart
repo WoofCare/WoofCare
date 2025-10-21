@@ -194,7 +194,7 @@ class SearchBottomSheet extends StatefulWidget {
   const SearchBottomSheet({super.key});
 
   @override
-  _SearchBottomSheetState createState() => _SearchBottomSheetState();
+  State<SearchBottomSheet> createState() => _SearchBottomSheetState();
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {

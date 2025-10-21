@@ -47,3 +47,4 @@ app.*.map.json
 #IOS
 /app/ios/Flutter/Generated.xcconfig
 /app/ios/Flutter/flutter_export_environment.sh
+Source Code/app/ios/Flutter/flutter_export_environment.sh

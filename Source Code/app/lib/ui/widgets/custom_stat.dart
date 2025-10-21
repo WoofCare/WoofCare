@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/config/colors.dart';
 
-Widget custom_stat(String number, String label) {
+Widget customStat(String number, String label) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
