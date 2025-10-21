@@ -176,7 +176,6 @@ class _MapPageState extends State<MapPage> {
                       fontSize: 24,
                       fontWeight: FontWeight.w200,
                       color: WoofCareColors.primaryTextAndIcons,
-                      decoration: TextDecoration.underline,
                     ),
                   ),
 

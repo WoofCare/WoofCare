@@ -32,6 +32,12 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.black, fontSize: 24),
         ),
         automaticallyImplyLeading: false,
+        shape: Border(
+          bottom: BorderSide(
+            color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.2),
+            width: 1,
+          )
+        ),
         actions: [
           IconButton(
             onPressed: () => Navigator.pushNamed(context, "/profile"),
@@ -44,35 +50,47 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: pages[currentPageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentPageIndex,
-        onTap: (value) {
-          setState(() {
-            currentPageIndex = value;
-          });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidComments),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidMap),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.signsPost),
-            label: 'Feed',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.bookOpen),
-            label: 'Articles',
-          ),
-        ],
-        backgroundColor: WoofCareColors.secondaryBackground,
-        unselectedItemColor: const Color(0xFFA66E38),
-        selectedItemColor: const Color(0xFF3F2917),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.05),
+          border: Border(
+            top: BorderSide(
+              color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.1),
+              width: 1,
+            )
+          )
+        ),
+        child: BottomNavigationBar(
+          iconSize: 20,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentPageIndex,
+          onTap: (value) {
+            setState(() {
+              currentPageIndex = value;
+            });
+          },
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.solidComments),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.solidMap),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.signsPost),
+              label: 'Feed',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.bookOpen),
+              label: 'Articles',
+            ),
+          ],
+          backgroundColor: WoofCareColors.secondaryBackground,
+          unselectedItemColor: const Color(0xFFA66E38),
+          selectedItemColor: const Color(0xFF3F2917),
+        ),
       ),
     );
   }
