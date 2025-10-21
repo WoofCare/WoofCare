@@ -25,56 +25,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Hi, ${profile.name}",
-            style: TextStyle(color: Colors.black, fontSize: 24),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Hi, ${profile.name}",
+          style: TextStyle(color: Colors.black, fontSize: 24),
+        ),
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, "/profile"),
+            icon: Image.asset(
+              "assets/images/homePageButtons/ProfileButton.png",
+              width: 40,
+              height: 40,
+            ),
           ),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-              onPressed: () => Navigator.pushNamed(context, "/profile"),
-              icon: Image.asset(
-                "assets/images/homePageButtons/ProfileButton.png",
-                width: 40,
-                height: 40,
-              ),
-            ),
-          ],
-        ),
-        body: pages[currentPageIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          currentIndex: currentPageIndex,
-          onTap: (value) {
-            setState(() {
-              currentPageIndex = value;
-            });
-          },
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.solidComments),
-              label: 'Chats',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.solidMap),
-              label: 'Map',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.signsPost),
-              label: 'Feed',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.bookOpen),
-              label: 'Articles',
-            ),
-          ],
-          backgroundColor: WoofCareColors.secondaryBackground,
-          unselectedItemColor: const Color(0xFFA66E38),
-          selectedItemColor: const Color(0xFF3F2917),
-        ),
+        ],
+      ),
+      body: pages[currentPageIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentPageIndex,
+        onTap: (value) {
+          setState(() {
+            currentPageIndex = value;
+          });
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.solidComments),
+            label: 'Chats',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.solidMap),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.signsPost),
+            label: 'Feed',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.bookOpen),
+            label: 'Articles',
+          ),
+        ],
+        backgroundColor: WoofCareColors.secondaryBackground,
+        unselectedItemColor: const Color(0xFFA66E38),
+        selectedItemColor: const Color(0xFF3F2917),
       ),
     );
   }

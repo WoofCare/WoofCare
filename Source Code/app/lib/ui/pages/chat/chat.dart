@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/input_field.dart';
@@ -16,16 +17,23 @@ class _ChatPageState extends State<ChatPage> {
   late final RxList<Map<String, Object>> fields;
   final TextEditingController _messageController = TextEditingController();
   late String chatID;
+  bool _isSendButtonDisabled = true;
+
 
   @override
   void initState() {
     super.initState();
+    _messageController.addListener(() {
+      setState(() {
+        _isSendButtonDisabled = _messageController.text.trim().isEmpty;
+      });
+    });
 
     fields =
         [
           {
             "value": "message",
-            "name": "Message",
+            "name": "message",
             "controller": _messageController,
             "icon": Icons.message,
             "input": TextInputType.name,
@@ -52,102 +60,99 @@ class _ChatPageState extends State<ChatPage> {
             as Map;
     chatID = arguments['chatID'];
     final String participant = arguments['participant'];
+    final int? photoID = arguments['photoID'];
 
-    return SafeArea(
-      child: Scaffold(
-        // It is in the app bar where the user can see the name of the person they are chatting with
-        appBar: AppBar(
-          toolbarHeight: 80,
-          iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-          actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-          actions: [
-            IconButton(icon: const Icon(Icons.phone), onPressed: () {}),
+    return Scaffold(
+    
+      // It is in the app bar where the user can see the name of the person they are chatting with
+      appBar: AppBar(
+        toolbarHeight: 80,
+        iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+        actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+        actions: [
+          IconButton(icon: const Icon(Icons.phone), onPressed: () {}),
+        ],
+        title: Column(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 25,
+              backgroundImage: AssetImage(
+                "assets/images/placeholders/$photoID.jpg",
+              ),
+            ),
+            Text(
+              participant,
+              style: TextStyle(
+                color: Color(0xFF3F2917),
+                fontFamily: "ABeeZee",
+                fontSize: 16,
+              ),
+            ),
           ],
-          title: Column(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                radius: 25,
-                backgroundImage: AssetImage(
-                  "assets/images/chat_icons/clipart546487 1.png",
-                ),
-              ),
-              Text(
-                participant,
-                style: TextStyle(
-                  color: Color(0xFF3F2917),
-                  fontFamily: "ABeeZee",
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          centerTitle: true,
         ),
-        backgroundColor: const Color(0xFFEEB784),
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _Messages(chatId: chatID),
-              Container(
-                // decoration: const BoxDecoration(
-                //   border: Border(
-                //     top: BorderSide(
-                //       color: Colors.white,
-                //       width: 2,
-                //     ),
-                //   ),
-                // ),
-                child: Row(
-                  children: [
-                    Obx(
-                      () => Expanded(
-                        child: Column(
-                          children: List.generate(fields.length, (index) {
-                            final Map<String, dynamic> field = fields[index];
-                            return InputField(
-                              decoration: InputDecoration(
-                                fillColor: Color(0xFFF7FFF7),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                  borderSide: BorderSide.none,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                  borderSide: BorderSide.none,
-                                ),
-                                hintText: (field["name"]),
-                                hintStyle: TextStyle(
-                                  color: Color(0xFFCAB096),
-                                  fontFamily: "ABeeZee",
-                                  fontSize: 16,
-                                ),
-                                prefixIcon: Icon(
-                                  field["icon"],
-                                  color: Color(0xFFA66E38),
-                                ),
+        centerTitle: true,
+      ),
+      backgroundColor: WoofCareColors.postBackground,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _Messages(chatId: chatID),
+            Row(
+              children: [
+                Obx(
+                  () => Expanded(
+                    child: Column(
+                      children: List.generate(fields.length, (index) {
+                        final Map<String, dynamic> field = fields[index];
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(12, 8, 5, 8),
+                          child: InputField(                                 
+                            decoration: InputDecoration(
+                              fillColor: Color(0xFFF7FFF7),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24),
+                                borderSide: BorderSide.none,
                               ),
-                              controller: field["controller"],
-                              onSubmitted: field["submit"],
-                              textInputType: TextInputType.multiline,
-                              maxLines: 5,
-                              error: field["error"],
-                            );
-                          }),
-                        ),
-                      ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(24),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: "Type your ${field["name"]} here...",
+                              hintStyle: TextStyle(
+                                color: Color(0xFFCAB096),
+                                fontFamily: "ABeeZee",
+                                fontSize: 16,
+                              ),
+                              prefixIcon: Icon(
+                                field["icon"],
+                                color: Color(0xFFA66E38),
+                              ),
+                            ),
+                            controller: field["controller"],
+                            onSubmitted: field["submit"],
+                            textInputType: TextInputType.multiline,
+                            maxLines: 5,
+                            error: field["error"],
+                          ),
+                        );
+                      }),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: () => submit(context),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.send,
+                  ),
+                  disabledColor: WoofCareColors.gray,
+                  color: WoofCareColors.primaryTextAndIcons,
+                  onPressed: _isSendButtonDisabled ? null : () => submit(context),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -220,7 +225,7 @@ class _Messages extends StatelessWidget {
         return Expanded(
           child: ListView(
             reverse: true,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             children: messages,
           ),
         );
@@ -250,7 +255,7 @@ class _Message extends StatelessWidget {
         crossAxisAlignment:
             isSelf ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(sender, style: context.textTheme.titleSmall),
+          Text(sender, style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontWeight: FontWeight.bold, height: 1.5)),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration:
@@ -261,7 +266,7 @@ class _Message extends StatelessWidget {
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
-                      color: Color.fromARGB(255, 139, 158, 54),
+                      color: WoofCareColors.white60,
                     )
                     : const BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -269,11 +274,11 @@ class _Message extends StatelessWidget {
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10),
                       ),
-                      color: Color.fromARGB(255, 139, 158, 54),
+                      color: WoofCareColors.white60,
                     ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(text, style: context.textTheme.displaySmall)],
+              children: [Text(text, style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 17))],
             ),
           ),
         ],

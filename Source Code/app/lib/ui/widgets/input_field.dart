@@ -59,7 +59,7 @@ class InputField extends StatelessWidget {
                     textCapitalization:
                         hideText
                             ? TextCapitalization.none
-                            : TextCapitalization.words,
+                            : TextCapitalization.sentences,
                     maxLines: maxLines,
                     textInputAction:
                         textInputAction ??
