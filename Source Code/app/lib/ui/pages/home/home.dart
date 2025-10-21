@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           bottom: BorderSide(
             color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.2),
             width: 1,
-          )
+          ),
         ),
         actions: [
           IconButton(
@@ -57,8 +57,8 @@ class _HomePageState extends State<HomePage> {
             top: BorderSide(
               color: WoofCareColors.primaryTextAndIcons.withValues(alpha: 0.1),
               width: 1,
-            )
-          )
+            ),
+          ),
         ),
         child: BottomNavigationBar(
           iconSize: 20,
@@ -82,10 +82,10 @@ class _HomePageState extends State<HomePage> {
               icon: FaIcon(FontAwesomeIcons.signsPost),
               label: 'Feed',
             ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.bookOpen),
-              label: 'Articles',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: FaIcon(FontAwesomeIcons.bookOpen),
+            //   label: 'Articles',
+            // ),
           ],
           backgroundColor: WoofCareColors.secondaryBackground,
           unselectedItemColor: const Color(0xFFA66E38),
