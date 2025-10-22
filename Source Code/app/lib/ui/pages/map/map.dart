@@ -21,9 +21,14 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final locationController = Location();
-  LatLng? currentPosition;
+  // LatLng? currentPosition;
+  LatLng currentPosition = LatLng(18.5231571, 73.9022781);
 
   List<Map<String, dynamic>> markers = [];
+  bool markerSelected = false;
+
+  BitmapDescriptor currentMarker = BitmapDescriptor.defaultMarker;
+
   BitmapDescriptor vetMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor vetSelectMarker = BitmapDescriptor.defaultMarker;
   BitmapDescriptor ngoMarker = BitmapDescriptor.defaultMarker;
@@ -42,8 +47,8 @@ class _MapPageState extends State<MapPage> {
     _updateMarkerIcons();
   }
 
-  void _showMarkerBottomSheet(Map<String, dynamic> markerData) {
-    showModalBottomSheet(
+  Future<void> _showMarkerBottomSheet(Map<String, dynamic> markerData) async {
+    await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -103,7 +108,7 @@ class _MapPageState extends State<MapPage> {
                               borderRadius: BorderRadius.circular(12),
                               image: const DecorationImage(
                                 image: AssetImage(
-                                  'assets/images/map/placeholder.jpeg',
+                                  'assets/images/placeholders/placeholder.jpeg',
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -213,7 +218,7 @@ class _MapPageState extends State<MapPage> {
                                 ),
                               ),
                               onPressed: () async {
-                                final phone = markerData['number'];
+                                final phone = markerData['phone'];
 
                                 if (phone != null &&
                                     phone.toString().isNotEmpty) {
@@ -338,7 +343,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _fetchLocation(context);
+      // _fetchLocation(context);
       _fetchMarkers();
     });
 
@@ -357,18 +362,26 @@ class _MapPageState extends State<MapPage> {
                       zoom: 13,
                     ),
                     markers: {
+                      Marker(
+                        markerId: MarkerId("currentPos"),
+                        icon: currentMarker,
+                        position: currentPosition,
+                      ),
                       for (var i = 0; i < markers.length; i++)
                         Marker(
                           markerId: MarkerId(markers[i]["id"]),
+                          // icon:
+                          //     markerSelected
+                          //         ? markers[i]["selectIcon"]
+                          //         : markers[i]["icon"],
                           icon: markers[i]["icon"],
                           position: LatLng(
                             markers[i]["latitude"],
                             markers[i]["longitude"],
                           ),
                           onTap: () {
-                            // Show a bottom sheet when this marker is tapped.
-                            print("marker");
-                            _showMarkerBottomSheet(markers[i]);
+                            // Show a bottom sheet when this marker is tapped and update selection
+                            _handleMarkerTap(i);
                           },
                         ),
                     },
@@ -400,37 +413,37 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> fetchLocationUpdates(BuildContext context) async {
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
+    // bool serviceEnabled;
+    // PermissionStatus permissionGranted;
 
-    serviceEnabled = await locationController.serviceEnabled();
-    if (serviceEnabled) {
-      serviceEnabled = await locationController.requestService();
-    } else {
-      return;
-    }
+    // serviceEnabled = await locationController.serviceEnabled();
+    // if (serviceEnabled) {
+    //   serviceEnabled = await locationController.requestService();
+    // } else {
+    //   return;
+    // }
 
-    permissionGranted = await locationController.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await locationController.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        // What if the permission status is grantedLimited?
-        return;
-      }
-    }
+    // permissionGranted = await locationController.hasPermission();
+    // if (permissionGranted == PermissionStatus.denied) {
+    //   permissionGranted = await locationController.requestPermission();
+    //   if (permissionGranted != PermissionStatus.granted) {
+    //     // What if the permission status is grantedLimited?
+    //     return;
+    //   }
+    // }
 
-    locationController.onLocationChanged.listen((currentLocation) {
-      if (currentLocation.latitude != null &&
-          currentLocation.longitude != null &&
-          context.mounted) {
-        setState(() {
-          currentPosition = LatLng(
-            currentLocation.latitude!,
-            currentLocation.longitude!,
-          );
-        });
-      }
-    });
+    // locationController.onLocationChanged.listen((currentLocation) {
+    //   if (currentLocation.latitude != null &&
+    //       currentLocation.longitude != null &&
+    //       context.mounted) {
+    //     setState(() {
+    // currentPosition = LatLng(
+    //   currentLocation.latitude!,
+    //   currentLocation.longitude!,
+    // );
+    //     });
+    //   }
+    // });
   }
 
   void _reportDogButtonPressed() {
@@ -515,6 +528,11 @@ class _MapPageState extends State<MapPage> {
   }
 
   void _updateMarkerIcons() async {
+    currentMarker = await BitmapDescriptor.asset(
+      const ImageConfiguration(),
+      'assets/images/map/current.png',
+    );
+
     vetMarker = await BitmapDescriptor.asset(
       const ImageConfiguration(),
       'assets/images/map/vet.png',
@@ -575,25 +593,30 @@ class _MapPageState extends State<MapPage> {
           'longitude': data['longitude'],
           'name': data['name'] ?? 'Unknown',
           'description': data['description'] ?? 'NA',
-          'number': data['number'],
+          'phone': data['phone'],
           'website': data['website'],
         };
 
         switch (data['type']) {
           case 'vet':
             marker['icon'] = vetMarker;
+            marker['selectIcon'] = vetSelectMarker;
             break;
           case 'ngo':
             marker['icon'] = ngoMarker;
+            marker['selectIcon'] = ngoSelectMarker;
             break;
           case 'shelter':
             marker['icon'] = shelterMarker;
+            marker['selectIcon'] = shelterSelectMarker;
             break;
           case 'dog':
             marker['icon'] = dogMarker;
+            marker['selectIcon'] = dogSelectMarker;
             break;
           case 'adopt':
             marker['icon'] = adoptMarker;
+            marker['selectIcon'] = adoptSelectMarker;
             break;
           default:
             marker['icon'] = dogMarker;
@@ -601,6 +624,20 @@ class _MapPageState extends State<MapPage> {
 
         markers.add(marker);
       }
+    }
+  }
+
+  Future<void> _handleMarkerTap(int index) async {
+    setState(() {
+      markerSelected = true;
+    });
+
+    await _showMarkerBottomSheet(markers[index]);
+
+    if (mounted) {
+      setState(() {
+        markerSelected = false;
+      });
     }
   }
 

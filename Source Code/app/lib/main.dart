@@ -11,8 +11,11 @@ import '/ui/pages/export.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  // LocationsDB.update();
 
   runApp(const WoofCare());
 }
