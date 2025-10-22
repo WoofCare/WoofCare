@@ -19,7 +19,6 @@ class _ChatPageState extends State<ChatPage> {
   late String chatID;
   bool _isSendButtonDisabled = true;
 
-
   @override
   void initState() {
     super.initState();
@@ -63,15 +62,12 @@ class _ChatPageState extends State<ChatPage> {
     final int? photoID = arguments['photoID'];
 
     return Scaffold(
-    
       // It is in the app bar where the user can see the name of the person they are chatting with
       appBar: AppBar(
         toolbarHeight: 80,
         iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
         actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-        actions: [
-          IconButton(icon: const Icon(Icons.phone), onPressed: () {}),
-        ],
+        actions: [IconButton(icon: const Icon(Icons.phone), onPressed: () {})],
         title: Column(
           children: [
             CircleAvatar(
@@ -109,7 +105,7 @@ class _ChatPageState extends State<ChatPage> {
                         final Map<String, dynamic> field = fields[index];
                         return Container(
                           padding: const EdgeInsets.fromLTRB(12, 8, 5, 8),
-                          child: InputField(                                 
+                          child: InputField(
                             decoration: InputDecoration(
                               fillColor: Color(0xFFF7FFF7),
                               border: OutlineInputBorder(
@@ -143,12 +139,11 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(
-                    Icons.send,
-                  ),
+                  icon: const Icon(Icons.send),
                   disabledColor: WoofCareColors.gray,
                   color: WoofCareColors.primaryTextAndIcons,
-                  onPressed: _isSendButtonDisabled ? null : () => submit(context),
+                  onPressed:
+                      _isSendButtonDisabled ? null : () => submit(context),
                 ),
               ],
             ),
@@ -255,7 +250,14 @@ class _Message extends StatelessWidget {
         crossAxisAlignment:
             isSelf ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(sender, style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontWeight: FontWeight.bold, height: 1.5)),
+          Text(
+            sender,
+            style: TextStyle(
+              color: WoofCareColors.primaryTextAndIcons,
+              fontWeight: FontWeight.bold,
+              height: 1.5,
+            ),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration:
@@ -278,7 +280,15 @@ class _Message extends StatelessWidget {
                     ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(text, style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 17))],
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: WoofCareColors.primaryTextAndIcons,
+                    fontSize: 17,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

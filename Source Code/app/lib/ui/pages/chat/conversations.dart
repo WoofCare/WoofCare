@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woofcare/config/colors.dart';
-import 'package:woofcare/main.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -15,23 +14,24 @@ class ConversationsPage extends StatefulWidget {
 }
 
 class _ConversationsPageState extends State<ConversationsPage> {
-
-  Future<String> getLastConversationMessage(QueryDocumentSnapshot conversation) async {
+  Future<String> getLastConversationMessage(
+    QueryDocumentSnapshot conversation,
+  ) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> messagesSnapshot =
-            await conversation.reference
+          await conversation.reference
               .collection('messages')
               .orderBy('time', descending: true)
               .limit(1)
               .get();
-          if (messagesSnapshot.docs.isNotEmpty) {
-            final data = messagesSnapshot.docs.first.data();
-            return data["text"] as String? ?? "No messages yet";
-          }
-      } catch (e) {
-        e.printError();
+      if (messagesSnapshot.docs.isNotEmpty) {
+        final data = messagesSnapshot.docs.first.data();
+        return data["text"] as String? ?? "No messages yet";
       }
-      return "No messages yet";
+    } catch (e) {
+      e.printError();
+    }
+    return "No messages yet";
   }
 
   @override
@@ -67,7 +67,11 @@ class _ConversationsPageState extends State<ConversationsPage> {
               },
             );
           },
-          child: const Icon(Icons.add, color: WoofCareColors.floatingActionIcons, size: 25),
+          child: const Icon(
+            Icons.add,
+            color: WoofCareColors.floatingActionIcons,
+            size: 25,
+          ),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -97,69 +101,115 @@ class _ConversationsPageState extends State<ConversationsPage> {
                             // padding: const EdgeInsets.only(top: 10, bottom: 10),
                             decoration: BoxDecoration(
                               color: WoofCareColors.postBackground,
-                              border: Border(bottom: BorderSide(color: Colors.black, width: 1)),
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
                               // borderRadius: BorderRadius.circular(12),
                             ),
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      '/chat',
-                                      arguments: {
-                                        'chatID': conversationSnapshots[index].id,
-                                        'photoID' : index,
-                                        'participant':
-                                            conversationSnapshots[index]['Participants'][0] ==
-                                                    profile.name
-                                                ? conversationSnapshots[index]['Participants'][1]
-                                                : conversationSnapshots[index]['Participants'][0],
-                                      },
-                                    );
-                                  },
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.only(top: 10, bottom: 10, left: 16, right: 16),
-                                    leading: CircleAvatar(
-                                      radius: 24,
-                                      backgroundImage: AssetImage(
-                                        // TODO: replace with profile pictures set by the user
-                                        "assets/images/placeholders/$index.jpg",
-                                      ),
-                                    ),
-                                    dense: true,
-                                    title: Text(
-                                      conversationSnapshots[index]['Participants'][0] == profile.name
-                                          ? conversationSnapshots[index]['Participants'][1]
-                                          : conversationSnapshots[index]['Participants'][0],
-                                      style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontWeight: FontWeight.bold),
-                                      
-                                    ),
-                                    subtitle: FutureBuilder<String>(
-                                      future: getLastConversationMessage(conversationSnapshots[index]),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return Text("Loading...", style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 14));
-                                        }
-                                        if (snapshot.hasError) {
-                                          return Text("Error", style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 14));
-                                        }
-                                        return Text(snapshot.data ?? "No messages yet",
-                                          style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 14),
-                                          overflow: TextOverflow.ellipsis,
-                                        );
-                                      },
-                                    ),
-                                    trailing: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      spacing: 15.0,
-                                      children: [
-                                        Text("Yesterday", style: TextStyle(color: WoofCareColors.primaryTextAndIcons, fontSize: 12)),
-                                        // TODO: implement unread messages count
-                                      ],
-                                    )
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/chat',
+                                    arguments: {
+                                      'chatID': conversationSnapshots[index].id,
+                                      'photoID': index,
+                                      'participant':
+                                          conversationSnapshots[index]['Participants'][0] ==
+                                                  profile.name
+                                              ? conversationSnapshots[index]['Participants'][1]
+                                              : conversationSnapshots[index]['Participants'][0],
+                                    },
+                                  );
+                                },
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.only(
+                                    top: 10,
+                                    bottom: 10,
+                                    left: 16,
+                                    right: 16,
                                   ),
+                                  leading: CircleAvatar(
+                                    radius: 24,
+                                    backgroundImage: AssetImage(
+                                      // TODO: replace with profile pictures set by the user
+                                      "assets/images/placeholders/$index.jpg",
+                                    ),
+                                  ),
+                                  dense: true,
+                                  title: Text(
+                                    conversationSnapshots[index]['Participants'][0] ==
+                                            profile.name
+                                        ? conversationSnapshots[index]['Participants'][1]
+                                        : conversationSnapshots[index]['Participants'][0],
+                                    style: TextStyle(
+                                      color: WoofCareColors.primaryTextAndIcons,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: FutureBuilder<String>(
+                                    future: getLastConversationMessage(
+                                      conversationSnapshots[index],
+                                    ),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Text(
+                                          "Loading...",
+                                          style: TextStyle(
+                                            color:
+                                                WoofCareColors
+                                                    .primaryTextAndIcons,
+                                            fontSize: 14,
+                                          ),
+                                        );
+                                      }
+                                      if (snapshot.hasError) {
+                                        return Text(
+                                          "Error",
+                                          style: TextStyle(
+                                            color:
+                                                WoofCareColors
+                                                    .primaryTextAndIcons,
+                                            fontSize: 14,
+                                          ),
+                                        );
+                                      }
+                                      return Text(
+                                        snapshot.data ?? "No messages yet",
+                                        style: TextStyle(
+                                          color:
+                                              WoofCareColors
+                                                  .primaryTextAndIcons,
+                                          fontSize: 14,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      );
+                                    },
+                                  ),
+                                  trailing: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    spacing: 15.0,
+                                    children: [
+                                      Text(
+                                        "Yesterday",
+                                        style: TextStyle(
+                                          color:
+                                              WoofCareColors
+                                                  .primaryTextAndIcons,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      // TODO: implement unread messages count
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           );

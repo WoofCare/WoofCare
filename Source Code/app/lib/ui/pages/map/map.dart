@@ -21,8 +21,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final locationController = Location();
-  // LatLng? currentPosition;
-  LatLng currentPosition = LatLng(18.5231571, 73.9022781);
+  LatLng? currentPosition;
 
   List<Map<String, dynamic>> markers = [];
   bool markerSelected = false;
@@ -227,8 +226,6 @@ class _MapPageState extends State<MapPage> {
                                     path: phone.toString(),
                                   );
 
-                                  print(uri);
-
                                   try {
                                     if (await canLaunchUrl(uri)) {
                                       await launchUrl(uri);
@@ -261,7 +258,6 @@ class _MapPageState extends State<MapPage> {
                                 if (website != null &&
                                     website.toString().isNotEmpty) {
                                   var uri = Uri.parse(website.toString());
-                                  print(uri);
 
                                   if (!uri.hasScheme) {
                                     uri = Uri.parse(
@@ -343,7 +339,7 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // _fetchLocation(context);
+      _fetchLocation(context);
       _fetchMarkers();
     });
 
@@ -355,8 +351,7 @@ class _MapPageState extends State<MapPage> {
                   ? const Center(child: CircularProgressIndicator())
                   : GoogleMap(
                     myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    mapType: MapType.normal,
+                    mapType: MapType.hybrid,
                     initialCameraPosition: CameraPosition(
                       target: currentPosition!,
                       zoom: 13,
@@ -365,7 +360,7 @@ class _MapPageState extends State<MapPage> {
                       Marker(
                         markerId: MarkerId("currentPos"),
                         icon: currentMarker,
-                        position: currentPosition,
+                        position: currentPosition!,
                       ),
                       for (var i = 0; i < markers.length; i++)
                         Marker(
@@ -413,37 +408,37 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> fetchLocationUpdates(BuildContext context) async {
-    // bool serviceEnabled;
-    // PermissionStatus permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
-    // serviceEnabled = await locationController.serviceEnabled();
-    // if (serviceEnabled) {
-    //   serviceEnabled = await locationController.requestService();
-    // } else {
-    //   return;
-    // }
+    serviceEnabled = await locationController.serviceEnabled();
+    if (serviceEnabled) {
+      serviceEnabled = await locationController.requestService();
+    } else {
+      return;
+    }
 
-    // permissionGranted = await locationController.hasPermission();
-    // if (permissionGranted == PermissionStatus.denied) {
-    //   permissionGranted = await locationController.requestPermission();
-    //   if (permissionGranted != PermissionStatus.granted) {
-    //     // What if the permission status is grantedLimited?
-    //     return;
-    //   }
-    // }
+    permissionGranted = await locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        // What if the permission status is grantedLimited?
+        return;
+      }
+    }
 
-    // locationController.onLocationChanged.listen((currentLocation) {
-    //   if (currentLocation.latitude != null &&
-    //       currentLocation.longitude != null &&
-    //       context.mounted) {
-    //     setState(() {
-    // currentPosition = LatLng(
-    //   currentLocation.latitude!,
-    //   currentLocation.longitude!,
-    // );
-    //     });
-    //   }
-    // });
+    locationController.onLocationChanged.listen((currentLocation) {
+      if (currentLocation.latitude != null &&
+          currentLocation.longitude != null &&
+          context.mounted) {
+        setState(() {
+          currentPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+        });
+      }
+    });
   }
 
   void _reportDogButtonPressed() {

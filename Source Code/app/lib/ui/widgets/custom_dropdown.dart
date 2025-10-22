@@ -113,7 +113,7 @@ class CustomDropdown<T> extends StatelessWidget {
             ),
           ),
           itemBuilder:
-              (context, element, _, __) => Center(
+              (context, element, _, _) => Center(
                 child: Container(
                   margin: const EdgeInsets.all(20),
                   child: Text(
@@ -128,7 +128,7 @@ class CustomDropdown<T> extends StatelessWidget {
                 ),
               ),
           emptyBuilder:
-              (_, __) => Center(
+              (_, _) => Center(
                 child: Text(
                   "$heading Not Found",
                   style: const TextStyle(

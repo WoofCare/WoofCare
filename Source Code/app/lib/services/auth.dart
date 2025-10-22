@@ -90,7 +90,7 @@ class Auth {
   }
 
   static Future<void> passwordReset({
-    required email,
+    required String email,
     required BuildContext context,
     required void Function() success,
     required void Function(FirebaseAuthException e) error,

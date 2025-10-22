@@ -245,7 +245,8 @@ class _SettingsPageState extends State<SettingsPage> {
                             value: true,
                             activeTrackColor:
                                 app_colors.WoofCareColors.buttonColor,
-                            activeColor: app_colors.WoofCareColors.offWhite,
+                            activeThumbColor:
+                                app_colors.WoofCareColors.offWhite,
                             onChanged: (val) {
                               // handle switch change
                             },

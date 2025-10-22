@@ -48,7 +48,7 @@ class CustomTextField extends StatelessWidget {
         onTap: onTap,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: EdgeInsets.symmetric( vertical: 12, horizontal: 16),
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
             borderSide: const BorderSide(
@@ -63,10 +63,10 @@ class CustomTextField extends StatelessWidget {
           ),
           fillColor: WoofCareColors.textfieldBackground.withValues(alpha: 0.3),
           filled: true,
-          
+
           //make it so no icon space is taken if no icon is provided
-          suffixIcon: prefix != null ? Icon(prefix): null,
-          prefixIcon: prefix != null ? Icon(prefix): null,
+          suffixIcon: prefix != null ? Icon(prefix) : null,
+          prefixIcon: prefix != null ? Icon(prefix) : null,
 
           //hint style
           hintText: hintText,
