@@ -1,0 +1,40 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.fvm/
+.melos_tool/
+.idea/
+.vscode/
+build/
+coverage/
+
+# Android
+**/local.properties
+**/.cxx/
+**/.gradle/
+**/captures/
+**/outputs/
+*.iml
+
+# iOS/macOS
+**/Pods/
+**/Runner.xcodeproj/project.xcworkspace/
+**/Runner.xcworkspace/
+**/Flutter/ephemeral/
+**/DerivedData/
+
+# Linux/Windows
+**/CMakeFiles/
+**/CMakeCache.txt
+**/build.ninja
+**/cmake_install.cmake
+**/flutter/ephemeral/
+
+# Web
+.web/
+# Misc
+*.log
+*.lock
+*.DS_Store
