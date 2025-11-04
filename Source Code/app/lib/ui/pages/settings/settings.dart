@@ -12,12 +12,14 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-//default dropdown values
-String selectedLanguage = "English"; // default selected language
-
 class _SettingsPageState extends State<SettingsPage> {
   final _passwordTextController = TextEditingController();
   final _emailTextController = TextEditingController();
+
+  // Independent dropdown values
+  String selectedLanguage = "English";
+  String selectedLocationSharing = "Friends Only";
+  String selectedProfileViewing = "Public";
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +203,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               dropdownColor: Colors.white,
                               underline: const SizedBox(),
                               items:
-                                  ["English", "Other", "Longer Language"]
+                                  ["English", "Spanish", "French", "German", "Other"]
                                       .map(
                                         (e) => DropdownMenuItem(
                                           value: e,
@@ -272,12 +274,12 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             ),
                             trailing: DropdownButton<String>(
-                              value: selectedLanguage,
+                              value: selectedLocationSharing,
                               isExpanded: false,
                               dropdownColor: Colors.white,
                               underline: const SizedBox(),
                               items:
-                                  ["English", "Other", "Longer Language"]
+                                  ["Public", "Friends Only", "Private", "None"]
                                       .map(
                                         (e) => DropdownMenuItem(
                                           value: e,
@@ -289,7 +291,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       .WoofCareColors
                                                       .primaryTextAndIcons,
                                               fontWeight:
-                                                  e == selectedLanguage
+                                                  e == selectedLocationSharing
                                                       ? FontWeight.bold
                                                       : FontWeight.normal,
                                               fontSize: 16,
@@ -301,7 +303,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               onChanged: (val) {
                                 if (val != null) {
                                   setState(() {
-                                    selectedLanguage = val;
+                                    selectedLocationSharing = val;
                                   });
                                 }
                               },
@@ -319,12 +321,12 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             ),
                             trailing: DropdownButton<String>(
-                              value: selectedLanguage,
+                              value: selectedProfileViewing,
                               isExpanded: false,
                               dropdownColor: Colors.white,
                               underline: const SizedBox(),
                               items:
-                                  ["English", "Other", "Longer Language"]
+                                  ["Public", "Friends Only", "Private"]
                                       .map(
                                         (e) => DropdownMenuItem(
                                           value: e,
@@ -336,7 +338,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       .WoofCareColors
                                                       .primaryTextAndIcons,
                                               fontWeight:
-                                                  e == selectedLanguage
+                                                  e == selectedProfileViewing
                                                       ? FontWeight.bold
                                                       : FontWeight.normal,
                                               fontSize: 16,
@@ -348,7 +350,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               onChanged: (val) {
                                 if (val != null) {
                                   setState(() {
-                                    selectedLanguage = val;
+                                    selectedProfileViewing = val;
                                   });
                                 }
                               },

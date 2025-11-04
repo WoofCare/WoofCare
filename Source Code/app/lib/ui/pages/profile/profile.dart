@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/ui/pages/export.dart';
+import 'package:woofcare/ui/pages/profile/view_profile.dart';
 import 'package:woofcare/ui/pages/settings/settings.dart';
 import 'package:woofcare/ui/widgets/contact_info.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
@@ -57,6 +58,15 @@ class _ProfilePageState extends State<ProfilePage> {
   //   _bioTextController.dispose();
   //   super.dispose();
   // }
+
+  void _showFollowBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const FollowBottomSheet(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,15 +263,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 60,
                       color: WoofCareColors.buttonColor,
                       borderRadius: 16,
-                      text: "Follow",
+                      text: "Following",
                       fontSize: 14,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        );
+                        _showFollowBottomSheet(context);
                       },
                     ),
                   ),
@@ -702,6 +707,182 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class FollowBottomSheet extends StatefulWidget {
+  const FollowBottomSheet({super.key});
+
+  @override
+  State<FollowBottomSheet> createState() => _FollowBottomSheetState();
+}
+
+class _FollowBottomSheetState extends State<FollowBottomSheet>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  //TODO: connect to database for following and followers list
+  //Dummy List for users that use is following
+  final List<Map<String, dynamic>> _following = [
+    {'name': 'Alice Johnson', 'role': 'Pet Owner', 'photoID': 0},
+    {'name': 'Bob Smith', 'role': 'Veterinarian', 'photoID': 1},
+    {'name': 'Carol Williams', 'role': 'Dog Trainer', 'photoID': 2},
+    {'name': 'David Brown', 'role': 'Pet Owner', 'photoID': 3},
+    {'name': 'Emma Davis', 'role': 'Shelter Worker', 'photoID': 4},
+  ];
+
+  //Dummy List for users that follow the user
+  final List<Map<String, dynamic>> _followers = [
+    {'name': 'Frank Miller', 'role': 'Pet Owner', 'photoID': 5},
+    {'name': 'Grace Wilson', 'role': 'Dog Trainer', 'photoID': 6},
+    {'name': 'Henry Moore', 'role': 'Veterinarian', 'photoID': 7},
+    {'name': 'Ivy Taylor', 'role': 'Pet Owner', 'photoID': 8},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.7,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: WoofCareColors.primaryBackground,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            children: [
+              // Handle bar
+              Container(
+                margin: const EdgeInsets.only(top: 12, bottom: 8),
+                width: 50,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: WoofCareColors.primaryTextAndIcons.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+
+              // Tab bar
+              TabBar(
+                controller: _tabController,
+                labelColor: WoofCareColors.buttonColor,
+                unselectedLabelColor: WoofCareColors.primaryTextAndIcons,
+                indicatorColor: WoofCareColors.buttonColor,
+                tabs: const [
+                  Tab(text: 'Following'),
+                  Tab(text: 'Followers'),
+                ],
+              ),
+
+              // Tab views
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildUserList(_following, scrollController),
+                    _buildUserList(_followers, scrollController, isFollowers: true),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildUserList(
+    List<Map<String, dynamic>> users,
+    ScrollController scrollController, {
+    bool isFollowers = false,
+  }) {
+    if (users.isEmpty) {
+      return Center(
+        child: Text(
+          'No ${isFollowers ? 'followers' : 'following'} yet',
+          style: TextStyle(
+            color: WoofCareColors.primaryTextAndIcons,
+            fontSize: 16,
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      controller: scrollController,
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      itemCount: users.length,
+      itemBuilder: (context, index) {
+        final user = users[index];
+        return ListTile(
+          leading: CircleAvatar(
+            radius: 24,
+            backgroundColor: WoofCareColors.offWhite,
+
+            child: Icon(
+              Icons.person,
+              color: WoofCareColors.primaryTextAndIcons,
+            ),
+          ),
+          title: Text(
+            user['name'],
+            style: const TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: WoofCareColors.primaryTextAndIcons,
+            ),
+          ),
+          subtitle: Text(
+            user['role'],
+            style: const TextStyle(
+              fontFamily: "Roboto",
+              fontSize: 12,
+              color: WoofCareColors.primaryTextAndIcons,
+            ),
+          ),
+          trailing: isFollowers
+              ? IconButton(
+                  icon: const Icon(Icons.person_add),
+                  color: WoofCareColors.buttonColor,
+                  onPressed: () {
+                    // TODO: Add follow back functionality
+                  },
+                )
+              : null,
+          onTap: () {
+            // Navigate to user profile page
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewProfilePage(
+                  userName: user['name'],
+                  photoID: user['photoID'],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
