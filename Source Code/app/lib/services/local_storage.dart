@@ -12,7 +12,7 @@ class LocalStorage {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? result = prefs.getString(location);
-    if (result != null && result.isEmpty) result = value;
+    if (result!.isEmpty) result = value;
 
     return jsonDecode(result!) as Map<String, dynamic>;
   }

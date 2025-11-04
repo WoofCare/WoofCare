@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woofcare/config/colors.dart';
+import 'package:woofcare/ui/pages/profile/view_profile.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -134,11 +135,30 @@ class _ConversationsPageState extends State<ConversationsPage> {
                                     left: 16,
                                     right: 16,
                                   ),
-                                  leading: CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage: AssetImage(
-                                      // TODO: replace with profile pictures set by the user
-                                      "assets/images/placeholders/$index.jpg",
+                                  leading: GestureDetector(
+                                    onTap: () {
+                                      final participant =
+                                          conversationSnapshots[index]['Participants'][0] ==
+                                                  profile.name
+                                              ? conversationSnapshots[index]['Participants'][1]
+                                              : conversationSnapshots[index]['Participants'][0];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => ViewProfilePage(
+                                            userName: participant,
+                                            photoID: index,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    behavior: HitTestBehavior.opaque,
+                                    child: CircleAvatar(
+                                      radius: 24,
+                                      backgroundImage: AssetImage(
+                                        // TODO: replace with profile pictures set by the user
+                                        "assets/images/placeholders/$index.jpg",
+                                      ),
                                     ),
                                   ),
                                   dense: true,

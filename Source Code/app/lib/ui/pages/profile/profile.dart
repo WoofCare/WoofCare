@@ -645,12 +645,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 );
 
                                 // Add the chosen fact
-                                if (newFact != null) {
-                                  setState(() {
-                                    _selOptions.add(newFact);
-                                  });
-                                }
-                              },
+                                setState(() {
+                                  _selOptions.add(newFact!); 
+                                });
+                                                            },
                             );
                           }
 

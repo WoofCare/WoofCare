@@ -168,11 +168,9 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       },
     );
-
-    if (pickedDate == null) return;
     _dateOfBirthTextController.text = DateFormat(
       "yyyy-MM-dd",
-    ).format(pickedDate);
+    ).format(pickedDate!);
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woofcare/config/colors.dart';
+import 'package:woofcare/ui/pages/profile/view_profile.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/input_field.dart';
@@ -68,24 +69,37 @@ class _ChatPageState extends State<ChatPage> {
         iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
         actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
         actions: [IconButton(icon: const Icon(Icons.phone), onPressed: () {})],
-        title: Column(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: 25,
-              backgroundImage: AssetImage(
-                "assets/images/placeholders/$photoID.jpg",
+        title: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewProfilePage(
+                  userName: participant,
+                  photoID: photoID,
+                ),
               ),
-            ),
-            Text(
-              participant,
-              style: TextStyle(
-                color: Color(0xFF3F2917),
-                fontFamily: "ABeeZee",
-                fontSize: 16,
+            );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                radius: 25,
+                backgroundImage: AssetImage(
+                  "assets/images/placeholders/$photoID.jpg",
+                ),
               ),
-            ),
-          ],
+              Text(
+                participant,
+                style: TextStyle(
+                  color: Color(0xFF3F2917),
+                  fontFamily: "ABeeZee",
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
       ),

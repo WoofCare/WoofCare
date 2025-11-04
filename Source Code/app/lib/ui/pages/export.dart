@@ -5,6 +5,7 @@ export 'home/home.dart';
 export 'login/login.dart';
 export 'map/map.dart';
 export 'profile/profile.dart';
+export 'profile/view_profile.dart';
 export 'report/report.dart';
 export 'signup/signup.dart';
 export 'splash/splash.dart';
