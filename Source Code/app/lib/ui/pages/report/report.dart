@@ -100,7 +100,6 @@ class _ReportPageState extends State<ReportPage> {
         Navigator.pop(context);
       }
     } catch (e) {
-      print("Failed to submit report: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -304,7 +303,9 @@ class _ReportPageState extends State<ReportPage> {
         scrollDirection: Axis.horizontal,
         children: [
           GestureDetector(
-            onTap: () => print('Add Photo'),
+            onTap: () {
+              // TODO: Add photo upload functionality
+            },
             child: Container(
               width: 120,
               decoration: BoxDecoration(
@@ -350,7 +351,7 @@ class _ReportPageState extends State<ReportPage> {
   }) {
     return SwitchListTile(
       contentPadding: EdgeInsets.zero,
-      activeColor: WoofCareColors.primaryTextAndIcons,
+      activeThumbColor: WoofCareColors.primaryTextAndIcons,
       title: Text(
         title,
         style: const TextStyle(

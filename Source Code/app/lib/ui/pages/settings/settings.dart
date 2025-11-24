@@ -139,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     value: true,
-                    activeColor: app_colors.WoofCareColors.buttonColor,
+                    activeThumbColor: app_colors.WoofCareColors.buttonColor,
                     onChanged: (val) {},
                   ),
                 ]),

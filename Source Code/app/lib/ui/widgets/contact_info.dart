@@ -32,9 +32,7 @@ class _ContactInfoSectionState extends State<ContactInfoSection> {
       if (!widget.isEditMode && hidden) return const SizedBox.shrink();
 
       return Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: widget.isEditMode ? 0.0 : 2.0,
-        ),
+        padding: EdgeInsets.symmetric(vertical: widget.isEditMode ? 0.0 : 2.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

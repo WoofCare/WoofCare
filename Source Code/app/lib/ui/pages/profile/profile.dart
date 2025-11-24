@@ -84,11 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
       QuerySnapshot snapshot =
           await FIRESTORE
               .collection('conversations')
-              .where("Participants", arrayContains: profile.name)
+              .where("participants", arrayContains: profile.name)
               .get();
 
       var conversations = snapshot.docs.where((doc) {
-        List participants = doc["Participants"] as List;
+        List participants = doc["participants"] as List;
         return participants.contains(name);
       });
 
@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
         );
       }
     } catch (e) {
-      print("Error opening chat: $e");
+      // TODO: Handle error appropriately
     }
   }
 

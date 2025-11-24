@@ -70,7 +70,7 @@ class EditableProfilePicture extends StatelessWidget {
                       duration: Duration(seconds: 2),
                     ),
                   );
-                  // TODO: Add actual image picker here
+                  // get
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: WoofCareColors.buttonColor,

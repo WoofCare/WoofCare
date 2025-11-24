@@ -59,9 +59,9 @@ class _ChatPageState extends State<ChatPage> {
     final arguments =
         (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{})
             as Map;
+
     chatID = arguments['chatID'];
     final String participant = arguments['participant'];
-    final int? photoID = arguments['photoID'];
 
     return Scaffold(
       backgroundColor: WoofCareColors.primaryBackground,
@@ -97,9 +97,7 @@ class _ChatPageState extends State<ChatPage> {
               CircleAvatar(
                 backgroundColor: Colors.grey,
                 radius: 25,
-                backgroundImage: AssetImage(
-                  "assets/images/placeholders/$photoID.jpg",
-                ),
+                backgroundImage: AssetImage("assets/images/placeholders/1.jpg"),
               ),
               Text(
                 participant,
@@ -218,7 +216,6 @@ class _Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("chadID: $chatId");
     return StreamBuilder<QuerySnapshot>(
       stream:
           FIRESTORE

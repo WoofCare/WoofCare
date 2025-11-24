@@ -63,9 +63,8 @@ class Profile {
   Future<void> updateProfile() async {
     try {
       await reference.update({'bio': bio});
-      print("Document updated successfully");
     } catch (e) {
-      print("error updating doc");
+      // TODO: Handle error appropriately
     }
   }
 

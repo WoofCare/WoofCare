@@ -131,10 +131,10 @@ class _ConversationsPageState extends State<ConversationsPage> {
                               (context, index) => const SizedBox(height: 12),
                           itemBuilder: (context, index) {
                             final participantName =
-                                conversationSnapshots[index]['Participants'][0] ==
+                                conversationSnapshots[index]['participants'][0] ==
                                         profile.name
-                                    ? conversationSnapshots[index]['Participants'][1]
-                                    : conversationSnapshots[index]['Participants'][0];
+                                    ? conversationSnapshots[index]['participants'][1]
+                                    : conversationSnapshots[index]['participants'][0];
 
                             return Container(
                               decoration: BoxDecoration(
@@ -200,7 +200,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
                                             child: CircleAvatar(
                                               radius: 28,
                                               backgroundImage: AssetImage(
-                                                "assets/images/placeholders/$index.jpg",
+                                                "assets/images/placeholders/1.jpg",
                                               ),
                                             ),
                                           ),
@@ -377,11 +377,11 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     QuerySnapshot snapshot =
         await FirebaseFirestore.instance
             .collection('conversations')
-            .where("Participants", arrayContains: profile.name)
+            .where("participants", arrayContains: profile.name)
             .get();
 
     var conversations = snapshot.docs.where((doc) {
-      List participants = doc["Participants"];
+      List participants = doc["participants"];
       return participants.contains(selectedUser);
     });
 
