@@ -53,106 +53,93 @@ class _ArticlePageState extends State<ArticlePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WoofCareColors.primaryBackground,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header Section
-            Container(
-              color: WoofCareColors.offWhite,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Title and Profile Icon Row
-                  SizedBox(
-                    height: 48,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Articles Menu',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: WoofCareColors.primaryTextAndIcons,
-                          ),
-                        ),
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor: WoofCareColors.offWhite,
-                          child: Icon(
-                            Icons.person_outline,
-                            color: WoofCareColors.buttonColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Search Bar
-                  SizedBox(
-                    height: 48,
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: _performSearch,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: WoofCareColors.primaryTextAndIcons,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: 'Search for Articles...',
-                        hintStyle: TextStyle(
-                          fontSize: 20,
-                          color: WoofCareColors.primaryTextAndIcons.withOpacity(
-                            0.6,
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: WoofCareColors.textBoxColor,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: Icon(
-                          Icons.search,
-                          color: WoofCareColors.primaryTextAndIcons,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Category Buttons
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _buildCategoryButton('All'),
-                        const SizedBox(width: 8),
-                        _buildCategoryButton('Guide'),
-                        const SizedBox(width: 8),
-                        _buildCategoryButton('Medical'),
-                        const SizedBox(width: 8),
-                        _buildCategoryButton('Stories'),
-                      ],
-                    ),
-                  ),
-                ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.4,
+              child: Image.asset(
+                "assets/images/patterns/BigPawPattern.png",
+                repeat: ImageRepeat.repeat,
+                scale: 0.5,
               ),
             ),
-            // Articles List
-            Expanded(
-              child:
-                  searchResults != null
-                      ? _buildSearchResults()
-                      : _buildArticlesList(),
+          ),
+          SafeArea(
+            child: Column(
+              children: [
+                // Header Section
+                Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Search Bar
+                      SizedBox(
+                        height: 48,
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: _performSearch,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: WoofCareColors.primaryTextAndIcons,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Search for Articles...',
+                            hintStyle: TextStyle(
+                              fontSize: 20,
+                              color: WoofCareColors.primaryTextAndIcons
+                                  .withValues(alpha: 0.6),
+                            ),
+                            filled: true,
+                            fillColor: WoofCareColors.secondaryBackground,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                            suffixIcon: Icon(
+                              Icons.search,
+                              color: WoofCareColors.primaryTextAndIcons,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Category Buttons
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildCategoryButton('All'),
+                            const SizedBox(width: 8),
+                            _buildCategoryButton('Guide'),
+                            const SizedBox(width: 8),
+                            _buildCategoryButton('Medical'),
+                            const SizedBox(width: 8),
+                            _buildCategoryButton('Stories'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Articles List
+                Expanded(
+                  child:
+                      searchResults != null
+                          ? _buildSearchResults()
+                          : _buildArticlesList(),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -348,8 +335,8 @@ class _ArticlePageState extends State<ArticlePage> {
                           },
                           errorBuilder:
                               (context, error, stackTrace) => Container(
-                                color: WoofCareColors.buttonColor.withOpacity(
-                                  0.1,
+                                color: WoofCareColors.buttonColor.withValues(
+                                  alpha: 0.1,
                                 ),
                                 child: Icon(
                                   Icons.pets,
@@ -359,7 +346,9 @@ class _ArticlePageState extends State<ArticlePage> {
                               ),
                         )
                         : Container(
-                          color: WoofCareColors.buttonColor.withOpacity(0.1),
+                          color: WoofCareColors.buttonColor.withValues(
+                            alpha: 0.1,
+                          ),
                           child: Icon(
                             Icons.pets,
                             size: 60,

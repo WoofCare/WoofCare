@@ -24,18 +24,25 @@ class Post extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       // The container that holds all the elements of the post
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14.0),
-          color: WoofCareColors.postBackground,
+          borderRadius: BorderRadius.circular(24.0),
+          color: WoofCareColors.secondaryBackground,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               // Row that holds the profile pic and the rest of the post info
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,6 +70,7 @@ class Post extends StatelessWidget {
                               user,
                               style: TextStyle(
                                 color: WoofCareColors.primaryTextAndIcons,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
 
@@ -92,6 +100,7 @@ class Post extends StatelessWidget {
                           message,
                           style: TextStyle(
                             color: WoofCareColors.primaryTextAndIcons,
+                            fontSize: 16,
                           ),
                         ),
                       ],
@@ -102,25 +111,28 @@ class Post extends StatelessWidget {
             ),
 
             // Row that holds the three interactions with the post (like it, comment it, share it)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ThumbsUpButton(
-                  postId: postId,
-                  numOfLikes: usersWhoLiked.length,
-                ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ThumbsUpButton(
+                    postId: postId,
+                    numOfLikes: usersWhoLiked.length,
+                  ),
 
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.comment),
-                  color: WoofCareColors.inputBackground,
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.share),
-                  color: WoofCareColors.inputBackground,
-                ),
-              ],
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.comment),
+                    color: WoofCareColors.primaryTextAndIcons,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.share),
+                    color: WoofCareColors.primaryTextAndIcons,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -4,9 +4,10 @@ import 'package:woofcare/config/colors.dart';
 
 import '/config/constants.dart';
 import '/services/auth.dart';
+import '/ui/widgets/auth_background.dart';
+import '/ui/widgets/auth_container.dart';
 import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_textfield.dart';
-import '/ui/widgets/custom_textfield_with_iconbutton.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -47,53 +48,14 @@ class _LogInPageState extends State<LogInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:
-          false, // Prevents the keyboard from pushing the container up
-      body: Stack(
-        // Stack to allow for multiple background images
-        children: [
-          Container(
-            // Container for the first background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/patterns/BigPawPattern.png"),
-                alignment: Alignment.topLeft,
-              ),
-            ),
-          ),
-          Container(
-            // Container for the second background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/patterns/SmallPawPattern.png"),
-                alignment: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          Padding(
-            // Padding for the container that holds the login form
-            padding: const EdgeInsets.symmetric(
-              vertical: 90.0,
-              horizontal: 25.0,
-            ),
-
-            child: Container(
-              // height: 30.0.sh,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(255, 255, 255, 255),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 10,
-                    blurStyle: BlurStyle.normal,
-                    color: Colors.black.withValues(alpha: 0.2),
-                    offset: const Offset(5, 5),
-                    spreadRadius: 1,
-                  ),
-                ],
-              ), // Background color of the container
-              child: Padding(
-                padding: const EdgeInsets.only(top: 40.0),
+      backgroundColor: WoofCareColors.primaryBackground,
+      resizeToAvoidBottomInset: true,
+      body: AuthBackground(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: AuthContainer(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -128,12 +90,12 @@ class _LogInPageState extends State<LogInPage> {
 
                     const SizedBox(height: 35),
 
-                    CustomTextFieldWithIconButton(
+                    CustomTextField(
                       controller: _passwordTextController,
                       hintText: "Password",
                       obscureText: _visiblePassword,
                       prefix: Icons.password,
-                      onTapIcon: () => _showPassword(),
+                      onSuffixTap: () => _showPassword(),
                       suffix: Icons.visibility,
                       maxLines: 1,
                     ),
@@ -276,7 +238,7 @@ class _LogInPageState extends State<LogInPage> {
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

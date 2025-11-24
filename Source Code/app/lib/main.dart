@@ -15,8 +15,6 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // LocationsDB.update();
-
   runApp(const WoofCare());
 }
 
@@ -42,7 +40,7 @@ class WoofCare extends StatelessWidget {
         "/login": (context) => const LogInPage(),
         "/forgotpw": (context) => const ForgotPasswordPage(),
         "/signup": (context) => const SignUpPage(),
-        "/profile": (context) => const ProfilePage(),
+        "/profile": (context) => ProfilePage(user: profile),
         "/chat": (context) => const ChatPage(),
         "/article": (context) => const ArticlePage(),
         "/posts": (context) => const SocialMediaFeed(),

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woofcare/config/colors.dart';
-import 'package:woofcare/ui/pages/profile/view_profile.dart';
+import 'package:woofcare/models/profile.dart';
+import 'package:woofcare/ui/pages/profile/profile.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/input_field.dart';
@@ -63,23 +64,33 @@ class _ChatPageState extends State<ChatPage> {
     final int? photoID = arguments['photoID'];
 
     return Scaffold(
+      backgroundColor: WoofCareColors.primaryBackground,
+      extendBodyBehindAppBar: true,
       // It is in the app bar where the user can see the name of the person they are chatting with
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         toolbarHeight: 80,
-        iconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
-        actionsIconTheme: IconThemeData(color: Color(0xFF3F2917), size: 30),
+        iconTheme: IconThemeData(
+          color: WoofCareColors.primaryTextAndIcons,
+          size: 30,
+        ),
+        actionsIconTheme: IconThemeData(
+          color: WoofCareColors.primaryTextAndIcons,
+          size: 30,
+        ),
         actions: [IconButton(icon: const Icon(Icons.phone), onPressed: () {})],
         title: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ViewProfilePage(
-                  userName: participant,
-                  photoID: photoID,
+          onTap: () async {
+            final userProfile = await Profile.fromName(participant);
+            if (userProfile != null && context.mounted) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(user: userProfile),
                 ),
-              ),
-            );
+              );
+            }
           },
           child: Column(
             children: [
@@ -93,7 +104,7 @@ class _ChatPageState extends State<ChatPage> {
               Text(
                 participant,
                 style: TextStyle(
-                  color: Color(0xFF3F2917),
+                  color: WoofCareColors.primaryTextAndIcons,
                   fontFamily: "ABeeZee",
                   fontSize: 16,
                 ),
@@ -103,66 +114,82 @@ class _ChatPageState extends State<ChatPage> {
         ),
         centerTitle: true,
       ),
-      backgroundColor: WoofCareColors.postBackground,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _Messages(chatId: chatID),
-            Row(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.4,
+              child: Image.asset(
+                "assets/images/patterns/BigPawPattern.png",
+                repeat: ImageRepeat.repeat,
+                scale: 0.5,
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Obx(
-                  () => Expanded(
-                    child: Column(
-                      children: List.generate(fields.length, (index) {
-                        final Map<String, dynamic> field = fields[index];
-                        return Container(
-                          padding: const EdgeInsets.fromLTRB(12, 8, 5, 8),
-                          child: InputField(
-                            decoration: InputDecoration(
-                              fillColor: Color(0xFFF7FFF7),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: BorderSide.none,
+                _Messages(chatId: chatID),
+                Row(
+                  children: [
+                    Obx(
+                      () => Expanded(
+                        child: Column(
+                          children: List.generate(fields.length, (index) {
+                            final Map<String, dynamic> field = fields[index];
+                            return Container(
+                              padding: const EdgeInsets.fromLTRB(12, 8, 5, 8),
+                              child: InputField(
+                                decoration: InputDecoration(
+                                  fillColor: WoofCareColors.secondaryBackground,
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText:
+                                      "Type your ${field["name"]} here...",
+                                  hintStyle: TextStyle(
+                                    color: WoofCareColors.primaryTextAndIcons
+                                        .withValues(alpha: 0.6),
+                                    fontFamily: "ABeeZee",
+                                    fontSize: 16,
+                                  ),
+                                  prefixIcon: Icon(
+                                    field["icon"],
+                                    color: WoofCareColors.primaryTextAndIcons,
+                                  ),
+                                ),
+                                controller: field["controller"],
+                                onSubmitted: field["submit"],
+                                textInputType: TextInputType.multiline,
+                                maxLines: 5,
+                                error: field["error"],
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: "Type your ${field["name"]} here...",
-                              hintStyle: TextStyle(
-                                color: Color(0xFFCAB096),
-                                fontFamily: "ABeeZee",
-                                fontSize: 16,
-                              ),
-                              prefixIcon: Icon(
-                                field["icon"],
-                                color: Color(0xFFA66E38),
-                              ),
-                            ),
-                            controller: field["controller"],
-                            onSubmitted: field["submit"],
-                            textInputType: TextInputType.multiline,
-                            maxLines: 5,
-                            error: field["error"],
-                          ),
-                        );
-                      }),
+                            );
+                          }),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  disabledColor: WoofCareColors.gray,
-                  color: WoofCareColors.primaryTextAndIcons,
-                  onPressed:
-                      _isSendButtonDisabled ? null : () => submit(context),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      disabledColor: WoofCareColors.gray,
+                      color: WoofCareColors.primaryTextAndIcons,
+                      onPressed:
+                          _isSendButtonDisabled ? null : () => submit(context),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -171,7 +198,7 @@ class _ChatPageState extends State<ChatPage> {
     FocusScope.of(context).unfocus();
 
     FIRESTORE
-        .collection("Conversations")
+        .collection("conversations")
         .doc(chatID)
         .collection("messages")
         .add({
@@ -195,7 +222,7 @@ class _Messages extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream:
           FIRESTORE
-              .collection("Conversations")
+              .collection("conversations")
               .doc(chatId)
               .collection("messages")
               .orderBy("time", descending: true)

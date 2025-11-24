@@ -18,6 +18,8 @@ class CustomTextField extends StatelessWidget {
   final double top;
   final double bottom;
 
+  final void Function()? onSuffixTap;
+
   const CustomTextField({
     super.key,
     required this.controller,
@@ -28,6 +30,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.suffix,
     this.prefix,
+    this.onSuffixTap,
     this.horizontalPadding = 12,
     this.maxLines = 100,
     this.minLines = 1,
@@ -65,7 +68,12 @@ class CustomTextField extends StatelessWidget {
           filled: true,
 
           //make it so no icon space is taken if no icon is provided
-          suffixIcon: prefix != null ? Icon(prefix) : null,
+          suffixIcon:
+              suffix != null
+                  ? (onSuffixTap != null
+                      ? IconButton(icon: Icon(suffix), onPressed: onSuffixTap)
+                      : Icon(suffix))
+                  : null,
           prefixIcon: prefix != null ? Icon(prefix) : null,
 
           //hint style

@@ -75,47 +75,66 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      backgroundColor: WoofCareColors.primaryBackground,
+      body: Stack(
         children: [
-          // This Expanded widget holds all the posts that will appear on the feed page
-          Expanded(
-            // We use a StreamBuilder to hear for any changes in the "User Posts" collection from firebase
-            child: StreamBuilder(
-              stream:
-                  FIRESTORE
-                      .collection("User Posts")
-                      .orderBy("timestamp", descending: true)
-                      .snapshots(),
-
-              builder: (context, snapshot) {
-                // If there is any data in the snapshot of the collection return a ListView.builder will all the posts (docs)
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final post = snapshot.data!.docs[index];
-                      return Post(
-                        message: post['message'],
-                        user: post['email'],
-                        time: formatDate(post['timestamp']),
-                        postId: post.id,
-                        usersWhoLiked: List<String>.from(post['likes'] ?? []),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      "Error: ${snapshot.error}",
-                      style: TextStyle(color: WoofCareColors.errorMessageColor),
-                    ),
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.4,
+              child: Image.asset(
+                "assets/images/patterns/BigPawPattern.png",
+                repeat: ImageRepeat.repeat,
+                scale: 0.5,
+              ),
             ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // This Expanded widget holds all the posts that will appear on the feed page
+              Expanded(
+                // We use a StreamBuilder to hear for any changes in the "User Posts" collection from firebase
+                child: StreamBuilder(
+                  stream:
+                      FIRESTORE
+                          .collection("posts")
+                          .orderBy("timestamp", descending: true)
+                          .snapshots(),
+
+                  builder: (context, snapshot) {
+                    // If there is any data in the snapshot of the collection return a ListView.builder will all the posts (docs)
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          final post = snapshot.data!.docs[index];
+                          return Post(
+                            message: post['message'],
+                            user: post['email'],
+                            time: formatDate(post['timestamp']),
+                            postId: post.id,
+                            usersWhoLiked: List<String>.from(
+                              post['likes'] ?? [],
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          "Error: ${snapshot.error}",
+                          style: TextStyle(
+                            color: WoofCareColors.errorMessageColor,
+                          ),
+                        ),
+                      );
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -130,7 +149,10 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
           borderRadius: BorderRadiusGeometry.circular(90),
         ),
         backgroundColor: WoofCareColors.secondaryBackground,
-        child: FaIcon(FontAwesomeIcons.paperPlane),
+        child: FaIcon(
+          FontAwesomeIcons.paperPlane,
+          color: WoofCareColors.primaryTextAndIcons,
+        ),
       ),
     );
   }

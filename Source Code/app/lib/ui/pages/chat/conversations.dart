@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:woofcare/config/colors.dart';
-import 'package:woofcare/ui/pages/profile/view_profile.dart';
+import 'package:woofcare/models/profile.dart';
+import 'package:woofcare/ui/pages/profile/profile.dart';
 
 import '/config/constants.dart';
 import '/ui/widgets/custom_button.dart';
@@ -37,224 +38,298 @@ class _ConversationsPageState extends State<ConversationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: WoofCareColors.postBackground,
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xFFF7FFF7),
-          shape: CircleBorder(),
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              backgroundColor: const Color(0xFFF7FFF7),
-              builder: (context) {
-                return DraggableScrollableSheet(
-                  initialChildSize: 0.5,
-                  minChildSize: 0.4,
-                  maxChildSize: 0.8,
-                  expand: false,
-                  builder: (context, scrollController) {
-                    return SearchBottomSheet();
-                  },
-                );
-              },
-            );
-          },
-          child: const Icon(
-            Icons.add,
-            color: WoofCareColors.floatingActionIcons,
-            size: 25,
+    return Scaffold(
+      backgroundColor: WoofCareColors.secondaryBackground,
+      appBar: AppBar(
+        title: const Text(
+          "Messages",
+          style: TextStyle(
+            color: WoofCareColors.primaryTextAndIcons,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
           ),
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Column(
-            children: [
-              StreamBuilder<QuerySnapshot>(
-                stream:
-                    FIRESTORE
-                        .collection("Conversations")
-                        .where("Participants", arrayContains: profile.name)
-                        .snapshots(),
-                builder: (
-                  BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot,
-                ) {
-                  if (snapshot.hasData) {
-                    final List<QueryDocumentSnapshot> conversationSnapshots =
-                        snapshot.data!.docs;
-
-                    if (conversationSnapshots.isNotEmpty) {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: conversationSnapshots.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            // padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            decoration: BoxDecoration(
-                              color: WoofCareColors.postBackground,
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              // borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/chat',
-                                    arguments: {
-                                      'chatID': conversationSnapshots[index].id,
-                                      'photoID': index,
-                                      'participant':
-                                          conversationSnapshots[index]['Participants'][0] ==
-                                                  profile.name
-                                              ? conversationSnapshots[index]['Participants'][1]
-                                              : conversationSnapshots[index]['Participants'][0],
-                                    },
-                                  );
-                                },
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.only(
-                                    top: 10,
-                                    bottom: 10,
-                                    left: 16,
-                                    right: 16,
-                                  ),
-                                  leading: GestureDetector(
-                                    onTap: () {
-                                      final participant =
-                                          conversationSnapshots[index]['Participants'][0] ==
-                                                  profile.name
-                                              ? conversationSnapshots[index]['Participants'][1]
-                                              : conversationSnapshots[index]['Participants'][0];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ViewProfilePage(
-                                            userName: participant,
-                                            photoID: index,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    behavior: HitTestBehavior.opaque,
-                                    child: CircleAvatar(
-                                      radius: 24,
-                                      backgroundImage: AssetImage(
-                                        // TODO: replace with profile pictures set by the user
-                                        "assets/images/placeholders/$index.jpg",
-                                      ),
-                                    ),
-                                  ),
-                                  dense: true,
-                                  title: Text(
-                                    conversationSnapshots[index]['Participants'][0] ==
-                                            profile.name
-                                        ? conversationSnapshots[index]['Participants'][1]
-                                        : conversationSnapshots[index]['Participants'][0],
-                                    style: TextStyle(
-                                      color: WoofCareColors.primaryTextAndIcons,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: FutureBuilder<String>(
-                                    future: getLastConversationMessage(
-                                      conversationSnapshots[index],
-                                    ),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Text(
-                                          "Loading...",
-                                          style: TextStyle(
-                                            color:
-                                                WoofCareColors
-                                                    .primaryTextAndIcons,
-                                            fontSize: 14,
-                                          ),
-                                        );
-                                      }
-                                      if (snapshot.hasError) {
-                                        return Text(
-                                          "Error",
-                                          style: TextStyle(
-                                            color:
-                                                WoofCareColors
-                                                    .primaryTextAndIcons,
-                                            fontSize: 14,
-                                          ),
-                                        );
-                                      }
-                                      return Text(
-                                        snapshot.data ?? "No messages yet",
-                                        style: TextStyle(
-                                          color:
-                                              WoofCareColors
-                                                  .primaryTextAndIcons,
-                                          fontSize: 14,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      );
-                                    },
-                                  ),
-                                  trailing: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    spacing: 15.0,
-                                    children: [
-                                      Text(
-                                        "Yesterday",
-                                        style: TextStyle(
-                                          color:
-                                              WoofCareColors
-                                                  .primaryTextAndIcons,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      // TODO: implement unread messages count
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  }
-
-                  return Column(
-                    children: [
-                      SizedBox(height: 40),
-                      const Center(
-                        child: Text(
-                          "No Converstations\nStart a new one!",
-                          style: TextStyle(fontSize: 22),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  );
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: WoofCareColors.buttonColor,
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            backgroundColor: WoofCareColors.secondaryBackground,
+            builder: (context) {
+              return DraggableScrollableSheet(
+                initialChildSize: 0.6,
+                minChildSize: 0.4,
+                maxChildSize: 0.9,
+                expand: false,
+                builder: (context, scrollController) {
+                  return const SearchBottomSheet();
                 },
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      ),
+      body: Stack(
+        children: [
+          // Background patterns
+          Align(
+            alignment: Alignment.topLeft,
+            child: Opacity(
+              opacity: 0.6,
+              child: Image.asset(
+                "assets/images/patterns/BigPawPattern.png",
+                width: 200,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Opacity(
+              opacity: 0.6,
+              child: Image.asset(
+                "assets/images/patterns/SmallPawPattern.png",
+                width: 150,
+              ),
+            ),
+          ),
+
+          // Content
+          Column(
+            children: [
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream:
+                      FIRESTORE
+                          .collection("conversations")
+                          .where("participants", arrayContains: profile.name)
+                          .snapshots(),
+                  builder: (
+                    BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot,
+                  ) {
+                    if (snapshot.hasData) {
+                      final List<QueryDocumentSnapshot> conversationSnapshots =
+                          snapshot.data!.docs;
+
+                      if (conversationSnapshots.isNotEmpty) {
+                        return ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: conversationSnapshots.length,
+                          separatorBuilder:
+                              (context, index) => const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            final participantName =
+                                conversationSnapshots[index]['Participants'][0] ==
+                                        profile.name
+                                    ? conversationSnapshots[index]['Participants'][1]
+                                    : conversationSnapshots[index]['Participants'][0];
+
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.05),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(16),
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      '/chat',
+                                      arguments: {
+                                        'chatID':
+                                            conversationSnapshots[index].id,
+                                        'photoID': index,
+                                        'participant': participantName,
+                                      },
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Row(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            final userProfile =
+                                                await Profile.fromName(
+                                                  participantName,
+                                                );
+                                            if (userProfile != null &&
+                                                context.mounted) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (context) => ProfilePage(
+                                                        user: userProfile,
+                                                      ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color:
+                                                    WoofCareColors
+                                                        .primaryBackground,
+                                                width: 2,
+                                              ),
+                                            ),
+                                            child: CircleAvatar(
+                                              radius: 28,
+                                              backgroundImage: AssetImage(
+                                                "assets/images/placeholders/$index.jpg",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                participantName,
+                                                style: const TextStyle(
+                                                  color:
+                                                      WoofCareColors
+                                                          .primaryTextAndIcons,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              FutureBuilder<String>(
+                                                future: getLastConversationMessage(
+                                                  conversationSnapshots[index],
+                                                ),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return const Text(
+                                                      "Loading...",
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 13,
+                                                      ),
+                                                    );
+                                                  }
+                                                  return Text(
+                                                    snapshot.data ??
+                                                        "No messages yet",
+                                                    style: TextStyle(
+                                                      color: WoofCareColors
+                                                          .primaryTextAndIcons
+                                                          .withValues(
+                                                            alpha: 0.7,
+                                                          ),
+                                                      fontSize: 13,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "Now", // Placeholder for time
+                                              style: TextStyle(
+                                                color: WoofCareColors
+                                                    .primaryTextAndIcons
+                                                    .withValues(alpha: 0.5),
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 8),
+                                            const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 14,
+                                              color:
+                                                  WoofCareColors
+                                                      .primaryBackground,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }
+
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat_bubble_outline,
+                            size: 64,
+                            color: WoofCareColors.primaryTextAndIcons
+                                .withValues(alpha: 0.3),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            "No Conversations Yet",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: WoofCareColors.primaryTextAndIcons
+                                  .withValues(alpha: 0.5),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Start a new chat to connect!",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: WoofCareColors.primaryTextAndIcons
+                                  .withValues(alpha: 0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
@@ -298,10 +373,10 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     });
   }
 
-  void startChat(String selectedUser) async {
+  void startChat(BuildContext context, String selectedUser) async {
     QuerySnapshot snapshot =
         await FirebaseFirestore.instance
-            .collection('Conversations')
+            .collection('conversations')
             .where("Participants", arrayContains: profile.name)
             .get();
 
@@ -312,30 +387,34 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
     if (conversations.isEmpty) {
       DocumentReference newConvo = await FirebaseFirestore.instance
-          .collection("Conversations")
+          .collection("conversations")
           .add({
             "messages": [],
-            "Participants": {profile.name, selectedUser},
+            "participants": {profile.name, selectedUser},
           });
 
-      if (!context.mounted) return;
-      Navigator.pop(context);
-      Navigator.pushNamed(
-        context,
-        '/chat',
-        arguments: {'chatID': newConvo.id, 'participant': selectedUser},
-      );
+      if (context.mounted) {
+        Navigator.pop(context);
+
+        Navigator.pushNamed(
+          context,
+          '/chat',
+          arguments: {'chatID': newConvo.id, 'participant': selectedUser},
+        );
+      }
     } else {
-      if (!context.mounted) return;
-      Navigator.pop(context);
-      Navigator.pushNamed(
-        context,
-        '/chat',
-        arguments: {
-          'chatID': conversations.first.id,
-          'participant': selectedUser,
-        },
-      );
+      if (context.mounted) {
+        Navigator.pop(context);
+
+        Navigator.pushNamed(
+          context,
+          '/chat',
+          arguments: {
+            'chatID': conversations.first.id,
+            'participant': selectedUser,
+          },
+        );
+      }
     }
   }
 
@@ -347,7 +426,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   void addUser() {
     if (selectedUser != null) {
-      startChat(selectedUser!); // Start chat with selected user
+      startChat(context, selectedUser!); // Start chat with selected user
     } else {
       ScaffoldMessenger.of(
         context,

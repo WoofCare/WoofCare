@@ -81,7 +81,7 @@ class Auth {
     }
   }
 
-  static Future<void> signOut(BuildContext context) async {
+  static Future<void> logOut(BuildContext context) async {
     await AUTH.signOut();
 
     if (context.mounted) {

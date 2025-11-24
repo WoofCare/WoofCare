@@ -21,7 +21,7 @@ class _PostingPageState extends State<PostingPage> {
 
   void postMessage() {
     if (_postTextController.text.isNotEmpty) {
-      FIRESTORE.collection("User Posts").add({
+      FIRESTORE.collection("posts").add({
         'email': currUser.email,
         'message': _postTextController.text,
         'timestamp': Timestamp.now(),
