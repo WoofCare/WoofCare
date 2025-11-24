@@ -1,0 +1,14 @@
+# Firebase credentials - NEVER commit this file
+firebase-credentials.json
+*.json
+!requirements.txt
+!articles_config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
