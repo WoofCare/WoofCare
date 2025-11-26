@@ -42,6 +42,5 @@ flutter:
     - assets/images/
     - assets/images/map/
     - assets/images/patterns/
-    - assets/images/chat_icons/
     - assets/images/placeholders/
     - assets/images/homePageButtons/

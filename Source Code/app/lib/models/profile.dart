@@ -7,6 +7,7 @@ class Profile {
   final String name;
   final String email;
   final String role;
+  final String phone;
   final DocumentReference reference;
   String bio;
   var chats = [];
@@ -17,6 +18,7 @@ class Profile {
     required this.email,
     required this.role,
     required this.bio,
+    required this.phone,
     required this.reference,
   });
 
@@ -30,16 +32,39 @@ class Profile {
       email: doc.get("email") as String,
       role: doc.get("role") as String,
       bio: doc.get("bio") as String,
+      phone: doc.get("phone") as String,
       reference: doc.reference,
     );
+  }
+
+  static Future<Profile?> fromName(String name) async {
+    final QuerySnapshot snapshot =
+        await FIRESTORE
+            .collection("users")
+            .where("name", isEqualTo: name)
+            .limit(1)
+            .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final doc = snapshot.docs.first;
+      return Profile(
+        id: doc.id,
+        name: doc.get("name") as String,
+        email: doc.get("email") as String,
+        role: doc.get("role") as String,
+        bio: doc.get("bio") as String,
+        phone: doc.get("phone") as String,
+        reference: doc.reference,
+      );
+    }
+    return null;
   }
 
   Future<void> updateProfile() async {
     try {
       await reference.update({'bio': bio});
-      print("Document updated successfully");
     } catch (e) {
-      print("error updating doc");
+      // TODO: Handle error appropriately
     }
   }
 

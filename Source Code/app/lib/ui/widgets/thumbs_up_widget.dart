@@ -28,7 +28,7 @@ class _ThumbsUpButtonState extends State<ThumbsUpButton> {
 
     // Get a reference from the post that holds the current thumbs up widget
     DocumentReference postRef = FIRESTORE
-        .collection('User Posts')
+        .collection('posts')
         .doc(widget.postId);
 
     if (isLiked) {

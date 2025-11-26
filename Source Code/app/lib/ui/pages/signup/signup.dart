@@ -6,6 +6,8 @@ import 'package:woofcare/config/colors.dart';
 import 'package:woofcare/config/constants.dart';
 
 import '/services/auth.dart';
+import '/ui/widgets/auth_background.dart';
+import '/ui/widgets/auth_container.dart';
 import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_dropdown.dart';
 import '/ui/widgets/custom_textfield.dart';
@@ -19,6 +21,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _phoneTextController = TextEditingController();
+
   final TextEditingController _dateOfBirthTextController =
       TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
@@ -76,18 +80,21 @@ class _SignUpPageState extends State<SignUpPage> {
     //   }
     // }
 
-    if (_nameTextController.text.isNotEmpty &&
-        _dateOfBirthTextController.text.isNotEmpty &&
+    if (_nameTextController.text.trim().isNotEmpty &&
+        _phoneTextController.text.trim().isNotEmpty &&
+        _dateOfBirthTextController.text.trim().isNotEmpty &&
         role.isNotEmpty) {
       if (passwordChecker()) {
         Auth.signup(
           context: context,
-          email: _emailTextController.text,
-          password: _passwordTextController.text,
+          email: _emailTextController.text.trim(),
+          password: _passwordTextController.text.trim(),
           data: {
             "bio": "",
-            "email": _emailTextController.text,
-            "name": _nameTextController.text,
+            "phone": _phoneTextController.text.trim(),
+            "dob": _dateOfBirthTextController.text.trim(),
+            "email": _emailTextController.text.trim(),
+            "name": _nameTextController.text.trim(),
             "role": role,
           },
           error: (e) {
@@ -176,210 +183,164 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WoofCareColors.primaryBackground,
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: SizedBox(
-          width: 400,
-          child: Card(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: WoofCareColors.primaryBackground,
-              ),
-              child: Stack(
-                children: [
-                  Container(
-                    // Container for the first background image
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/patterns/BigPawPattern.png",
-                        ),
-                        alignment: Alignment.topLeft,
+      body: AuthBackground(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: AuthContainer(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Create Your Account",
+                      style: TextStyle(
+                        color: WoofCareColors.primaryTextAndIcons,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                  ),
-                  Container(
-                    // Container for the second background image
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "assets/images/patterns/SmallPawPattern.png",
-                        ),
-                        alignment: Alignment.bottomRight,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    // Padding for the container that holds the login form
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 80.0,
-                      horizontal: 25.0,
                     ),
 
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        // border: Border.all(color: Colors.black, width: 2.0),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 10,
-                            blurStyle: BlurStyle.normal,
-                            color: Colors.black.withValues(alpha: 0.2),
-                            offset: const Offset(5, 5),
-                            spreadRadius: 1,
+                    const Divider(
+                      height: 0,
+                      color: WoofCareColors.primaryTextAndIcons,
+                      thickness: 1,
+                      indent: 45,
+                      endIndent: 45,
+                    ),
+
+                    const SizedBox(height: 25),
+
+                    // Name text entry.
+                    CustomTextField(
+                      controller: _nameTextController,
+                      hintText: "Name",
+                      prefix: Icons.person,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // Name text entry.
+                    CustomTextField(
+                      controller: _phoneTextController,
+                      hintText: "Phone",
+                      prefix: Icons.phone,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    CustomTextField(
+                      controller: _dateOfBirthTextController,
+                      hintText: "Date of Birth",
+                      prefix: Icons.calendar_today,
+                      suffix: Icons.arrow_drop_down,
+                      onTap: () => pickDate(context),
+                    ),
+
+                    // const SizedBox(height: 2),
+
+                    // Selection of role.
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 12,
+                      ),
+                      child: CustomDropdown<String>(
+                        heading: "Role",
+                        title: "Select a Role",
+                        label: "Search",
+                        itemAsString: (val) => val,
+                        icon: Icons.work,
+                        items:
+                            roles.map((String roles) {
+                              return roles;
+                            }).toList(),
+                        onChanged: (String? val) {
+                          setState(() {
+                            role = val!;
+                          });
+                        },
+                      ),
+                    ),
+
+                    // Email Text Entry
+                    CustomTextField(
+                      controller: _emailTextController,
+                      hintText: "Email",
+                      prefix: Icons.email,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    CustomTextField(
+                      controller: _passwordTextController,
+                      hintText: "Password",
+                      obscureText: true,
+                      prefix: Icons.password,
+                      maxLines: 1,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    CustomTextField(
+                      controller: _passwordConfirmTextController,
+                      hintText: "Confirm Password",
+                      obscureText: true,
+                      prefix: Icons.password,
+                      maxLines: 1,
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // Passwords match OR error text.
+                    AnimatedOpacity(
+                      opacity: _visible ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _errorTextController.text,
+                        style: const TextStyle(
+                          color: WoofCareColors.errorMessageColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    CustomButton(text: "Sign up", onTap: signup),
+
+                    const SizedBox(height: 15),
+
+                    //First Time User? Sign Up Button
+                    RichText(
+                      text: TextSpan(
+                        text: "Already have an account? ",
+                        style: const TextStyle(
+                          fontFamily: "ABeeZee",
+                          color: WoofCareColors.primaryTextAndIcons,
+                          fontSize: 12,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "Log In",
+                            style: theme.textTheme.bodyMedium!.copyWith(
+                              color: WoofCareColors.interactibleText,
+                            ),
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap =
+                                      () => Navigator.pushNamed(
+                                        context,
+                                        "/login",
+                                      ),
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Create Your Account",
-                              style: TextStyle(
-                                color: WoofCareColors.primaryTextAndIcons,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-
-                            const Divider(
-                              height: 0,
-                              color: WoofCareColors.primaryTextAndIcons,
-                              thickness: 1,
-                              indent: 45,
-                              endIndent: 45,
-                            ),
-
-                            const SizedBox(height: 25),
-
-                            // Name text entry.
-                            CustomTextField(
-                              controller: _nameTextController,
-                              hintText: "Name",
-                              prefix: Icons.person,
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            CustomTextField(
-                              controller: _dateOfBirthTextController,
-                              hintText: "Date of Birth",
-                              prefix: Icons.calendar_today,
-                              suffix: Icons.arrow_drop_down,
-                              onTap: () => pickDate(context),
-                            ),
-
-                            // const SizedBox(height: 2),
-
-                            // Selection of role.
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 25,
-                              ),
-                              child: CustomDropdown<String>(
-                                heading: "Role",
-                                title: "Select a Role",
-                                label: "Search",
-                                itemAsString: (val) => val,
-                                icon: Icons.work,
-                                items:
-                                    roles.map((String roles) {
-                                      return roles;
-                                    }).toList(),
-                                onChanged: (String? val) {
-                                  setState(() {
-                                    role = val!;
-                                  });
-                                },
-                              ),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // Email Text Entry
-                            CustomTextField(
-                              controller: _emailTextController,
-                              hintText: "Email",
-                              prefix: Icons.email,
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            CustomTextField(
-                              controller: _passwordTextController,
-                              hintText: "Password",
-                              obscureText: true,
-                              prefix: Icons.password,
-                              maxLines: 1,
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            CustomTextField(
-                              controller: _passwordConfirmTextController,
-                              hintText: "Confirm Password",
-                              obscureText: true,
-                              prefix: Icons.password,
-                              maxLines: 1,
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // Passwords match OR error text.
-                            AnimatedOpacity(
-                              opacity: _visible ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 200),
-                              child: Text(
-                                _errorTextController.text,
-                                style: const TextStyle(
-                                  color: WoofCareColors.errorMessageColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 20),
-
-                            CustomButton(text: "Sign up", onTap: signup),
-
-                            const SizedBox(height: 15),
-
-                            //First Time User? Sign Up Button
-                            RichText(
-                              text: TextSpan(
-                                text: "Already have an account? ",
-                                style: const TextStyle(
-                                  fontFamily: "ABeeZee",
-                                  color: WoofCareColors.primaryTextAndIcons,
-                                  fontSize: 12,
-                                ),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "Log In",
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                      color: WoofCareColors.interactibleText,
-                                    ),
-                                    recognizer:
-                                        TapGestureRecognizer()
-                                          ..onTap =
-                                              () => Navigator.pushNamed(
-                                                context,
-                                                "/login",
-                                              ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

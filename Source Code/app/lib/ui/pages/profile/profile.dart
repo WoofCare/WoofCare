@@ -1,17 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:woofcare/ui/pages/export.dart';
-import 'package:woofcare/ui/pages/profile/view_profile.dart';
+import 'package:woofcare/models/profile.dart';
 import 'package:woofcare/ui/pages/settings/settings.dart';
 import 'package:woofcare/ui/widgets/contact_info.dart';
 import 'package:woofcare/ui/widgets/custom_button.dart';
-import 'package:woofcare/ui/widgets/custom_small_button.dart';
 import 'package:woofcare/ui/widgets/editable_profilepic.dart';
 
 import '/config/colors.dart';
 import '/config/constants.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final Profile user;
+
+  const ProfilePage({super.key, required this.user});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -26,15 +27,19 @@ class FactOption {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _bioTextController = TextEditingController(text: profile.bio);
+  final _bioTextController = TextEditingController();
 
   // Track whether we are in edit mode or view mode
-  // When true, fields are editable
   bool _editMode = false;
-  //TODO: connect to database for profile picture and account details
   ImageProvider? profileImage;
   String email = "example@email.com";
   String phone = "(123) 456-7890";
+  String name = "";
+  String role = "";
+  String bio = "";
+
+  bool isLoading = true;
+  bool isCurrentUser = true;
 
   //TODO: connect to database for more facts
   final List<FactOption> _factOptions = [
@@ -53,11 +58,64 @@ class _ProfilePageState extends State<ProfilePage> {
   //TODO: connect to database to save selected facts between sessions to display
   final List<FactOption> _selOptions = [];
 
-  // @override
-  // void dispose() {
-  //   _bioTextController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _initProfile();
+  }
+
+  void _initProfile() {
+    final user = widget.user;
+    isCurrentUser = user.name == profile.name;
+
+    setState(() {
+      name = user.name;
+      email = user.email;
+      role = user.role;
+      bio = user.bio;
+      phone = user.phone;
+      _bioTextController.text = bio;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _openChat(BuildContext context) async {
+    try {
+      QuerySnapshot snapshot =
+          await FIRESTORE
+              .collection('conversations')
+              .where("participants", arrayContains: profile.name)
+              .get();
+
+      var conversations = snapshot.docs.where((doc) {
+        List participants = doc["participants"] as List;
+        return participants.contains(name);
+      });
+
+      String chatID;
+      if (conversations.isEmpty) {
+        DocumentReference newConvo = await FIRESTORE
+            .collection("conversations")
+            .add({
+              "messages": [],
+              "participants": {profile.name, name},
+            });
+        chatID = newConvo.id;
+      } else {
+        chatID = conversations.first.id;
+      }
+
+      if (context.mounted) {
+        Navigator.pushNamed(
+          context,
+          '/chat',
+          arguments: {'chatID': chatID, 'participant': name},
+        );
+      }
+    } catch (e) {
+      // TODO: Handle error appropriately
+    }
+  }
 
   void _showFollowBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -70,45 +128,54 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: WoofCareColors.primaryBackground,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: WoofCareColors.primaryBackground,
       appBar: AppBar(
         backgroundColor: WoofCareColors.primaryBackground,
         foregroundColor: WoofCareColors.primaryTextAndIcons,
-        actions: [
-          //edit mode button
-          IconButton(
-            icon: Icon(
-              _editMode ? Icons.create_rounded : Icons.create_outlined,
-              color:
-                  _editMode
-                      ? WoofCareColors.buttonColor
-                      : WoofCareColors.primaryTextAndIcons,
-            ),
-            tooltip: "Toggle Edit Mode",
-            onPressed: () {
-              setState(() {
-                _editMode = !_editMode;
-              });
-            },
-          ),
-
-          //settings button
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: WoofCareColors.primaryTextAndIcons,
-            ),
-            tooltip: "Settings",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
-              );
-            },
-          ),
-        ],
+        actions:
+            isCurrentUser
+                ? [
+                  IconButton(
+                    icon: Icon(
+                      _editMode ? Icons.create_rounded : Icons.create_outlined,
+                      color:
+                          _editMode
+                              ? WoofCareColors.buttonColor
+                              : WoofCareColors.primaryTextAndIcons,
+                    ),
+                    tooltip: "Toggle Edit Mode",
+                    onPressed: () {
+                      setState(() {
+                        _editMode = !_editMode;
+                      });
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.settings,
+                      color: WoofCareColors.primaryTextAndIcons,
+                    ),
+                    tooltip: "Settings",
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ]
+                : [],
       ),
       //Header
       body: GestureDetector(
@@ -124,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(width: 20), // Spacer on the left
                 // Profile Picture
                 EditableProfilePicture(
-                  isEditMode: _editMode,
+                  isEditMode: _editMode && isCurrentUser,
                   image: profileImage,
                 ),
 
@@ -150,26 +217,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               width: 300,
                               child: Text.rich(
                                 TextSpan(
-                                  text: profile.name,
+                                  text: name,
                                   style: const TextStyle(
                                     fontFamily: "Roboto",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 24,
                                     color: WoofCareColors.primaryTextAndIcons,
                                   ),
-                                  /*children: const [
-                                    //TextSpan(
-                                      TODO: connect username to database
-                                  children: const [
-                                    TextSpan(
-                                      //TODO: connect username to database
-                                      text: " @username",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Color(0xFFA66E38),
-                                      ),
-                                    ),
-                                  ],*/
                                 ),
                               ),
                             ),
@@ -178,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             SizedBox(
                               width: 300,
                               child: Text(
-                                profile.role,
+                                role,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
                                   fontFamily: "Roboto",
@@ -219,7 +273,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(height: 5),
 
                             ContactInfoSection(
-                              isEditMode: _editMode,
+                              isEditMode: _editMode && isCurrentUser,
                               email: email,
                               phone: phone,
                             ),
@@ -237,42 +291,40 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 20),
 
             // Button Row
-            //TODO: add functionality to buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 0, right: 0),
-                  child: CustomButton(
-                    height: 60,
-                    width: 200,
-                    color: WoofCareColors.backgroundElementColor,
-                    fontColor: WoofCareColors.primaryTextAndIcons,
-                    fontSize: 14,
-                    borderRadius: 16,
-                    text: "Message",
-                    onTap: () {
-                      Navigator.pop(context, 0);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10, left: 0),
+            if (!isCurrentUser)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 0, right: 0),
                     child: CustomButton(
                       height: 60,
-                      color: WoofCareColors.buttonColor,
-                      borderRadius: 16,
-                      text: "Following",
+                      width: 200,
+                      color: WoofCareColors.backgroundElementColor,
+                      fontColor: WoofCareColors.primaryTextAndIcons,
                       fontSize: 14,
-                      onTap: () {
-                        _showFollowBottomSheet(context);
-                      },
+                      borderRadius: 16,
+                      text: "Message",
+                      onTap: () => _openChat(context),
                     ),
                   ),
-                ),
-              ],
-            ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10, left: 0),
+                      child: CustomButton(
+                        height: 60,
+                        color: WoofCareColors.buttonColor,
+                        borderRadius: 16,
+                        text: "Follow",
+                        fontSize: 14,
+                        onTap: () {
+                          _showFollowBottomSheet(context);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
             // Spacer
             const SizedBox(height: 20),
@@ -385,17 +437,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (!_editMode) const SizedBox(height: 10),
 
                     // Biography Section
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'About:',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: WoofCareColors.primaryTextAndIcons,
-                        ),
+                    Text(
+                      'About:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: WoofCareColors.primaryTextAndIcons,
                       ),
                     ),
+
                     // Biography box
                     Container(
                       width: double.infinity,
@@ -406,7 +456,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child:
-                          _editMode
+                          isCurrentUser && _editMode
                               ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -468,19 +518,23 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                   SizedBox(height: 10),
 
-                                  CustomSmallButton(
+                                  CustomButton(
                                     text: "Save",
                                     onTap: () {},
+                                    width: 120,
+                                    fontSize: 16,
+                                    margin: 10,
+                                    borderRadius: 16,
+                                    verticalPadding: 12,
+                                    horizontalPadding: 12,
                                   ), //TODO: add save functionality
                                 ],
                               )
                               : Text(
-                                _bioTextController.text.isEmpty
-                                    ? 'This is the biography box. Here you can write a short description about the user.'
-                                    : _bioTextController.text,
+                                bio.isEmpty ? 'No biography available.' : bio,
                                 maxLines: 5,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: WoofCareColors.primaryTextAndIcons,
                                 ),
@@ -498,12 +552,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: ListView.builder(
                         itemCount:
-                            _editMode
+                            isCurrentUser && _editMode
                                 ? _selOptions.length + 1
                                 : _selOptions.length,
                         itemBuilder: (context, index) {
                           // "add a fact" button at top of list if in edit mode
-                          if (_editMode && index == 0) {
+                          if (isCurrentUser && _editMode && index == 0) {
                             return ListTile(
                               dense: true,
                               contentPadding: EdgeInsets.symmetric(
@@ -651,15 +705,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
                                 // Add the chosen fact
                                 setState(() {
-                                  _selOptions.add(newFact!); 
+                                  _selOptions.add(newFact!);
                                 });
-                                                            },
+                              },
                             );
                           }
 
                           final fact =
                               _selOptions[index -
-                                  (_editMode
+                                  (isCurrentUser && _editMode
                                       ? 1
                                       : 0)]; // Adjust index if in edit mode
                           return ListTile(
@@ -682,7 +736,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                             //show delete only in edit mode
                             trailing:
-                                _editMode
+                                isCurrentUser && _editMode
                                     ? IconButton(
                                       icon: Icon(
                                         Icons.delete,

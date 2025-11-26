@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:woofcare/services/auth.dart';
 import 'package:woofcare/ui/pages/export.dart';
-import 'package:woofcare/ui/widgets/custom_small_button.dart';
+import 'package:woofcare/ui/widgets/custom_button.dart';
 
 import '/config/colors.dart' as app_colors;
 import '/ui/widgets/custom_textfield.dart';
@@ -24,497 +25,393 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: app_colors.WoofCareColors.secondaryBackground,
       appBar: AppBar(
-        //title: const Text("Settings"),
-        backgroundColor: const Color(0xFFEEB784),
-        foregroundColor: Colors.black,
+        title: const Text(
+          "Settings",
+          style: TextStyle(
+            color: app_colors.WoofCareColors.primaryTextAndIcons,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+          color: app_colors.WoofCareColors.primaryTextAndIcons,
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Background images
-            Align(
-              alignment: Alignment.topLeft,
-              child: Image.asset("assets/images/patterns/BigPawPattern.png"),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Image.asset("assets/images/patterns/SmallPawPattern.png"),
-            ),
-
-            // White card form container
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Container(
-                width: double.infinity,
-                height: double.infinity, // 👈 makes it fill available height
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Title
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        "Settings",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF3F2917),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-
-                    // Divider to separate title from options
-                    const Divider(height: 1, thickness: 1),
-
-                    // Settings list (scrollable)
-                    Expanded(
-                      //notifications
-                      child: ListView(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        children: [
-                          ListTile(
-                            title: const Text(
-                              "Account Settings",
-                              style: TextStyle(
-                                color: app_colors.WoofCareColors.dividerColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          ExpansionTile(
-                            title: Text(
-                              "Change Email",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_drop_down,
-                              color:
-                                  app_colors.WoofCareColors.primaryTextAndIcons,
-                            ),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CustomTextField(
-                                      controller: _emailTextController,
-                                      hintText: "New Email",
-                                      maxLines: 1,
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    CustomTextField(
-                                      controller: _emailTextController,
-                                      hintText: "Confirm New Email",
-                                      maxLines: 1,
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    CustomSmallButton(
-                                      text: "Save",
-                                      onTap: () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          ExpansionTile(
-                            title: Text(
-                              "Change Password",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_drop_down,
-                              color:
-                                  app_colors.WoofCareColors.primaryTextAndIcons,
-                            ),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    CustomTextField(
-                                      controller: _passwordTextController,
-                                      hintText: "New Password",
-                                      maxLines: 1,
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    CustomTextField(
-                                      controller: _passwordTextController,
-                                      hintText: "Confirm New Password",
-                                      maxLines: 1,
-                                      obscureText: true,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    CustomSmallButton(
-                                      text: "Save",
-                                      onTap: () {},
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Language",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            trailing: DropdownButton<String>(
-                              value: selectedLanguage,
-                              isExpanded: false,
-                              dropdownColor: Colors.white,
-                              underline: const SizedBox(),
-                              items:
-                                  ["English", "Spanish", "French", "German", "Other"]
-                                      .map(
-                                        (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(
-                                            e,
-                                            style: TextStyle(
-                                              color:
-                                                  app_colors
-                                                      .WoofCareColors
-                                                      .primaryTextAndIcons,
-                                              fontWeight:
-                                                  e == selectedLanguage
-                                                      ? FontWeight.bold
-                                                      : FontWeight.normal,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (val) {
-                                if (val != null) {
-                                  setState(() {
-                                    selectedLanguage = val;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          SwitchListTile(
-                            title: Text(
-                              "Notifications",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            value: true,
-                            activeTrackColor:
-                                app_colors.WoofCareColors.buttonColor,
-                            activeThumbColor:
-                                app_colors.WoofCareColors.offWhite,
-                            onChanged: (val) {
-                              // handle switch change
-                            },
-                          ),
-                          ListTile(
-                            title: const Text(
-                              "Privacy Settings",
-                              style: TextStyle(
-                                color: app_colors.WoofCareColors.dividerColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Location Sharing",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 14,
-                              ),
-                            ),
-                            trailing: DropdownButton<String>(
-                              value: selectedLocationSharing,
-                              isExpanded: false,
-                              dropdownColor: Colors.white,
-                              underline: const SizedBox(),
-                              items:
-                                  ["Public", "Friends Only", "Private", "None"]
-                                      .map(
-                                        (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(
-                                            e,
-                                            style: TextStyle(
-                                              color:
-                                                  app_colors
-                                                      .WoofCareColors
-                                                      .primaryTextAndIcons,
-                                              fontWeight:
-                                                  e == selectedLocationSharing
-                                                      ? FontWeight.bold
-                                                      : FontWeight.normal,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (val) {
-                                if (val != null) {
-                                  setState(() {
-                                    selectedLocationSharing = val;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: Text(
-                              "Profile Viewing",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 14,
-                              ),
-                            ),
-                            trailing: DropdownButton<String>(
-                              value: selectedProfileViewing,
-                              isExpanded: false,
-                              dropdownColor: Colors.white,
-                              underline: const SizedBox(),
-                              items:
-                                  ["Public", "Friends Only", "Private"]
-                                      .map(
-                                        (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(
-                                            e,
-                                            style: TextStyle(
-                                              color:
-                                                  app_colors
-                                                      .WoofCareColors
-                                                      .primaryTextAndIcons,
-                                              fontWeight:
-                                                  e == selectedProfileViewing
-                                                      ? FontWeight.bold
-                                                      : FontWeight.normal,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (val) {
-                                if (val != null) {
-                                  setState(() {
-                                    selectedProfileViewing = val;
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text(
-                              "More",
-                              style: TextStyle(
-                                color: app_colors.WoofCareColors.dividerColor,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            trailing: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_forward,
-                                size: 16,
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                              ),
-                              onPressed: () {
-                                // 🔹 Navigate to another page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            title: Text(
-                              "About Us",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onTap: () {
-                              // Optional: also navigate when tapping the tile itself
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            },
-                          ),
-                          ListTile(
-                            trailing: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_forward,
-                                size: 16,
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                              ),
-                              onPressed: () {
-                                // 🔹 Navigate to another page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            title: Text(
-                              "Privacy Policy",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onTap: () {
-                              // Optional: also navigate when tapping the tile itself
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            },
-                          ),
-                          ListTile(
-                            trailing: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_forward,
-                                size: 16,
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                              ),
-                              onPressed: () {
-                                // 🔹 Navigate to another page
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            title: Text(
-                              "Terms & Conditions",
-                              style: TextStyle(
-                                color:
-                                    app_colors
-                                        .WoofCareColors
-                                        .primaryTextAndIcons,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onTap: () {
-                              // Optional: also navigate when tapping the tile itself
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomePage(),
-                                ),
-                              );
-                            },
-                          ),
-                          ListTile(
-                            title: const Text(
-                              "Log Out",
-                              style: TextStyle(
-                                color: Color(
-                                  0xFFFF926C,
-                                ), // Bootstrap's red color
-                                fontSize: 16,
-                              ),
-                            ),
-                            onTap: () {
-                              //TODO: Implement logout functionality
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LogInPage(),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      body: Stack(
+        children: [
+          // Background images
+          Align(
+            alignment: Alignment.topLeft,
+            child: Opacity(
+              opacity: 0.6,
+              child: Image.asset(
+                "assets/images/patterns/BigPawPattern.png",
+                width: 200,
               ),
             ),
-          ],
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Opacity(
+              opacity: 0.6,
+              child: Image.asset(
+                "assets/images/patterns/SmallPawPattern.png",
+                width: 150,
+              ),
+            ),
+          ),
+
+          // Content
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSectionHeader("Account"),
+                _buildSectionCard([
+                  _buildExpansionTile(
+                    icon: Icons.email_outlined,
+                    title: "Change Email",
+                    children: [
+                      _buildTextField(_emailTextController, "New Email"),
+                      const SizedBox(height: 10),
+                      _buildTextField(
+                        _emailTextController,
+                        "Confirm New Email",
+                      ),
+                      const SizedBox(height: 12),
+                      _buildSaveButton(),
+                    ],
+                  ),
+                  _buildDivider(),
+                  _buildExpansionTile(
+                    icon: Icons.lock_outline,
+                    title: "Change Password",
+                    children: [
+                      _buildTextField(_passwordTextController, "New Password"),
+                      const SizedBox(height: 10),
+                      _buildTextField(
+                        _passwordTextController,
+                        "Confirm New Password",
+                      ),
+                      const SizedBox(height: 12),
+                      _buildSaveButton(),
+                    ],
+                  ),
+                ]),
+
+                const SizedBox(height: 24),
+                _buildSectionHeader("Preferences"),
+                _buildSectionCard([
+                  _buildDropdownTile(
+                    icon: Icons.language,
+                    title: "Language",
+                    value: selectedLanguage,
+                    items: ["English", "Spanish", "French"],
+                    onChanged: (val) {
+                      if (val != null) setState(() => selectedLanguage = val);
+                    },
+                  ),
+                  _buildDivider(),
+                  SwitchListTile(
+                    secondary: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: app_colors.WoofCareColors.primaryBackground
+                            .withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.notifications_outlined,
+                        color: app_colors.WoofCareColors.primaryTextAndIcons,
+                      ),
+                    ),
+                    title: const Text(
+                      "Notifications",
+                      style: TextStyle(
+                        color: app_colors.WoofCareColors.primaryTextAndIcons,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
+                    ),
+                    value: true,
+                    activeThumbColor: app_colors.WoofCareColors.buttonColor,
+                    onChanged: (val) {},
+                  ),
+                ]),
+
+                const SizedBox(height: 24),
+                _buildSectionHeader("Privacy & Security"),
+                _buildSectionCard([
+                  _buildDropdownTile(
+                    icon: Icons.location_on_outlined,
+                    title: "Location Sharing",
+                    value: "While Using",
+                    items: ["Always", "While Using", "Never"],
+                    onChanged: (val) {},
+                  ),
+                  _buildDivider(),
+                  _buildDropdownTile(
+                    icon: Icons.visibility_outlined,
+                    title: "Profile Viewing",
+                    value: "Public",
+                    items: ["Public", "Friends Only", "Private"],
+                    onChanged: (val) {},
+                  ),
+                ]),
+
+                const SizedBox(height: 24),
+                _buildSectionHeader("Support"),
+                _buildSectionCard([
+                  _buildLinkTile(Icons.info_outline, "About Us", () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomePage()),
+                    );
+                  }),
+                  _buildDivider(),
+                  _buildLinkTile(
+                    Icons.privacy_tip_outlined,
+                    "Privacy Policy",
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                      );
+                    },
+                  ),
+                  _buildDivider(),
+                  _buildLinkTile(
+                    Icons.description_outlined,
+                    "Terms & Conditions",
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                      );
+                    },
+                  ),
+                ]),
+
+                const SizedBox(height: 32),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Auth.logOut(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => const LogInPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFF926C),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: 2,
+                    ),
+                    child: const Text(
+                      "Log Out",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, bottom: 8),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: app_colors.WoofCareColors.dividerColor,
+          letterSpacing: 1.0,
         ),
       ),
+    );
+  }
+
+  Widget _buildSectionCard(List<Widget> children) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(children: children),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      height: 1,
+      thickness: 1,
+      indent: 16,
+      endIndent: 16,
+      color: Color(0xFFF0F0F0),
+    );
+  }
+
+  Widget _buildExpansionTile({
+    required IconData icon,
+    required String title,
+    required List<Widget> children,
+  }) {
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: app_colors.WoofCareColors.primaryBackground.withValues(
+              alpha: 0.2,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            color: app_colors.WoofCareColors.primaryTextAndIcons,
+          ),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: app_colors.WoofCareColors.primaryTextAndIcons,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
+        ),
+        iconColor: app_colors.WoofCareColors.primaryTextAndIcons,
+        collapsedIconColor: app_colors.WoofCareColors.primaryTextAndIcons,
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        children: children,
+      ),
+    );
+  }
+
+  Widget _buildDropdownTile({
+    required IconData icon,
+    required String title,
+    required String value,
+    required List<String> items,
+    required Function(String?) onChanged,
+  }) {
+    return ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: app_colors.WoofCareColors.primaryBackground.withValues(
+            alpha: 0.2,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, color: app_colors.WoofCareColors.primaryTextAndIcons),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: app_colors.WoofCareColors.primaryTextAndIcons,
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+        ),
+      ),
+      trailing: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: items.contains(value) ? value : items.first,
+          icon: const Icon(
+            Icons.arrow_drop_down,
+            color: app_colors.WoofCareColors.primaryTextAndIcons,
+          ),
+          style: const TextStyle(
+            color: app_colors.WoofCareColors.primaryTextAndIcons,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          items:
+              items
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                  .toList(),
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLinkTile(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      onTap: onTap,
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: app_colors.WoofCareColors.primaryBackground.withValues(
+            alpha: 0.2,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(icon, color: app_colors.WoofCareColors.primaryTextAndIcons),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: app_colors.WoofCareColors.primaryTextAndIcons,
+          fontWeight: FontWeight.w500,
+          fontSize: 16,
+        ),
+      ),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+        color: Colors.grey,
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hint) {
+    return CustomTextField(
+      controller: controller,
+      hintText: hint,
+      maxLines: 1,
+      obscureText: true,
+    );
+  }
+
+  Widget _buildSaveButton() {
+    return CustomButton(
+      text: "Save",
+      onTap: () {},
+      width: double.infinity,
+      fontSize: 16,
+      margin: 0,
+      borderRadius: 12,
+      verticalPadding: 12,
+      horizontalPadding: 0,
     );
   }
 }

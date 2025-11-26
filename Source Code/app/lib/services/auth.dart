@@ -54,7 +54,7 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       error(e);
     } catch (e) {
-      print(e.toString());
+      // TODO: Handle other errors
     }
   }
 
@@ -77,11 +77,11 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       error(e);
     } catch (e) {
-      print(e.toString()); // TODO: Should remove before production stage
+      // TODO: Handle other errors
     }
   }
 
-  static Future<void> signOut(BuildContext context) async {
+  static Future<void> logOut(BuildContext context) async {
     await AUTH.signOut();
 
     if (context.mounted) {

@@ -24,7 +24,6 @@ class _MapPageState extends State<MapPage> {
   LatLng? currentPosition;
 
   List<Map<String, dynamic>> markers = [];
-  bool markerSelected = false;
 
   BitmapDescriptor currentMarker = BitmapDescriptor.defaultMarker;
 
@@ -46,291 +45,302 @@ class _MapPageState extends State<MapPage> {
     _updateMarkerIcons();
   }
 
-  Future<void> _showMarkerBottomSheet(Map<String, dynamic> markerData) async {
+  Future<void> _showMarkerBottomSheet(int index) async {
+    Map<String, dynamic> markerData = markers[index];
+
     await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.28,
-          minChildSize: 0.15,
-          maxChildSize: 0.75,
-          builder: (sheetContext, scrollController) {
-            return Container(
-              decoration: const BoxDecoration(
-                color: WoofCareColors.secondaryBackground,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                border: Border(
-                  top: BorderSide(
-                    color: WoofCareColors.borderOutline,
-                    width: 2.0,
+        return PopScope(
+          onPopInvokedWithResult: (bool pop, _) {
+            markers[index]["selected"] = false;
+          },
+          child: DraggableScrollableSheet(
+            initialChildSize: 0.28,
+            minChildSize: 0.15,
+            maxChildSize: 0.75,
+            builder: (sheetContext, scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: WoofCareColors.secondaryBackground,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  border: Border(
+                    top: BorderSide(
+                      color: WoofCareColors.borderOutline,
+                      width: 2.0,
+                    ),
                   ),
                 ),
-              ),
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 12,
-                    bottom: 24,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Drag handle
-                      Center(
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 8, bottom: 12),
-                          width: 40,
-                          height: 5,
-                          decoration: BoxDecoration(
-                            color: WoofCareColors.primaryTextAndIcons,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ),
-
-                      // Title row with image, name and rating/state
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Placeholder image (replace with network/image if available)
-                          Container(
-                            width: 90,
-                            height: 90,
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      top: 12,
+                      bottom: 24,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Drag handle
+                        Center(
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 8, bottom: 12),
+                            width: 40,
+                            height: 5,
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
+                              color: WoofCareColors.primaryTextAndIcons,
                               borderRadius: BorderRadius.circular(12),
-                              image: const DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/placeholders/placeholder.jpeg',
-                                ),
-                                fit: BoxFit.cover,
-                              ),
                             ),
                           ),
+                        ),
 
-                          const SizedBox(width: 12),
+                        // Title row with image, name and rating/state
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Placeholder image (replace with network/image if available)
+                            Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(12),
+                                image: const DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/placeholders/placeholder.jpeg',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
 
-                          // Name and metadata
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  ((markerData['name'] ?? "Unknown") as String)
-                                      .capitalize!,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: WoofCareColors.primaryTextAndIcons,
+                            const SizedBox(width: 12),
+
+                            // Name and metadata
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ((markerData['name'] ?? "Unknown")
+                                            as String)
+                                        .capitalize!,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: WoofCareColors.primaryTextAndIcons,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.star,
+                                        size: 16,
+                                        color: Colors.amber,
+                                      ),
+                                      SizedBox(width: 6),
+                                      Text(
+                                        '4.3',
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        '(59)',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        '• 2 min',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        // Action buttons row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFA66E38),
+                                  foregroundColor: const Color(0xFFCAB096),
+                                  textStyle: const TextStyle(fontSize: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal: 4,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
-                                const SizedBox(height: 6),
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.star,
-                                      size: 16,
-                                      color: Colors.amber,
-                                    ),
-                                    SizedBox(width: 6),
-                                    Text('4.3', style: TextStyle(fontSize: 14)),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      '(59)',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      '• 2 min',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
 
-                      const SizedBox(height: 12),
-
-                      // Action buttons row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA66E38),
-                                foregroundColor: const Color(0xFFCAB096),
-                                textStyle: const TextStyle(fontSize: 10),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                  horizontal: 4,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              onPressed: () async {
-                                Navigator.of(context).pop();
-
-                                final maps = Uri.parse(
-                                  "https://www.google.com/maps?q=${markerData['latitude']},${markerData['longitude']}",
-                                );
-
-                                if (await canLaunchUrl(maps)) {
-                                  await launchUrl(
-                                    maps,
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                }
-                              },
-                              icon: const Icon(Icons.directions),
-                              label: const Text('Directions'),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA66E38),
-                                foregroundColor: const Color(0xFFCAB096),
-                                textStyle: const TextStyle(fontSize: 12),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              onPressed: () async {
-                                final phone = markerData['phone'];
-
-                                if (phone != null &&
-                                    phone.toString().isNotEmpty) {
-                                  final uri = Uri(
-                                    scheme: 'tel',
-                                    path: phone.toString(),
+                                  final maps = Uri.parse(
+                                    "https://www.google.com/maps?q=${markerData['latitude']},${markerData['longitude']}",
                                   );
 
-                                  try {
-                                    if (await canLaunchUrl(uri)) {
-                                      await launchUrl(uri);
-                                    }
-                                  } catch (e) {
-                                    // ignore for now
-                                  }
-                                }
-                              },
-                              icon: const Icon(Icons.call),
-                              label: const Text('Call'),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA66E38),
-                                foregroundColor: const Color(0xFFCAB096),
-                                textStyle: const TextStyle(fontSize: 12),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              onPressed: () async {
-                                final website = markerData['website'];
-                                if (website != null &&
-                                    website.toString().isNotEmpty) {
-                                  var uri = Uri.parse(website.toString());
-
-                                  if (!uri.hasScheme) {
-                                    uri = Uri.parse(
-                                      'https://${website.toString()}',
+                                  if (await canLaunchUrl(maps)) {
+                                    await launchUrl(
+                                      maps,
+                                      mode: LaunchMode.externalApplication,
                                     );
                                   }
-                                  try {
-                                    if (await canLaunchUrl(uri)) {
-                                      await launchUrl(
-                                        uri,
-                                        mode: LaunchMode.externalApplication,
+                                },
+                                icon: const Icon(Icons.directions),
+                                label: const Text('Directions'),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFA66E38),
+                                  foregroundColor: const Color(0xFFCAB096),
+                                  textStyle: const TextStyle(fontSize: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  final phone = markerData['phone'];
+
+                                  if (phone != null &&
+                                      phone.toString().isNotEmpty) {
+                                    final uri = Uri(
+                                      scheme: 'tel',
+                                      path: phone.toString(),
+                                    );
+
+                                    try {
+                                      if (await canLaunchUrl(uri)) {
+                                        await launchUrl(uri);
+                                      }
+                                    } catch (e) {
+                                      // ignore for now
+                                    }
+                                  }
+                                },
+                                icon: const Icon(Icons.call),
+                                label: const Text('Call'),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFA66E38),
+                                  foregroundColor: const Color(0xFFCAB096),
+                                  textStyle: const TextStyle(fontSize: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  final website = markerData['website'];
+                                  if (website != null &&
+                                      website.toString().isNotEmpty) {
+                                    var uri = Uri.parse(website.toString());
+
+                                    if (!uri.hasScheme) {
+                                      uri = Uri.parse(
+                                        'https://${website.toString()}',
                                       );
                                     }
-                                  } catch (e) {
-                                    // ignore
+                                    try {
+                                      if (await canLaunchUrl(uri)) {
+                                        await launchUrl(
+                                          uri,
+                                          mode: LaunchMode.externalApplication,
+                                        );
+                                      }
+                                    } catch (e) {
+                                      // ignore
+                                    }
                                   }
-                                }
-                              },
-                              icon: const Icon(Icons.public),
-                              label: const Text('Website'),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA66E38),
-                                foregroundColor: const Color(0xFFCAB096),
-                                textStyle: const TextStyle(fontSize: 12),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+                                },
+                                icon: const Icon(Icons.public),
+                                label: const Text('Website'),
                               ),
-                              onPressed: () {
-                                // Share action
-                              },
-                              icon: const Icon(Icons.share),
-                              label: const Text('Share'),
                             ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      const Divider(color: Colors.black, height: 2.0),
-
-                      const SizedBox(height: 12),
-
-                      // About / Description
-                      const Text(
-                        'About',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFA66E38),
+                                  foregroundColor: const Color(0xFFCAB096),
+                                  textStyle: const TextStyle(fontSize: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Share action
+                                },
+                                icon: const Icon(Icons.share),
+                                label: const Text('Share'),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        markerData['description'] ??
-                            'No description available.',
-                      ),
 
-                      const SizedBox(height: 18),
-                    ],
+                        const SizedBox(height: 12),
+
+                        const Divider(color: Colors.black, height: 2.0),
+
+                        const SizedBox(height: 12),
+
+                        // About / Description
+                        const Text(
+                          'About',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          markerData['description'] ??
+                              'No description available.',
+                        ),
+
+                        const SizedBox(height: 18),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
@@ -365,11 +375,10 @@ class _MapPageState extends State<MapPage> {
                       for (var i = 0; i < markers.length; i++)
                         Marker(
                           markerId: MarkerId(markers[i]["id"]),
-                          // icon:
-                          //     markerSelected
-                          //         ? markers[i]["selectIcon"]
-                          //         : markers[i]["icon"],
-                          icon: markers[i]["icon"],
+                          icon:
+                              markers[i]["selected"]
+                                  ? markers[i]["selectIcon"]
+                                  : markers[i]["icon"],
                           position: LatLng(
                             markers[i]["latitude"],
                             markers[i]["longitude"],
@@ -501,16 +510,7 @@ class _MapPageState extends State<MapPage> {
                       top: false,
                       left: false,
                       right: false,
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          top: 20,
-                          bottom: 30,
-                        ),
-                        child: ReportPage(scrollController: scrollController),
-                      ),
+                      child: ReportPage(scrollController: scrollController),
                     ),
                   ),
                 ],
@@ -590,6 +590,7 @@ class _MapPageState extends State<MapPage> {
           'description': data['description'] ?? 'NA',
           'phone': data['phone'],
           'website': data['website'],
+          'selected': false,
         };
 
         switch (data['type']) {
@@ -609,7 +610,7 @@ class _MapPageState extends State<MapPage> {
             marker['icon'] = dogMarker;
             marker['selectIcon'] = dogSelectMarker;
             break;
-          case 'adopt':
+          case 'local':
             marker['icon'] = adoptMarker;
             marker['selectIcon'] = adoptSelectMarker;
             break;
@@ -620,20 +621,41 @@ class _MapPageState extends State<MapPage> {
         markers.add(marker);
       }
     }
+
+    for (QueryDocumentSnapshot doc
+        in (await FIRESTORE.collection("reports").get()).docs) {
+      final data = doc.data() as Map<String, dynamic>?;
+
+      // TODO: Expiry Date and Other Fields
+      if (data != null &&
+          data['latitude'] != null &&
+          data['longitude'] != null) {
+        Map<String, dynamic> marker = {
+          'id': doc.id,
+          'latitude': data['latitude'],
+          'longitude': data['longitude'],
+          'name': data['name'] ?? 'Unknown',
+          'description': data['description'] ?? 'NA',
+          'phone': data['phone'],
+          'website': data['website'] ?? "",
+          'icon': dogMarker,
+          'selectIcon': dogSelectMarker,
+          'urgency': data['urgency'] ?? "low",
+          'userReported': data['userID'],
+          'selected': false,
+        };
+
+        markers.add(marker);
+      }
+    }
   }
 
   Future<void> _handleMarkerTap(int index) async {
     setState(() {
-      markerSelected = true;
+      markers[index]["selected"] = true;
     });
 
-    await _showMarkerBottomSheet(markers[index]);
-
-    if (mounted) {
-      setState(() {
-        markerSelected = false;
-      });
-    }
+    await _showMarkerBottomSheet(index);
   }
 
   Future<void> _fetchLocation(BuildContext context) async {

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-// TODO: FRONTEND - Colors
+// TODO: Use these colors throughout the app
 
 class WoofCareColors {
   static const Color gray = Color(0xFFD8D8D8);

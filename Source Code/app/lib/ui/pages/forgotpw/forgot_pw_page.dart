@@ -3,6 +3,8 @@ import 'package:woofcare/services/auth.dart';
 
 import '/config/colors.dart';
 import '/config/constants.dart';
+import '/ui/widgets/auth_background.dart';
+import '/ui/widgets/auth_container.dart';
 import '/ui/widgets/custom_button.dart';
 import '/ui/widgets/custom_textfield.dart';
 
@@ -74,54 +76,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WoofCareColors.primaryBackground,
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        // Stack to allow for multiple background images
-        children: [
-          Container(
-            // Container for the first background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/patterns/BigPawPattern.png"),
-                alignment: Alignment.topLeft,
-              ),
-            ),
-          ),
-          Container(
-            // Container for the second background image
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/patterns/SmallPawPattern.png"),
-                alignment: Alignment.bottomRight,
-              ),
-            ),
-          ),
-          Padding(
-            // Padding for the container that holds the login form
-            padding: const EdgeInsets.only(
-              left: 40.0,
-              right: 40.0,
-              top: 180.0,
-              bottom: 180.0,
-            ),
-            child: Container(
-              // height: 30.0.sh,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: const Color.fromARGB(255, 255, 255, 255),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 10,
-                    blurStyle: BlurStyle.normal,
-                    color: Colors.black.withValues(alpha: 0.2),
-                    offset: const Offset(5, 5),
-                    spreadRadius: 1,
-                  ),
-                ],
-              ), // Background color of the container
-
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+      body: AuthBackground(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: AuthContainer(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
 
@@ -130,10 +92,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10.0,
-                          bottom: 20.0,
-                        ),
+                        padding: const EdgeInsets.only(bottom: 20.0),
                         child: IconButton(
                           onPressed: () => Navigator.pop(context),
                           icon: const Icon(Icons.arrow_back),
@@ -148,7 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       textAlign: TextAlign.center,
                       "Reset your password",
                       style: TextStyle(
-                        color: Color(0xFF3F2917),
+                        color: WoofCareColors.primaryTextAndIcons,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
@@ -166,7 +125,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         "No worries, we got you! Just provide your email and we will send a link to help you reset your password",
                         textAlign: TextAlign.center,
                         style: theme.textTheme.bodyMedium!.copyWith(
-                          color: const Color(0xFFA66E38),
+                          color: WoofCareColors.primaryTextAndIcons,
                           fontSize: 13.5,
                         ),
                       ),
@@ -214,7 +173,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

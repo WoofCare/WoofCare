@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woofcare/config/colors.dart';
-import 'package:woofcare/ui/widgets/custom_small_button.dart';
+import 'package:woofcare/ui/widgets/custom_button.dart';
 
 class EditableProfilePicture extends StatelessWidget {
   final bool isEditMode;
@@ -70,7 +70,7 @@ class EditableProfilePicture extends StatelessWidget {
                       duration: Duration(seconds: 2),
                     ),
                   );
-                  // TODO: Add actual image picker here
+                  // get
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: WoofCareColors.buttonColor,
@@ -103,11 +103,17 @@ class EditableProfilePicture extends StatelessWidget {
               ),
             ),
 
-            CustomSmallButton(
+            CustomButton(
               text: "Save",
               onTap: () {
                 Navigator.of(context).pop();
               },
+              width: 120,
+              fontSize: 16,
+              margin: 10,
+              borderRadius: 16,
+              verticalPadding: 12,
+              horizontalPadding: 12,
             ),
           ],
         );

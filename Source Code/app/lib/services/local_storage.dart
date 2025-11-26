@@ -14,6 +14,6 @@ class LocalStorage {
     String? result = prefs.getString(location);
     if (result!.isEmpty) result = value;
 
-    return jsonDecode(result!) as Map<String, dynamic>;
+    return jsonDecode(result) as Map<String, dynamic>;
   }
 }
