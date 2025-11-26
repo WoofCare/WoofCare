@@ -54,6 +54,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: WoofCareColors.buttonColor,
         elevation: 4,
@@ -62,8 +63,11 @@ class _ConversationsPageState extends State<ConversationsPage> {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: WoofCareColors.borderOutline.withValues(alpha: 0.5),
+              ),
+              borderRadius: BorderRadiusGeometry.circular(90),
             ),
             backgroundColor: WoofCareColors.secondaryBackground,
             builder: (context) {
@@ -130,11 +134,26 @@ class _ConversationsPageState extends State<ConversationsPage> {
                           separatorBuilder:
                               (context, index) => const SizedBox(height: 12),
                           itemBuilder: (context, index) {
-                            final participantName =
-                                conversationSnapshots[index]['participants'][0] ==
-                                        profile.name
-                                    ? conversationSnapshots[index]['participants'][1]
-                                    : conversationSnapshots[index]['participants'][0];
+                            // Safely get participants list with null and bounds checking
+                            final dynamic participantsData = 
+                                conversationSnapshots[index]['participants'];
+                            final List participants = participantsData is List
+                                ? participantsData
+                                : <String>[];
+                            
+                            // Find the other participant (not the current user)
+                            String participantName = "Unknown";
+                            if (participants.length > 1) {
+                              // If first participant is current user, get second, otherwise get first
+                              participantName = participants[0] == profile.name
+                                  ? participants[1].toString()
+                                  : participants[0].toString();
+                            } else if (participants.length == 1) {
+                              // Edge case: only one participant (shouldn't happen normally)
+                              participantName = participants[0] == profile.name
+                                  ? "Unknown"
+                                  : participants[0].toString();
+                            }
 
                             return Container(
                               decoration: BoxDecoration(
@@ -390,7 +409,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           .collection("conversations")
           .add({
             "messages": [],
-            "participants": {profile.name, selectedUser},
+            "participants": [profile.name, selectedUser],
           });
 
       if (context.mounted) {

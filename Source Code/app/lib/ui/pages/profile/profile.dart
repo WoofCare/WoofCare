@@ -66,7 +66,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _initProfile() {
     final user = widget.user;
-    isCurrentUser = user.name == profile.name;
 
     setState(() {
       name = user.name;
@@ -75,6 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
       bio = user.bio;
       phone = user.phone;
       _bioTextController.text = bio;
+      isCurrentUser = user.name.trim() == profile.name.trim();
       isLoading = false;
     });
   }
@@ -98,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
             .collection("conversations")
             .add({
               "messages": [],
-              "participants": {profile.name, name},
+              "participants": [profile.name, name],
             });
         chatID = newConvo.id;
       } else {
@@ -939,4 +939,7 @@ class _FollowBottomSheetState extends State<FollowBottomSheet>
       },
     );
   }
+}
+
+ViewProfilePage({required userName, required photoID}) {
 }

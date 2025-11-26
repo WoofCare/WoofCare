@@ -20,7 +20,13 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
       isScrollControlled: true,
       enableDrag:
           false, // Prevent dragging of the modal bottom sheet (instead cancel with "Cancel" button)
-      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: WoofCareColors.borderOutline.withValues(alpha: 0.5),
+        ),
+        borderRadius: BorderRadiusGeometry.circular(90),
+      ),
+      backgroundColor: WoofCareColors.secondaryBackground,
       builder: (context) {
         return DraggableScrollableSheet(
           initialChildSize: 0.95,
@@ -31,13 +37,6 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
               // Container to store the drag handle and the ReportingPage
               decoration: const BoxDecoration(
                 color: WoofCareColors.secondaryBackground,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                border: Border(
-                  top: BorderSide(
-                    color: WoofCareColors.borderOutline,
-                    width: 2.0,
-                  ),
-                ),
               ),
 
               // Children of the container => drag handle and the ReportingPage
@@ -139,19 +138,15 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
         ],
       ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: WoofCareColors.buttonColor,
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onPressed: () => _postButtonPressed(),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            color: WoofCareColors.borderOutline.withValues(alpha: 0.5),
-          ),
-          borderRadius: BorderRadiusGeometry.circular(90),
-        ),
-        backgroundColor: WoofCareColors.secondaryBackground,
         child: FaIcon(
           FontAwesomeIcons.paperPlane,
-          color: WoofCareColors.primaryTextAndIcons,
+          color: Colors.white,
         ),
       ),
     );
